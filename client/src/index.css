@@ -1,0 +1,138 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+#root {
+  width:350px;
+  margin:60px auto 30px auto;
+  /* text-align: center; */
+  border-left:solid .5em #09d3ac;
+  color: #078f74;
+  text-indent: 1em;
+  box-sizing: border-box;
+  line-height: 30px;
+}
+#chat {
+  width:98%;
+  margin:10px auto;
+}
+.container {
+  width:350px;
+  margin:30px auto;
+}
+.msg {
+  margin-top: 15px;
+  /* border-left: solid .2em #078f74; */
+  text-indent: 1.5em;
+  font-size: 14px;
+  position: relative;
+  font-weight: bold;
+}
+.msg::before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0;
+  height: 0;
+  margin-top: -5px;
+  border-top: 5px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 5px solid transparent;
+  /* border-left: 6px solid #ee4f16; */
+  border-left: 6px solid #078f74;
+}
+
+/* 言語カラー */
+/* HTML */
+.p_e34f26 {
+  color:#e34f26;
+}
+/* CSS */
+.p_4166ec {
+  color:#4166ec;
+}
+/* JavaScript */
+.p_f1e05a {
+  color:#f1e05a;
+}
+/* Python */
+.p_3572A5 {
+  color:#3572A5;
+}
+/* PHP */
+.p_4F5D95 {
+  color:#4F5D95;
+}
+/* Ruby */
+.p_CC342D {
+  color:#CC342D;
+}
+/* Java */
+.p_ef9a50 {
+  color:#ef9a50;
+}
+/* Perl */
+.p_0298c3 {
+  color:#0298c3;
+}
+/* C */
+.p_555555 {
+  color:#555555;
+}
+/* C++ */
+.p_f34b7d {
+  color:#f34b7d;
+}
+/* C# */
+.p_178600 {
+  color:#178600;
+}
+/* Swift */
+.p_fb6745 {
+  color:#fb6745;
+}
+/* Objective-c */
+.p_438eff {
+  color:#438eff;
+}
+/* BASIC */
+.p_333333 {
+  color:#333333;
+}
+/* ShellScript */
+.p_89e052 {
+  color:#89e052;
+}
+/* VBScript */
+.p_00552e {
+  color:#00552e;
+}
+/* Kotlin */
+.p_EA4DFA {
+  color:#EA4DFA;
+}
+
+/* VisualBasic */
+.p_945db7 {
+  color:#945db7;
+}
+/* MySQL */
+.p_4479a1 {
+  color:#4479a1;
+}
+/* Lua */
+.p_000080 {
+  color:#000080;
+}
