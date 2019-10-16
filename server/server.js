@@ -10,7 +10,7 @@ const dbConf = require('./dbManager');
 const dbQuery = require('../lib/db_query');
 // const auth = require('../conifg/auth');
 // app.use(auth.basicconf);
-
+console.log(dbQuery.getRandomArr());
 // DB接続エラー
 dbConf.connection.connect(err => {
     if(err) {
