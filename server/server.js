@@ -65,7 +65,7 @@ app.get('/p_lang_color', (req, res) => {
 });
 app.get('/trivia', (req, res) => {
     const SELECT_ALL_REACT_TEST_Q = dbQuery.getTrivia();
-    console.log(SELECT_ALL_REACT_TEST_Q);
+    // console.log(SELECT_ALL_REACT_TEST_Q);
     dbConf.connection.query(SELECT_ALL_REACT_TEST_Q, (err, results) => {
         if(err) {
             return res.send(err)
