@@ -3,6 +3,8 @@
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import history from './history';
+import './index.css';
+
 
 class Chat extends Component {
   constructor() {
@@ -20,7 +22,6 @@ class Chat extends Component {
   componentDidMount(){
     let socket = this.state.socket;
     socket.on("emit_from_server", (data) => {
-     
         let msg = document.querySelector('.msgs');
         let chat_txt = document.querySelector('.chat-txt');
         let msg_obj = document.createElement('div');
@@ -43,7 +44,6 @@ class Chat extends Component {
       chat_txt.value = '';
       chat_txt.focus();
       msg.removeChild(msg_last);
-      // console.log(msg_last);
 
   });
     this.getChat();
@@ -61,14 +61,13 @@ class Chat extends Component {
 
   // ルーティング
   routerAction = () => {
-    history.push('/action');
+    history.push('/article');
   }
 
   sendTrivia = () => {
     let socket = this.state.socket;
     let chat_txt = document.querySelector('.chat-txt').value;
     let p_lang_id = document.querySelector('.p_lang_color').value;
-
     let trivia_data = {
       article: chat_txt,
       p_lang_id: p_lang_id
@@ -134,7 +133,6 @@ class Chat extends Component {
     return (
       <div> 
             <h2>Coodig.com</h2>
-            <button onClick={this.routerAction}> /actionへ</button>
             <div className="container">
                 <select name="p_lang_color" className="p_lang_color">
                   {list}
@@ -147,6 +145,7 @@ class Chat extends Component {
                 {/* {chat_msgs.map(this.renderChat())} */}
                 </div>
             </div>
+            <button onClick={this.routerAction} className="article_btn"> articleへ</button>
       </div>
       
     )

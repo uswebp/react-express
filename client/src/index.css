@@ -57,6 +57,11 @@ code {
   border-left: 6px solid #078f74;
 }
 
+.article_btn {
+  cursor: pointer;
+  padding: 10px 100px;
+}
+
 /* 言語カラー */
 /* HTML */
 .p_e34f26 {

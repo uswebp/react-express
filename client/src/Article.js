@@ -9,7 +9,6 @@ class PageTwo extends React.Component {
   render() {
     return (
       <form onSubmit={this.changePage}>
-        <input type="text" />
         <input type="submit" value="back" />
       </form>
     );
