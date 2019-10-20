@@ -1,5 +1,3 @@
-
-// Updated. Thanks to: Paul Luna
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import history from './history';
@@ -17,7 +15,6 @@ class Chat extends Component {
       p_lang_color : []
     };
   }
-
 
   componentDidMount(){
     let socket = this.state.socket;
@@ -59,7 +56,7 @@ class Chat extends Component {
     }
   } 
 
-  // ルーティング
+  // ルーティング 
   routerAction = () => {
     history.push('/article');
   }
@@ -129,7 +126,7 @@ class Chat extends Component {
     for (let i in p_color_list) {
       list.push(<option key={p_color_list[i].p_lang_id} value={p_color_list[i].p_lang_id}>{p_color_list[i].p_lang_name}</option>);
     }
-    // console.log(list);
+    
     return (
       <div> 
             <h2>Coodig.com</h2>
