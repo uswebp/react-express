@@ -2,6 +2,7 @@
 // Updated. Thanks to: Paul Luna
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
+import history from './history';
 
 class Chat extends Component {
   constructor() {
@@ -57,6 +58,11 @@ class Chat extends Component {
       socket.emit('send_chat', chat_txt);
     }
   } 
+
+  // ルーティング
+  routerAction = () => {
+    history.push('/action');
+  }
 
   sendTrivia = () => {
     let socket = this.state.socket;
@@ -115,7 +121,7 @@ class Chat extends Component {
                       <div className={`msg p_${p_lang_color_code}`} key={trivia_id} alt={article}>{ p_lang_name }</div>
 
   render() {
-    const {chat_msgs} = this.state;
+    // const {chat_msgs} = this.state;
     const {trivia} = this.state;
 
     let list = [];
@@ -126,7 +132,9 @@ class Chat extends Component {
     }
     // console.log(list);
     return (
-      <div>
+      <div> 
+            <h2>Coodig.com</h2>
+            <button onClick={this.routerAction}> /actionへ</button>
             <div className="container">
                 <select name="p_lang_color" className="p_lang_color">
                   {list}

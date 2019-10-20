@@ -16,11 +16,14 @@ code {
   width:350px;
   margin:60px auto 30px auto;
   /* text-align: center; */
-  border-left:solid .5em #09d3ac;
   color: #078f74;
+}
+#root h2 {
+  border-left:solid .5em #09d3ac;
   text-indent: 1em;
   box-sizing: border-box;
   line-height: 30px;
+
 }
 #chat {
   width:98%;
