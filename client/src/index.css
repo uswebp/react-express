@@ -16,14 +16,14 @@ code {
   width:350px;
   margin:60px auto 30px auto;
   /* text-align: center; */
+  color: #078f74;
 }
-
 #root h2 {
   border-left:solid .5em #09d3ac;
-  color: #078f74;
   text-indent: 1em;
   box-sizing: border-box;
   line-height: 30px;
+
 }
 
 #chat {
@@ -56,6 +56,11 @@ code {
   border-bottom: 5px solid transparent;
   /* border-left: 6px solid #ee4f16; */
   border-left: 6px solid #078f74;
+}
+
+.article_btn {
+  cursor: pointer;
+  padding: 2px 100px;
 }
 
 /* 言語カラー */

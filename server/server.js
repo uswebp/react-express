@@ -13,6 +13,7 @@ const dbQuery = require('../lib/db_query');
 
 const TOP_VIEW_TOTAL_NUMBER = 10;
 
+console.log(dbQuery.getRandomArr());
 // DB接続エラー
 dbConf.connection.connect(err => {
     if(err) {
@@ -67,7 +68,7 @@ app.get('/p_lang_color', (req, res) => {
 });
 app.get('/trivia', (req, res) => {
     const SELECT_ALL_REACT_TEST_Q = dbQuery.getTrivia();
-    console.log(SELECT_ALL_REACT_TEST_Q);
+    // console.log(SELECT_ALL_REACT_TEST_Q);
     dbConf.connection.query(SELECT_ALL_REACT_TEST_Q, (err, results) => {
         if(err) {
             return res.send(err)

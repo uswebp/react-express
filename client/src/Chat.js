@@ -1,7 +1,8 @@
-
-// Updated. Thanks to: Paul Luna
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
+import history from './history';
+import './index.css';
+
 
 class Chat extends Component {
   constructor() {
@@ -44,7 +45,6 @@ class Chat extends Component {
       chat_txt.value = '';
       chat_txt.focus();
       msg.removeChild(msg_last);
-      // console.log(msg_last);
 
     });
     this.getChat();
@@ -61,11 +61,15 @@ class Chat extends Component {
     }
   }
 
+  // ルーティング 
+  routerAction = () => {
+    history.push('/article');
+  }
+
   sendTrivia = () => {
     let socket = this.state.socket;
     let chat_txt = document.querySelector('.chat-txt').value;
     let p_lang_id = document.querySelector('.p_lang_color').value;
-
     let trivia_data = {
       article: chat_txt,
       p_lang_id: p_lang_id
@@ -135,34 +139,36 @@ class Chat extends Component {
     renderTrivia = () => ({ trivia_id, article, p_lang_color_code, p_lang_name }) =>
       <div className={`msg p_${p_lang_color_code}`} key={trivia_id} alt={article}>{p_lang_name}</div>
 
-    render() {
-      const { trivia } = this.state;
+  render() {
+    // const {chat_msgs} = this.state;
+    const {trivia} = this.state;
 
-      let list = [];
-      let p_color_list = this.state.p_lang_color;
-
-      for (let i in p_color_list) {
-        list.push(<option key={p_color_list[i].p_lang_id} value={p_color_list[i].p_lang_id}>{p_color_list[i].p_lang_name}</option>);
-      }
-
-
-      return (
-        <div>
-          <div className="container">
-            <select name="p_lang_color" className="p_lang_color">
-              {list}
-            </select>
-            <input type="text" className="chat-txt" />
-            {/* <button onClick={()=>this.emitInfoToAll()}>send</button> */}
-            <button onClick={() => this.sendTrivia()}>send</button>
-            <div className="msgs">
-              {trivia.map(this.renderTrivia())}
-              {/* {chat_msgs.map(this.renderChat())} */}
+    let list = [];
+    let p_color_list = this.state.p_lang_color;
+    
+    for (let i in p_color_list) {
+      list.push(<option key={p_color_list[i].p_lang_id} value={p_color_list[i].p_lang_id}>{p_color_list[i].p_lang_name}</option>);
+    }
+    
+    return (
+      <div> 
+            <h2>Coodig.com</h2>
+            <div className="container">
+                <select name="p_lang_color" className="p_lang_color">
+                  {list}
+                </select>
+                <input type="text" className="chat-txt"/>
+                {/* <button onClick={()=>this.emitInfoToAll()}>send</button> */}
+                <button onClick={()=>this.sendTrivia()}>send</button>
+                <div className="msgs">
+                {trivia.map(this.renderTrivia())}
+                {/* {chat_msgs.map(this.renderChat())} */}
+                </div>
             </div>
-          </div>
-        </div>
-
-      )
+            <button onClick={this.routerAction} className="article_btn"> articleへ</button>
+      </div>
+      
+    )
     }
   }
 
