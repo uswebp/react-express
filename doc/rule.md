@@ -14,16 +14,16 @@
 
 - ### 代入
 ```javascript
-var a = 10;
-var b = 'Hello';
+let a = 10;
+const b = 'Hello';
 
-var c = 5,
+let c = 5,
     d = 10,
     e = 'Good';
 
-var colors = ['red', 'blue', 'yellow', 'black'];
+let colors = ['red', 'blue', 'yellow', 'black'];
 
-var hoge = function(){
+let hoge = function(){
     hogehoge = 'hogehoge';
     return hogehoge;
 };
@@ -45,14 +45,14 @@ if (i === true) console.log("ok");
 - ### 三項演算子
   
 ```javascript
-var i = (i > 5) ? 'OK' : 'NG';
+let i = (i > 5) ? 'OK' : 'NG';
 ```
 
 - ### for文
 ```javascript
-var i = 0;
-for (var i = 0; i < 10; i++) {
-    var j = 'Hello' + 'World';
+let i = 0;
+for (let i = 0; i < 10; i++) {
+    let j = 'Hello' + 'World';
 }
 ```
 
@@ -112,7 +112,7 @@ try {
  * @returns ab
  */
 function testInsert(a, b) {
-    var ab = a + b;
+    let ab = a + b;
     return ab;
 }
 ```
@@ -136,7 +136,7 @@ class User extends Person {
     }
 }
 
-var user1 = new User('a', 17);
+let user1 = new User('a', 17);
 
 ```
 
