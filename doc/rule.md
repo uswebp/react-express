@@ -13,26 +13,22 @@
 > ## JavaScript
 
 - ### 代入
-  
-  ```javascript
-  var a = 10;
-  var b = 'Hello';
-  
-  var c = 5,
-   d = 10,
-   e = 'Good';
-  
-  var colors = ['red', 'blue', 'yellow', 'black'];
-  
-  var hoge = function(){
-   hogehoge = 'hogehoge';
-   return hogehoge;
-   };
-  ```
+```javascript
+var a = 10;
+var b = 'Hello';
 
+var c = 5,
+    d = 10,
+    e = 'Good';
 
+var colors = ['red', 'blue', 'yellow', 'black'];
 
+var hoge = function(){
+    hogehoge = 'hogehoge';
+    return hogehoge;
+};
 ```
+
 - ### if文
 ```javascript
 if (i === ture && j === false) {
@@ -48,26 +44,24 @@ if (i === true) console.log("ok");
 
 - ### 三項演算子
   
-  ```javascript
-  var i = (i > 5) ? 'OK' : 'NG';
-  ```
+```javascript
+var i = (i > 5) ? 'OK' : 'NG';
+```
 
 - ### for文
-  
-  ```javascript
-  var i = 0;
-  for (var i = 0; i < 10; i++) {
+```javascript
+var i = 0;
+for (var i = 0; i < 10; i++) {
     var j = 'Hello' + 'World';
-  }
-  ```
+}
+```
 
-- ### function
-  
-  ```javascript
-  function testInsert() {
+- ### function  
+```javascript
+function testInsert() {
     console.log('insert!');
-  }
-  ```
+}
+
 
 (function (){
     console.log('即時関数');
@@ -97,9 +91,8 @@ switch (a) {
 
 - ### try
   
-  ```javascript
-  try {
-  ```
+```javascript
+try {
 
 } catch (error) {
 
@@ -126,23 +119,22 @@ function testInsert(a, b) {
 
 - ### class
   
-  ```javascript
-  class User extends Person {
+```javascript
+class User extends Person {
     constructor(name, age) {
         this.name = name;
         this.age = age;
     }
-    /**
-     *
-     *
-     * @returns
-     * @memberof User
-     */
+/**
+ *
+    *
+    * @returns
+    * @memberof User
+    */
     getAge() {
         return this.age;
     }
-  }
-  ```
+}
 
 var user1 = new User('a', 17);
 
