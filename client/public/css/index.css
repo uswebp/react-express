@@ -14,7 +14,7 @@ code {
 
 #root {
   width:350px;
-  margin:60px auto 30px auto;
+  margin:40px auto 30px auto;
   /* text-align: center; */
   color: #078f74;
 }
@@ -61,7 +61,7 @@ code {
 .article_btn {
   cursor: pointer;
   padding: 2px 50px;
-  margin-top:20px;
+  margin-top:10px;
 }
 
 /* 言語カラー */

@@ -8,7 +8,7 @@ const io = socketIO(server);
 const SocketManager = require('./SocketManager');
 const dbConf = require('./dbManager');
 const dbQuery = require('../lib/db_query');
-// const auth = require('../conifg/auth');
+// const auth = require('../config/auth');
 // app.use(auth.basicconf);
 
 const TOP_VIEW_TOTAL_NUMBER = 10;

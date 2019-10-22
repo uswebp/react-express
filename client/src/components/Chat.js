@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import history from '../lib/history';
-import '../index.css';
+// import '../index.css';
 
 
 class Chat extends Component {
