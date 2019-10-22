@@ -45,7 +45,7 @@ class LinkTest extends Component {
 
                 { recentlyLangs.map((langs) => {
                     return (
-                        <ContentLang propsLangId={langs.p_lang_id} />
+                        <ContentLang propsLangId={langs.p_lang_id} key={langs.p_lang_id}/>
                     )
                 })}
             </div>

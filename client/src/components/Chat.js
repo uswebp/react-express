@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import history from '../lib/history';
-// import '../index.css';
-
 
 class Chat extends Component {
   constructor() {
@@ -18,11 +16,10 @@ class Chat extends Component {
     };
   }
 
-
   componentDidMount() {
     let socket = this.state.socket;
-    socket.on("emit_from_server", (data) => {
 
+    socket.on("emit_from_server", (data) => {
       let msg = document.querySelector('.msgs');
       let chat_txt = document.querySelector('.chat-txt');
       let msg_obj = document.createElement('div');
@@ -44,8 +41,8 @@ class Chat extends Component {
       chat_txt.value = '';
       chat_txt.focus();
       msg.removeChild(msg_last);
-
     });
+
     this.getChat();
     this.getTrivia();
     this.getPcolor();
@@ -61,12 +58,13 @@ class Chat extends Component {
   }
 
   // ルーティング 
-  routerAction = () => {
-    history.push('/article');
+  routerAction = (url) => {
+    let link_path = url.currentTarget.getAttribute('data-num');
+    history.push(link_path);
   }
 
   routerlinktest = () => {
-    history.push('/LinkTest');
+    history.push('/linktest');
   }
 
   sendTrivia = () => {
@@ -78,7 +76,6 @@ class Chat extends Component {
       p_lang_id: p_lang_id
     }
     socket.emit('send_trivia', trivia_data);
-
   }
 
   getChat = () => {
@@ -117,30 +114,29 @@ class Chat extends Component {
     .catch (err => console.err(err));
     }
 
-    setChat = (data) => {
-      this.setState({ chat_msgs: data.data });
-    }
+  setChat = (data) => {
+    this.setState({ chat_msgs: data.data });
+  }
 
-    setTrivia = (data) => {
-      this.setState({ trivia: data.trivia });
-    }
+  setTrivia = (data) => {
+    this.setState({ trivia: data.trivia });
+  }
 
-    setPcolor = (data) => {
-      this.setState({ p_lang_color: data.color });
-    }
+  setPcolor = (data) => {
+    this.setState({ p_lang_color: data.color });
+  }
 
-    // 最新10件をstateにset
-    setRecently = (data) => {
-      this.setState({ recentlyLangs: data.recently_p_langs });
-    }
+  // 最新10件をstateにset
+  setRecently = (data) => {
+    this.setState({ recentlyLangs: data.recently_p_langs });
+  }
 
-    renderChat = () => ({ chat_id, chat_msg }) => <div className="msg" key={chat_id}> {chat_msg}</div>
+  renderChat = () => ({ chat_id, chat_msg }) => <div className="msg" key={chat_id}> {chat_msg}</div>
 
-    renderTrivia = () => ({ trivia_id, article, p_lang_color_code, p_lang_name }) =>
-      <div className={`msg p_${p_lang_color_code}`} key={trivia_id} alt={article}>{p_lang_name}</div>
+  renderTrivia = () => ({ trivia_id, article, p_lang_color_code, p_lang_name }) =>
+    <div className={`msg p_${p_lang_color_code}`} key={trivia_id} alt={article}>{p_lang_name}</div>
 
   render() {
-    // const {chat_msgs} = this.state;
     const {trivia} = this.state;
     let list = [];
     let p_color_list = this.state.p_lang_color;
@@ -157,19 +153,17 @@ class Chat extends Component {
                   {list}
                 </select>
                 <input type="text" className="chat-txt"/>
-                {/* <button onClick={()=>this.emitInfoToAll()}>send</button> */}
                 <button onClick={()=>this.sendTrivia()}>send</button>
                 <div className="msgs">
                 {trivia.map(this.renderTrivia())}
-                {/* {chat_msgs.map(this.renderChat())} */}
                 </div>
             </div>
-            <button onClick={this.routerAction} className="article_btn"> articleへ</button>
-            <button onClick={this.routerlinktest} className="article_btn"> linktestへ</button>
+            <button onClick={this.routerAction} data-num='/article' className="article_btn"> articleへ</button>
+            <button onClick={this.routerAction} data-num='/linktest' className="article_btn"> linktestへ</button>
       </div>
       
     )
-    }
   }
+}
 
   export default Chat;

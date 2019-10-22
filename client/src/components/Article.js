@@ -1,7 +1,7 @@
 import React from 'react';
 import history from '../lib/history';
 
-class PageTwo extends React.Component {
+class Article extends React.Component {
   changePage = () => {
     history.push('/');
   }
@@ -15,4 +15,4 @@ class PageTwo extends React.Component {
   }
 };
 
-export default PageTwo;
+export default Article;
