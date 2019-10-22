@@ -1,5 +1,5 @@
 import React from 'react';
-import history from './history';
+import history from '../lib/history';
 
 class PageTwo extends React.Component {
   changePage = () => {

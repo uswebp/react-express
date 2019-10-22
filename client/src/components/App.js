@@ -2,9 +2,10 @@
 // Updated. Thanks to: Paul Luna
 import React, { Component } from "react";
 import { Router, Route } from 'react-router-dom';
-import history from './history';
+import history from '../lib/history';
 import Article from './Article';
 import Chat from './Chat';
+import LinkTest from './LinkTest';
 
 class App extends Component {
   constructor() {
@@ -24,6 +25,7 @@ class App extends Component {
         <div>
           <Route path="/" exact component={Chat} />
           <Route path="/article" exact component={Article} />
+          <Route path="/LinkTest" exact component={LinkTest} />
         </div>
       </Router>
     </div>

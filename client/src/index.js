@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'react-app-polyfill/ie11';
 import './index.css';
-import App from './App';
+import App from './components/App';
 // import Chat from './Chat';
 import * as serviceWorker from './serviceWorker';
 

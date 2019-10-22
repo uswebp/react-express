@@ -60,7 +60,8 @@ code {
 
 .article_btn {
   cursor: pointer;
-  padding: 2px 100px;
+  padding: 2px 50px;
+  margin-top:20px;
 }
 
 /* 言語カラー */

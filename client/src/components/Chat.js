@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
-import history from './history';
-import './index.css';
+import history from '../lib/history';
+import '../index.css';
 
 
 class Chat extends Component {
@@ -33,7 +33,6 @@ class Chat extends Component {
     });
 
     socket.on("emit_from_server_trvie", (data, p_lang_name, p_lang_color) => {
-      console.log(data.article);
       let msg = document.querySelector('.msgs');
       let chat_txt = document.querySelector('.chat-txt');
       let msg_obj = document.createElement('div');
@@ -64,6 +63,10 @@ class Chat extends Component {
   // ルーティング 
   routerAction = () => {
     history.push('/article');
+  }
+
+  routerlinktest = () => {
+    history.push('/LinkTest');
   }
 
   sendTrivia = () => {
@@ -109,7 +112,6 @@ class Chat extends Component {
     fetch('http://192.168.33.11:5000/getRecentlyLang')
       .then(response => response.json())
       .then((data) => {
-      // console.log(data);
       this.setRecently(data);
       })
     .catch (err => console.err(err));
@@ -132,8 +134,6 @@ class Chat extends Component {
       this.setState({ recentlyLangs: data.recently_p_langs });
     }
 
-
-
     renderChat = () => ({ chat_id, chat_msg }) => <div className="msg" key={chat_id}> {chat_msg}</div>
 
     renderTrivia = () => ({ trivia_id, article, p_lang_color_code, p_lang_name }) =>
@@ -142,7 +142,6 @@ class Chat extends Component {
   render() {
     // const {chat_msgs} = this.state;
     const {trivia} = this.state;
-
     let list = [];
     let p_color_list = this.state.p_lang_color;
     
@@ -166,6 +165,7 @@ class Chat extends Component {
                 </div>
             </div>
             <button onClick={this.routerAction} className="article_btn"> articleへ</button>
+            <button onClick={this.routerlinktest} className="article_btn"> linktestへ</button>
       </div>
       
     )
