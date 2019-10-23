@@ -15,7 +15,7 @@ class ContentLang extends Component {
     }
 
     render() {
-        console.log(this.state.langId)
+        // console.log(this.state.langId)
         return (
             <div>
                 <p>{this.state.langId}</p>

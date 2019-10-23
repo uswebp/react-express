@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ContentLang from "./ContentLang";
+import EventListener from 'react-event-listener';
 
 class LinkTest extends Component {
     constructor(props) {
@@ -7,17 +8,22 @@ class LinkTest extends Component {
         this.state = {
             SCREEN_HEIGHT: "",
             SCREEN_WIDTH: "",
+            BROWSER_HEIGHT:"",
+            BROWSER_WIDTH:"",
             recentlyLangs: []
         };
     }
-
+    
+    
     componentDidMount() {
         this.setState({ SCREEN_HEIGHT: window.parent.screen.height });
         this.setState({ SCREEN_WIDTH: window.parent.screen.width });
-
+        this.setState({ BROWSER_HEIGHT: window.innerWidth });
+        this.setState({ BROWSER_WIDTH: window.innerHeight });
+        
         this.getLangId();
-
     }
+
 
     // 最近投稿された言語idを取得するAPI呼び出し
     getLangId = () => {
@@ -34,10 +40,16 @@ class LinkTest extends Component {
         this.setState({ recentlyLangs: data.recently_p_langs });
     }
 
+    handleResize = () => {
+        this.setState({ BROWSER_HEIGHT: window.innerWidth });
+        this.setState({ BROWSER_WIDTH: window.innerHeight });
+        console.info(
+          `window height:width=${this.state.BROWSER_HEIGHT}:${this.state.BROWSER_WIDTH}`,
+        );
+      };
+
     render() {
-
         const {recentlyLangs} = this.state;
-
         return (
             <div id="main">
                 {/* <p>{console.log(this.state.SCREEN_HEIGHT)}</p> */}
@@ -45,7 +57,10 @@ class LinkTest extends Component {
 
                 { recentlyLangs.map((langs) => {
                     return (
-                        <ContentLang propsLangId={langs.p_lang_id} key={langs.p_lang_id}/>
+                        <div key={langs.p_lang_id}>
+                            <ContentLang propsLangId={langs.p_lang_id} key={langs.p_lang_id}/>
+                            <EventListener target="window" onResize={this.handleResize} />
+                        </div>
                     )
                 })}
             </div>
