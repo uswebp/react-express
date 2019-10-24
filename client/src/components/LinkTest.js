@@ -14,7 +14,6 @@ class LinkTest extends Component {
         };
     }
     
-    
     componentDidMount() {
         this.setState({ SCREEN_HEIGHT: window.parent.screen.height });
         this.setState({ SCREEN_WIDTH: window.parent.screen.width });
