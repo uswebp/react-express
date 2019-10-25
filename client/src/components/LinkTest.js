@@ -10,16 +10,27 @@ class LinkTest extends Component {
             SCREEN_WIDTH: "",
             BROWSER_HEIGHT:"",
             BROWSER_WIDTH:"",
-            recentlyLangs: []
+            recentlyLangs: [],
+            TAG_WIDTH:"",
+            TAG_HEIGHT:"",
+            TR_NUM:"",
+            TD_NUM:"",
+            TABLE_SIZE_WIDTH:"",
+            TABLE_SIZE_HEIGHT:""
         };
     }
     
     componentDidMount() {
         this.setState({ SCREEN_HEIGHT: window.parent.screen.height });
         this.setState({ SCREEN_WIDTH: window.parent.screen.width });
-        this.setState({ BROWSER_HEIGHT: window.innerWidth });
-        this.setState({ BROWSER_WIDTH: window.innerHeight });
-        
+        this.setState({ BROWSER_WIDTH: window.innerWidth });
+        this.setState({ BROWSER_HEIGHT: window.innerHeight });
+        this.setState({ TABLE_SIZE_WIDTH: window.innerWidth * 0.9 });
+        this.setState({ TABLE_SIZE_HEIGHT: window.innerHeight * 0.9});
+        this.setState({ TAG_WIDTH: (window.innerWidth * 0.9) * 0.1 });
+        this.setState({ TAG_HEIGHT: (window.innerWidth * 0.9) * 0.1});
+        this.setState({ TR_NUM: window.innerWidth * 0.9 / ((window.innerWidth * 0.9) * 0.1) });
+        this.setState({ TD_NUM: window.innerHeight * 0.9 / ((window.innerWidth * 0.9) * 0.1)});
         this.getLangId();
     }
 
@@ -46,9 +57,10 @@ class LinkTest extends Component {
           `window height:width=${this.state.BROWSER_HEIGHT}:${this.state.BROWSER_WIDTH}`,
         );
       };
-
+      
     render() {
         const {recentlyLangs} = this.state;
+        const html = <h1>fda</h1>;
         return (
             <div id="main">
                 {/* <p>{console.log(this.state.SCREEN_HEIGHT)}</p> */}
@@ -59,6 +71,7 @@ class LinkTest extends Component {
                         <div key={langs.p_lang_id}>
                             <ContentLang propsLangId={langs.p_lang_id} key={langs.p_lang_id}/>
                             <EventListener target="window" onResize={this.handleResize} />
+                            {html}
                         </div>
                     )
                 })}

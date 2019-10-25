@@ -32,7 +32,8 @@ app.use((req, res, next) => {
 // app.options('*', (req, res) => {
 //     res.sendStatus(200);
 // });
-app.get('/api/customers', (req, res) => {
+app.get('/api/customers/:id/:operation?', (req, res) => {
+    console.log(req.params.id);
     const customers = [
         {id: 1, firstName: 'John', lastName: 'White'},
         {id: 2, firstName: 'John', lastName: 'Blue'},
