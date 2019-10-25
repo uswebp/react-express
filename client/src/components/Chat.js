@@ -46,7 +46,7 @@ class Chat extends Component {
     this.getChat();
     this.getTrivia();
     this.getPcolor();
-    this.getLangId();
+    // this.getLangId();
   }
 
   emitInfoToAll = () => {
@@ -104,15 +104,16 @@ class Chat extends Component {
       .catch(err => console.error(err))
   }
 
-  // 最近投稿された言語idを取得するAPI呼び出し
-  getLangId = () => {
-    fetch('http://192.168.33.11:5000/getRecentlyLang')
-      .then(response => response.json())
-      .then((data) => {
-      this.setRecently(data);
-      })
-    .catch (err => console.err(err));
-    }
+  // // 最近投稿された言語idを取得するAPI呼び出し
+  // getLangId = () => {
+  //   fetch('http://192.168.33.11:5000/getRecentlyLang')
+  //     .then(response => response.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //     // this.setRecently(data);
+  //     })
+  //   .catch (err => console.err(err));
+  //   }
 
   setChat = (data) => {
     this.setState({ chat_msgs: data.data });
