@@ -33,8 +33,6 @@ class LinkTest extends Component {
         this.setState({ TD_NUM: window.innerHeight * 0.9 / ((window.innerWidth * 0.9) * 0.1)});
         this.getLangId();
     }
-
-
     // 最近投稿された言語idを取得するAPI呼び出し
     getLangId = () => {
         fetch('http://192.168.33.11:5000/getRecentlyLang')
@@ -44,12 +42,11 @@ class LinkTest extends Component {
             })
             .catch(err => console.err(err));
     }
-
     // 最新10件をstateにset
     setRecently = (data) => {
         this.setState({ recentlyLangs: data.recently_p_langs });
     }
-
+    // 画面リサイズ
     handleResize = () => {
         this.setState({ BROWSER_HEIGHT: window.innerWidth });
         this.setState({ BROWSER_WIDTH: window.innerHeight });
@@ -60,21 +57,16 @@ class LinkTest extends Component {
       
     render() {
         const {recentlyLangs} = this.state;
-        const html = <h1>fda</h1>;
         return (
             <div id="main">
-                {/* <p>{console.log(this.state.SCREEN_HEIGHT)}</p> */}
-                {/* <p>{console.log(this.state.SCREEN_WIDTH)}</p> */}
-
                 { recentlyLangs.map((langs) => {
                     return (
                         <div key={langs.p_lang_id}>
                             <ContentLang propsLangId={langs.p_lang_id} key={langs.p_lang_id}/>
-                            <EventListener target="window" onResize={this.handleResize} />
-                            {html}
                         </div>
                     )
                 })}
+                <EventListener target="window" onResize={this.handleResize} />
             </div>
         )
     }
