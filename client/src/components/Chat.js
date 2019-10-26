@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import history from '../lib/history';
+import { Link } from 'react-router-dom';
 
 class Chat extends Component {
   constructor() {
@@ -10,6 +11,7 @@ class Chat extends Component {
       serverURL: "http://192.168.33.11:5000",
       socket: socketIOClient('http://192.168.33.11:5000'),
       socketID: '',
+      latest_msg: '',
       chat_msgs: [],
       trivia: [],
       p_lang_color: [],
@@ -35,6 +37,8 @@ class Chat extends Component {
       chat_txt.value = '';
       chat_txt.focus();
       msg.removeChild(msg_last);  
+
+      this.setLatestMsg(data.article);
     });
 
     this.getTrivia();
@@ -87,6 +91,11 @@ class Chat extends Component {
   setSocketID = (data) => {
     this.setState({ socketID: data });
   }
+  // latest_msgセット
+  setLatestMsg = (data) => {
+    this.setState({ latest_msg: data });
+  }
+  
   // 投稿内容レンダリング
   renderTrivia = () => ({ trivia_id, article, p_lang_color_code, p_lang_name }) =>
     <div className={`msg p_${p_lang_color_code}`} key={trivia_id} alt={article}>{p_lang_name}</div>
@@ -115,6 +124,8 @@ class Chat extends Component {
             </div>
             <button onClick={this.routerAction} data-num='/article' className="article_btn"> articleへ</button>
             <button onClick={this.routerAction} data-num='/linktest' className="article_btn"> linktestへ</button>
+            <p><Link to="/soket_bug">バグ用 ×</Link></p>
+            <p><a href="/soket_bug">バグ用　○</a></p>
       </div>
     )
   }

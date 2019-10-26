@@ -15,7 +15,7 @@ const SocketManager = require('./SocketManager');
 require('./routes/routes')(app);
 
 // Socket接続
-io.on('connection', SocketManager);
+io.sockets.on('connection', SocketManager);
 
 // Listen
 server.listen(port, (err) => {
