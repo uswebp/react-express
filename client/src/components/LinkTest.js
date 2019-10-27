@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ContentLang from "./ContentLang";
 import EventListener from 'react-event-listener';
+import socketIOClient from "socket.io-client";
 
 class LinkTest extends Component {
     constructor(props) {
@@ -16,11 +17,22 @@ class LinkTest extends Component {
             TR_NUM:"",
             TD_NUM:"",
             TABLE_SIZE_WIDTH:"",
-            TABLE_SIZE_HEIGHT:""
+            TABLE_SIZE_HEIGHT:"",
+            socketID: '',
+            socket: socketIOClient('http://192.168.33.11:5000'),
         };
     }
     
     componentDidMount() {
+        let socket = this.state.socket;
+        // this.setSocketID(data.socket_id);
+        // console.log(this.state.socketID);
+        console.log('Ok');
+
+        socket.on("emit_from_server_id", (data) => {
+            // socket.idをセット
+            console.log(data);
+        });
         this.setState({ SCREEN_HEIGHT: window.parent.screen.height });
         this.setState({ SCREEN_WIDTH: window.parent.screen.width });
         this.setState({ BROWSER_WIDTH: window.innerWidth });
@@ -46,6 +58,11 @@ class LinkTest extends Component {
     setRecently = (data) => {
         this.setState({ recentlyLangs: data.recently_p_langs });
     }
+      // SocketIDセット
+    setSocketID = (data) => {
+        this.setState({ socketID: data });
+    }
+
     // 画面リサイズ
     handleResize = () => {
         this.setState({ BROWSER_HEIGHT: window.innerWidth });

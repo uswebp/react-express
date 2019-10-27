@@ -41,6 +41,9 @@ code {
   font-size: 14px;
   position: relative;
   font-weight: bold;
+  animation-name: tagview;
+  animation-duration: 2s;
+
 }
 .msg::before {
   content: '';
@@ -57,7 +60,11 @@ code {
   /* border-left: 6px solid #ee4f16; */
   border-left: 6px solid #078f74;
 }
+.killmsg {
+  animation-name: tagkill;
+  animation-duration: 2s;
 
+}
 .article_btn {
   cursor: pointer;
   padding: 2px 50px;
@@ -145,4 +152,42 @@ code {
 /* Lua */
 .p_000080 {
   color:#000080;
+}
+
+/* animation */
+@keyframes tagview {
+  0% {
+    opacity: 0;
+    transform: scale(.3);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(.6);
+
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tagkill {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(.6);
+
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
 }

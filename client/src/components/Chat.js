@@ -11,7 +11,6 @@ class Chat extends Component {
       serverURL: "http://192.168.33.11:5000",
       socket: socketIOClient('http://192.168.33.11:5000'),
       socketID: '',
-      latest_msg: '',
       chat_msgs: [],
       trivia: [],
       p_lang_color: [],
@@ -22,6 +21,11 @@ class Chat extends Component {
 
   componentDidMount() {
     let socket = this.state.socket;
+    // SocketIDセット
+    socket.on("emit_socketid",(socketid) => {
+      this.setSocketID(socketid);
+    });
+    // 豆知識送信時
     socket.on("emit_from_server_trvie", (data) => {
       // socket.idをセット
       this.setSocketID(data.socket_id);
@@ -36,9 +40,11 @@ class Chat extends Component {
       msg.insertBefore(msg_obj, msg.firstChild).innerText = data.p_lang_name;
       chat_txt.value = '';
       chat_txt.focus();
-      msg.removeChild(msg_last);  
-
-      this.setLatestMsg(data.article);
+      msg_last.classList.add('killmsg');
+      msg_last.addEventListener('animationend',function(){
+        msg.removeChild(msg_last); 
+      });
+    
     });
 
     this.getTrivia();
@@ -48,6 +54,9 @@ class Chat extends Component {
   // ルーティング 
   routerAction = (url) => {
     let link_path = url.currentTarget.getAttribute('data-num');
+    // Socket切断
+    this.socketDct();
+    // 遷移
     history.push(link_path);
   }
   // 豆知識送信
@@ -60,6 +69,11 @@ class Chat extends Component {
       p_lang_id: p_lang_id
     }
     socket.emit('send_trivia', trivia_data);
+  }
+  // ページ遷移時ソケット情報削除
+  socketDct = () => {
+    let socket = this.state.socket;
+    socket.emit('amputation_socket');
   }
   // 豆知識取得
   getTrivia = () => {
@@ -95,7 +109,6 @@ class Chat extends Component {
   setLatestMsg = (data) => {
     this.setState({ latest_msg: data });
   }
-  
   // 投稿内容レンダリング
   renderTrivia = () => ({ trivia_id, article, p_lang_color_code, p_lang_name }) =>
     <div className={`msg p_${p_lang_color_code}`} key={trivia_id} alt={article}>{p_lang_name}</div>

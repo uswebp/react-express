@@ -4,7 +4,7 @@
 const dbConf = require('./dbManager');
 const dbQuery = require('../lib/db_query');
 //======================================================================
-
+//DB接続チェック
 dbConf.connection.connect(err => {
     if(err) {
         return err;
@@ -13,9 +13,13 @@ dbConf.connection.connect(err => {
 
 module.exports = function(socket){
     console.log('socket connect...' + socket.id);
-
+    socket.emit('emit_socketid', socket.id );
     socket.on('disconnect', () => {
         console.log('user disconnectdd');
+    });
+
+    socket.on('amputation_socket', (socketid) => {
+        socket.disconnect();
     });
 
     socket.on('send_trivia', (data) => {
