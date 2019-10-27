@@ -33,11 +33,16 @@ class Chat extends Component {
       let msg = document.querySelector('.msgs');
       let chat_txt = document.querySelector('.chat-txt');
       let msg_obj = document.createElement('div');
+      let msg_span = document.createElement('span');
       let msg_last = msg.lastElementChild;
       msg_obj.classList.add('msg');
       msg_obj.classList.add('p_' + data.p_lang_color);
       msg_obj.setAttribute('alt', data.article);
-      msg.insertBefore(msg_obj, msg.firstChild).innerText = data.p_lang_name;
+      msg_span.classList.add('msg_ch');
+      msg.insertBefore(msg_obj, msg.firstChild);
+      let msgs_f = document.querySelectorAll('.msg');
+      console.log(msgs_f[0]);
+      msgs_f[0].appendChild(msg_span).innerText = data.p_lang_name;
       chat_txt.value = '';
       chat_txt.focus();
       msg_last.classList.add('killmsg');
@@ -111,7 +116,7 @@ class Chat extends Component {
   }
   // 投稿内容レンダリング
   renderTrivia = () => ({ trivia_id, article, p_lang_color_code, p_lang_name }) =>
-    <div className={`msg p_${p_lang_color_code}`} key={trivia_id} alt={article}>{p_lang_name}</div>
+    <div className={`msg p_${p_lang_color_code}`} key={trivia_id} alt={article}><span className='msg_ch'>{p_lang_name}</span></div>
 
   render() {
     const {trivia} = this.state;
