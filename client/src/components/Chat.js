@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import history from '../lib/history';
+import { Link } from 'react-router-dom';
 
 class Chat extends Component {
   constructor() {
@@ -9,6 +10,7 @@ class Chat extends Component {
       TOP_VIEW_LANGAGES: 10,
       serverURL: "http://192.168.33.11:5000",
       socket: socketIOClient('http://192.168.33.11:5000'),
+      socketID: '',
       chat_msgs: [],
       trivia: [],
       p_lang_color: [],
@@ -18,55 +20,44 @@ class Chat extends Component {
 
   componentDidMount() {
     let socket = this.state.socket;
-
-    socket.on("emit_from_server", (data) => {
-      let msg = document.querySelector('.msgs');
-      let chat_txt = document.querySelector('.chat-txt');
-      let msg_obj = document.createElement('div');
-      msg_obj.classList.add('msg')
-      msg.insertBefore(msg_obj, msg.firstChild).innerText = data;
-      chat_txt.value = '';
-      chat_txt.focus();
+    // SocketIDセット
+    socket.on("emit_socketid",(socketid) => {
+      this.setSocketID(socketid);
     });
-
-    socket.on("emit_from_server_trvie", (data, p_lang_name, p_lang_color) => {
+    // 豆知識送信時
+    socket.on("emit_from_server_trvie", (data) => {
+      // socket.idをセット
+      this.setSocketID(data.socket_id);
+      // 送信データの描画
       let msg = document.querySelector('.msgs');
       let chat_txt = document.querySelector('.chat-txt');
       let msg_obj = document.createElement('div');
       let msg_last = msg.lastElementChild;
       msg_obj.classList.add('msg');
-      msg_obj.classList.add('p_' + p_lang_color);
+      msg_obj.classList.add('p_' + data.p_lang_color);
       msg_obj.setAttribute('alt', data.article);
-      msg.insertBefore(msg_obj, msg.firstChild).innerText = p_lang_name;
+      msg.insertBefore(msg_obj, msg.firstChild).innerText = data.p_lang_name;
       chat_txt.value = '';
       chat_txt.focus();
-      msg.removeChild(msg_last);
+      msg_last.classList.add('killmsg');
+      msg_last.addEventListener('animationend',function(){
+        msg.removeChild(msg_last); 
+      });
     });
 
-    this.getChat();
     this.getTrivia();
     this.getPcolor();
-    this.getLangId();
-  }
-
-  emitInfoToAll = () => {
-    let socket = this.state.socket;
-    let chat_txt = document.querySelector('.chat-txt').value;
-    if (chat_txt) {
-      socket.emit('send_chat', chat_txt);
-    }
   }
 
   // ルーティング 
   routerAction = (url) => {
     let link_path = url.currentTarget.getAttribute('data-num');
+    // Socket切断
+    this.socketDct();
+    // 遷移
     history.push(link_path);
   }
-
-  routerlinktest = () => {
-    history.push('/linktest');
-  }
-
+  // 豆知識送信
   sendTrivia = () => {
     let socket = this.state.socket;
     let chat_txt = document.querySelector('.chat-txt').value;
@@ -77,16 +68,12 @@ class Chat extends Component {
     }
     socket.emit('send_trivia', trivia_data);
   }
-
-  getChat = () => {
-    fetch('http://192.168.33.11:5000/chat_db')
-      .then(response => response.json())
-      .then((data) => {
-        this.setChat(data);
-      })
-      .catch(err => console.error(err))
+  // ページ遷移時ソケット情報削除
+  socketDct = () => {
+    let socket = this.state.socket;
+    socket.emit('amputation_socket');
   }
-
+  // 豆知識取得
   getTrivia = () => {
     fetch('http://192.168.33.11:5000/trivia')
       .then(response => response.json())
@@ -95,6 +82,7 @@ class Chat extends Component {
       })
       .catch(err => console.error(err))
   }
+  // 言語情報取得
   getPcolor = () => {
     fetch('http://192.168.33.11:5000/p_lang_color')
       .then(response => response.json())
@@ -103,44 +91,31 @@ class Chat extends Component {
       })
       .catch(err => console.error(err))
   }
-
-  // 最近投稿された言語idを取得するAPI呼び出し
-  getLangId = () => {
-    fetch('http://192.168.33.11:5000/getRecentlyLang')
-      .then(response => response.json())
-      .then((data) => {
-      this.setRecently(data);
-      })
-    .catch (err => console.err(err));
-    }
-
-  setChat = (data) => {
-    this.setState({ chat_msgs: data.data });
-  }
-
+  // 豆知識セット
   setTrivia = (data) => {
     this.setState({ trivia: data.trivia });
   }
-
+  // 言語カラーセット
   setPcolor = (data) => {
     this.setState({ p_lang_color: data.color });
   }
-
-  // 最新10件をstateにset
-  setRecently = (data) => {
-    this.setState({ recentlyLangs: data.recently_p_langs });
+  // SocketIDセット
+  setSocketID = (data) => {
+    this.setState({ socketID: data });
   }
-
-  renderChat = () => ({ chat_id, chat_msg }) => <div className="msg" key={chat_id}> {chat_msg}</div>
-
+  // latest_msgセット
+  setLatestMsg = (data) => {
+    this.setState({ latest_msg: data });
+  }
+  // 投稿内容レンダリング
   renderTrivia = () => ({ trivia_id, article, p_lang_color_code, p_lang_name }) =>
     <div className={`msg p_${p_lang_color_code}`} key={trivia_id} alt={article}>{p_lang_name}</div>
 
   render() {
     const {trivia} = this.state;
+    // 言語セレクトメニュー
     let list = [];
     let p_color_list = this.state.p_lang_color;
-    
     for (let i in p_color_list) {
       list.push(<option key={p_color_list[i].p_lang_id} value={p_color_list[i].p_lang_id}>{p_color_list[i].p_lang_name}</option>);
     }
@@ -160,10 +135,11 @@ class Chat extends Component {
             </div>
             <button onClick={this.routerAction} data-num='/article' className="article_btn"> articleへ</button>
             <button onClick={this.routerAction} data-num='/linktest' className="article_btn"> linktestへ</button>
+            <p><Link to="/soket_bug">バグ用 ×</Link></p>
+            <p><a href="/soket_bug">バグ用　○</a></p>
       </div>
-      
     )
   }
 }
 
-  export default Chat;
+export default Chat;

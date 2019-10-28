@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ContentLang from "./ContentLang";
 import EventListener from 'react-event-listener';
+import socketIOClient from "socket.io-client";
 
 class LinkTest extends Component {
     constructor(props) {
@@ -10,21 +11,40 @@ class LinkTest extends Component {
             SCREEN_WIDTH: "",
             BROWSER_HEIGHT:"",
             BROWSER_WIDTH:"",
-            recentlyLangs: []
+            recentlyLangs: [],
+            TAG_WIDTH:"",
+            TAG_HEIGHT:"",
+            TR_NUM:"",
+            TD_NUM:"",
+            TABLE_SIZE_WIDTH:"",
+            TABLE_SIZE_HEIGHT:"",
+            socketID: '',
+            socket: socketIOClient('http://192.168.33.11:5000'),
         };
     }
     
-    
     componentDidMount() {
+        let socket = this.state.socket;
+        // this.setSocketID(data.socket_id);
+        // console.log(this.state.socketID);
+        console.log('Ok');
+
+        socket.on("emit_from_server_id", (data) => {
+            // socket.idをセット
+            console.log(data);
+        });
         this.setState({ SCREEN_HEIGHT: window.parent.screen.height });
         this.setState({ SCREEN_WIDTH: window.parent.screen.width });
-        this.setState({ BROWSER_HEIGHT: window.innerWidth });
-        this.setState({ BROWSER_WIDTH: window.innerHeight });
-        
+        this.setState({ BROWSER_WIDTH: window.innerWidth });
+        this.setState({ BROWSER_HEIGHT: window.innerHeight });
+        this.setState({ TABLE_SIZE_WIDTH: window.innerWidth * 0.9 });
+        this.setState({ TABLE_SIZE_HEIGHT: window.innerHeight * 0.9});
+        this.setState({ TAG_WIDTH: (window.innerWidth * 0.9) * 0.1 });
+        this.setState({ TAG_HEIGHT: (window.innerWidth * 0.9) * 0.1});
+        this.setState({ TR_NUM: window.innerWidth * 0.9 / ((window.innerWidth * 0.9) * 0.1) });
+        this.setState({ TD_NUM: window.innerHeight * 0.9 / ((window.innerWidth * 0.9) * 0.1)});
         this.getLangId();
     }
-
-
     // 最近投稿された言語idを取得するAPI呼び出し
     getLangId = () => {
         fetch('http://192.168.33.11:5000/getRecentlyLang')
@@ -34,12 +54,16 @@ class LinkTest extends Component {
             })
             .catch(err => console.err(err));
     }
-
     // 最新10件をstateにset
     setRecently = (data) => {
         this.setState({ recentlyLangs: data.recently_p_langs });
     }
+      // SocketIDセット
+    setSocketID = (data) => {
+        this.setState({ socketID: data });
+    }
 
+    // 画面リサイズ
     handleResize = () => {
         this.setState({ BROWSER_HEIGHT: window.innerWidth });
         this.setState({ BROWSER_WIDTH: window.innerHeight });
@@ -47,22 +71,19 @@ class LinkTest extends Component {
           `window height:width=${this.state.BROWSER_HEIGHT}:${this.state.BROWSER_WIDTH}`,
         );
       };
-
+      
     render() {
         const {recentlyLangs} = this.state;
         return (
             <div id="main">
-                {/* <p>{console.log(this.state.SCREEN_HEIGHT)}</p> */}
-                {/* <p>{console.log(this.state.SCREEN_WIDTH)}</p> */}
-
                 { recentlyLangs.map((langs) => {
                     return (
                         <div key={langs.p_lang_id}>
                             <ContentLang propsLangId={langs.p_lang_id} key={langs.p_lang_id}/>
-                            <EventListener target="window" onResize={this.handleResize} />
                         </div>
                     )
                 })}
+                <EventListener target="window" onResize={this.handleResize} />
             </div>
         )
     }
