@@ -45,9 +45,7 @@ code {
   animation-duration: 2s;
 
 }
-.msg_ch {
-}
-.msg_ch::before {
+.msg::before {
   content: '';
   display: inline-block;
   position: absolute;

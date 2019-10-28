@@ -18,7 +18,7 @@ module.exports = function(socket){
         console.log('user disconnectdd');
     });
 
-    socket.on('amputation_socket', (socketid) => {
+    socket.on('amputation_socket', () => {
         socket.disconnect();
     });
 
