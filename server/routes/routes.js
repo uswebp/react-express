@@ -1,8 +1,7 @@
 //======================================================================
 // set up
 //======================================================================
-const dbConf = require('../dbManager');
-const API = require('../API/chat_db');
+const dbConf = require('../DbManager');
 //======================================================================
 // DB接続エラー
 dbConf.connection.connect(err => {
@@ -24,14 +23,14 @@ module.exports = function(app) {
         res.sendStatus(200);
     });
     // テストJSON
-    app.get('/api/customers/:id/:operation?',require('../API/testjson').getAPI);
+    app.get('/api/customers/:id/:operation?',require('../API/api_getTestJson').getAPI);
     // テストDB接続➔値取得
-    app.use('/chat_db',require('../API/chat_db').getAPI);
+    app.use('/chat_db',require('../API/api_getChatData').getAPI);
     // 言語カラー取得
-    app.use('/p_lang_color',require('../API/p_lang_color').getAPI);
+    app.use('/p_lang_color',require('../API/api_getPlangColor').getAPI);
     // 豆知識取得
-    app.use('/trivia',require('../API/trivia').getAPI);
+    app.use('/trivia',require('../API/api_getTrivia').getAPI);
     // 最近の豆知識情報(重複なし)取得
-    app.use('/getRecentlyLang',require('../API/getRecentlyLang').getAPI);
+    app.use('/getRecentlyLang',require('../API/api_getRecentlyLang').getAPI);
 }
 
