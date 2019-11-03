@@ -39,11 +39,11 @@ exports.getRecentlyLang = (n) => {
 }
 
 //重複無しランダム配列
-exports.getRandomArr = () => {
+exports.getRandomArr = (maxnum) => {
     /** 重複チェック用配列 */
     var randoms = [];
     /** 最小値と最大値 */
-    var min = 1, max = 10;
+    var min = 0, max = maxnum-1;
     
     /** 重複チェックしながら乱数作成 */
     for(i = min; i <= max; i++){
