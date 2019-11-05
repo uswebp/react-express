@@ -1,9 +1,9 @@
 //======================================================================
 // set up
 //======================================================================
-const dbConf = require('../dbManager');
-const dbQuery = require('../../lib/db_query');
-const define = require('../../config/define');
+const dbConf = require('../DbManager');
+const dbQuery = require('../lib/db_query');
+const df = require('../config/define');
 //======================================================================
 exports.getAPI = function (req,res) {
     const customers = [

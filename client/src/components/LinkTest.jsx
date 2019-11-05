@@ -2,15 +2,16 @@ import React, { Component } from "react";
 import ContentLang from "./ContentLang";
 import EventListener from 'react-event-listener';
 import socketIOClient from "socket.io-client";
+import df from '../config/define';
 
 class LinkTest extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            SCREEN_HEIGHT: "",
-            SCREEN_WIDTH: "",
-            BROWSER_HEIGHT:"",
-            BROWSER_WIDTH:"",
+            SCREEN_HEIGHT:  window.parent.screen.height,
+            SCREEN_WIDTH: window.parent.screen.width,
+            BROWSER_HEIGHT:window.innerHeight,
+            BROWSER_WIDTH:window.innerWidth,
             recentlyLangs: [],
             TAG_WIDTH:"",
             TAG_HEIGHT:"",
@@ -19,7 +20,7 @@ class LinkTest extends Component {
             TABLE_SIZE_WIDTH:"",
             TABLE_SIZE_HEIGHT:"",
             socketID: '',
-            socket: socketIOClient('http://192.168.33.11:5000'),
+            socket: socketIOClient(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT),
         };
     }
     
@@ -47,7 +48,7 @@ class LinkTest extends Component {
     }
     // 最近投稿された言語idを取得するAPI呼び出し
     getLangId = () => {
-        fetch('http://192.168.33.11:5000/getRecentlyLang')
+        fetch(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT + '/getRecentlyLang')
             .then(response => response.json())
             .then((data) => {
                 this.setRecently(data);
