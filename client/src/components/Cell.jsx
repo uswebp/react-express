@@ -135,12 +135,14 @@ class Cell extends Component {
     //タグ出現
     tagDomSet(size, full, tag_num) {
         let triviaTd = document.querySelectorAll('.trvia-td');
+        console.log(triviaTd);
         let randum_a = this.getRandomArr(triviaTd.length);
         for (let i = 0; i < triviaTd.length; i++) {
             while (triviaTd[i].firstChild) {
                 triviaTd[i].removeChild(triviaTd[i].firstChild);
             }
         }
+        console.log(randum_a);
         for (let i = 0; i < triviaTd.length; i++) {
             if (i === tag_num) {
                 break;
