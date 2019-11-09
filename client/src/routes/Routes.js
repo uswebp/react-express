@@ -6,6 +6,7 @@ import Article from '../components/Article.jsx';
 import Chat from '../components/Chat.jsx';
 import LinkTest from '../components/LinkTest.jsx';
 import SocketBug from '../components/SocketBug.jsx';
+import Cell from '../components/Cell.jsx';
 
 class Routes extends Component {
     constructor() {
@@ -23,6 +24,7 @@ class Routes extends Component {
                         <Route path="/article" exact component={Article} />
                         <Route path="/linktest" exact component={LinkTest} />
                         <Route path="/soket_bug" exact component={SocketBug} />
+                        <Route path="/cell" exact component={Cell} />
                     </div>
                 </Router>
           </div>

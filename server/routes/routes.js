@@ -32,5 +32,7 @@ module.exports = function(app) {
     app.use('/trivia',require('../API/api_getTrivia').getAPI);
     // 最近の豆知識情報(重複なし)取得
     app.use('/getRecentlyLang',require('../API/api_getRecentlyLang').getAPI);
+    // 乱数
+    app.use('/tagrandum/:num',require('../API/api_tagRandum').getAPI);
 }
 

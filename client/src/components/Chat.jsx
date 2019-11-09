@@ -19,7 +19,6 @@ class Chat extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state);
         let socket = this.state.socket;
         // SocketIDセット
         socket.on("emit_socketid",(socketid) => {
@@ -120,9 +119,9 @@ class Chat extends Component {
         for (let i in p_color_list) {
             list.push(<option key={p_color_list[i].p_lang_id} value={p_color_list[i].p_lang_id}>{p_color_list[i].p_lang_name}</option>);
         }
-        
+        console.log(this.state);
         return (
-          <div> 
+          <div className="chat_area"> 
               <h2>Coodig.com</h2>
               <div className="container">
                   <select name="p_lang_color" className="p_lang_color">
@@ -136,6 +135,7 @@ class Chat extends Component {
               </div>
               <button onClick={this.routerAction} data-num='/article' className="article_btn"> articleへ</button>
               <button onClick={this.routerAction} data-num='/linktest' className="article_btn"> linktestへ</button>
+              <button onClick={this.routerAction} data-num='/cell' className="article_btn"> 分割テスト</button>
           </div>
         )
     }
