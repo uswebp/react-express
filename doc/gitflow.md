@@ -10,6 +10,7 @@
     ```
     git checkout develop  
     git fetch origin develop  
+    git pull origin develop
     ```
 
 3. ブランチ作成  
