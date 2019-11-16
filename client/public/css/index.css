@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  font-family: "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -83,8 +83,6 @@ code {
 .trivia-tag {
   border-radius: 50%; 
   display: block;
-  /* transition:all 2s ease-in-out; */
-  /* animation-name: tagview;  */
   animation-duration: 2s;
   animation: ease-in-out infinite normal;
   cursor: pointer;
@@ -97,9 +95,11 @@ code {
   overflow-wrap: break-word;
   position: relative;
   z-index: 0;
-  /* box-shadow: 0 0 3px #545454; */
+  box-shadow: 0 0 1px .5px #545454;
   box-sizing: border-box;
   transition: all .2s ease-in-out;
+  letter-spacing: .5px;
+  animation-direction: alternate;
 }
 .trivia-name {
   display: inline-block;
@@ -199,7 +199,9 @@ code {
   color:#000080;
 }
 
-/* animation */
+/* ======================================================================
+ animation [START]
+========================================================================*/
 @keyframes tagview {
   0% {
     opacity: 0;
@@ -209,60 +211,139 @@ code {
     opacity: 0;
     transform: scale(0);
   }
-
   50% {
     opacity: 0.5;
     transform: scale(.6);
-
   }
-
   100% {
     opacity: 1;
     transform: scale(1);
   }
 }
-@keyframes tag_move_1{
-  0%   { transform:translate3d(0, 0, 0) }
-  10%  { transform:translate3d(-5px, -5px, 0) }
-  20%  { transform:translate3d(-10px, -10px, 0) }
-  30%  { transform:translate3d(-5px, -5px, 0) }
-  40%  { transform:translate3d(-5px, -5px, 0) }
-  50%  { transform:translate3d(0, 0, 0) }
-  60%  { transform:translate3d(5px, 5px, 0) }
-  70%  { transform:translate3d(10px, 10px, 0) }
-  80%  { transform:translate3d(5px, 5px, 0) }
-  90%  { transform:translate3d(5px, 5px, 0) }
-  100% { transform:translate3d(0, 0, 0) }
-}
-@keyframes tag_move_2{
-  0%   { transform:translate3d(0, 0, 0) }
-  10%  { transform:translate3d(5px, 5px, 0) }
-  20%  { transform:translate3d(10px, 10px, 0) }
-  30%  { transform:translate3d(5px, 5px, 0) }
-  40%  { transform:translate3d(5px, 5px, 0) }
-  50%  { transform:translate3d(0, 0, 0) }
-  60%  { transform:translate3d(-5px, 5px, 0) }
-  70%  { transform:translate3d(-10px, -10px, 0) }
-  80%  { transform:translate3d(-5px, -5px, 0) }
-  90%  { transform:translate3d(-5px, -5px, 0) }
-  100% { transform:translate3d(0, 0, 0) }
-}
-
 @keyframes tagkill {
   0% {
     opacity: 1;
     transform: scale(1);
-
   }
-
   50% {
     opacity: 0.5;
     transform: scale(.6);
-
   }
-
   100% {
     opacity: 0;
     transform: scale(0);
   }
 }
+@keyframes tag_move_1{
+  0%   { transform:translate3d(0, 0, 0) }
+  0%   { -moz-transform:translate3d(0, 0, 0) }
+  0%   { -webkit-transform:translate3d(0, 0, 0) }
+  50%  { transform:translate3d(-5px, -10px, 0) }
+  50%  { -moz-transform:translate3d(-5px, -10px, 0) }
+  50%  { -webkit-transform:translate3d(-5px, -10px, 0) }
+  100% { transform:translate3d(5px, 10px, 0) }
+  100% { -moz-transform:translate3d(5px, 10px, 0) }
+  100% { -webkit-transform:translate3d(5px, 10px, 0) }
+}
+@keyframes tag_move_2{
+  0%   { transform:translate3d(0, 0, 0) }
+  0%   { -moz-transform:translate3d(0, 0, 0) }
+  0%   { -webkit-transform:translate3d(0, 0, 0) }
+  50%  { transform:translate3d(10px, 5px, 0) }
+  50%  { -moz-transform:translate3d(10px, 5px, 0) }
+  50%  { -webkit-transform:translate3d(10px, 5px, 0) }
+  100% { transform:translate3d(-10px, -5px, 0) }
+  100% { -moz-transform:translate3d(-10px, -5px, 0) }
+  100% { -webkit-transform:translate3d(-10px, -5px, 0) }
+}
+@keyframes tag_move_3{
+  0%   { transform:translate3d(0, 0, 0) }
+  0%   { -moz-transform:translate3d(0, 0, 0) }
+  0%   { -webkit-transform:translate3d(0, 0, 0) }
+  50%  { transform:translate3d(-10px, -10px, 0) }
+  50%  { -moz-transform:translate3d(-10px, -10px, 0) }
+  50%  { -webkit-transform:translate3d(-10px, -10px, 0) }
+  100% { transform:translate3d(10px, 10px, 0) }
+  100% { -moz-transform:translate3d(10px, 10px, 0) }
+  100% { -webkit-transform:translate3d(10px, 10px, 0) }
+}
+@keyframes tag_move_4{
+  0%   { transform:translate3d(0, 0, 0) }
+  0%   { -moz-transform:translate3d(0, 0, 0) }
+  0%   { -webkit-transform:translate3d(0, 0, 0) }
+  50%  { transform:translate3d(10px, 10px, 0) }
+  50%  { -moz-transform:translate3d(10px, 10px, 0) }
+  50%  { -webkit-transform:translate3d(10px, 10px, 0) }
+  100% { transform:translate3d(-10px, -10px, 0) }
+  100% { -moz-transform:translate3d(-10px, -10px, 0) }
+  100% { -webkit-transform:translate3d(-10px, -10px, 0) }
+}
+@keyframes tag_move_5{
+  0%   { transform:translate3d(0, 0, 0) }
+  0%   { -moz-transform:translate3d(0, 0, 0) }
+  0%   { -webkit-transform:translate3d(0, 0, 0) }
+  50%  { transform:translate3d(-10px, 0, 0) }
+  50%  { -moz-transform:translate3d(-10px, 0, 0) }
+  50%  { -webkit-transform:translate3d(-10px, 10px, 0) }
+  100% { transform:translate3d(10px, 0, 0) }
+  100% { -moz-transform:translate3d(10px, 0, 0) }
+  100% { -webkit-transform:translate3d(10px, 0, 0) }
+}
+@keyframes tag_move_6{
+  0%   { transform:translate3d(0, 0, 0) }
+  0%   { -moz-transform:translate3d(0, 0, 0) }
+  0%   { -webkit-transform:translate3d(0, 0, 0) }
+  50%  { transform:translate3d(10px, 0, 0) }
+  50%  { -moz-transform:translate3d(10px, 0, 0) }
+  50%  { -webkit-transform:translate3d(10px, 10px, 0) }
+  100% { transform:translate3d(-10px, 0, 0) }
+  100% { -moz-transform:translate3d(-10px, 0, 0) }
+  100% { -webkit-transform:translate3d(-10px, 0, 0) }
+}
+@keyframes tag_move_7{
+  0%   { transform:translate3d(0, 0, 0) }
+  0%   { -moz-transform:translate3d(0, 0, 0) }
+  0%   { -webkit-transform:translate3d(0, 0, 0) }
+  50%  { transform:translate3d(0,-10px, 0) }
+  50%  { -moz-transform:translate3d(0, -10px, 0) }
+  50%  { -webkit-transform:translate3d(0, -10px, 0) }
+  100% { transform:translate3d(0, 10px, 0) }
+  100% { -moz-transform:translate3d(0, 10px, 0) }
+  100% { -webkit-transform:translate3d(0, 10px, 0) }
+}
+@keyframes tag_move_8{
+  0%   { transform:translate3d(0, 0, 0) }
+  0%   { -moz-transform:translate3d(0, 0, 0) }
+  0%   { -webkit-transform:translate3d(0, 0, 0) }
+  50%  { transform:translate3d(0,10px, 0) }
+  50%  { -moz-transform:translate3d(0, 10px, 0) }
+  50%  { -webkit-transform:translate3d(0, 10px, 0) }
+  100% { transform:translate3d(0, -10px, 0) }
+  100% { -moz-transform:translate3d(0, -10px, 0) }
+  100% { -webkit-transform:translate3d(0, -10px, 0) }
+}
+@keyframes tag_move_9{
+  0%   { transform:translate3d(0, 0, 0) }
+  0%   { -moz-transform:translate3d(0, 0, 0) }
+  0%   { -webkit-transform:translate3d(0, 0, 0) }
+  50%  { transform:translate3d(5px, -10px, 0) }
+  50%  { -moz-transform:translate3d(5px, -10px, 0) }
+  50%  { -webkit-transform:translate3d(5px, -10px, 0) }
+  100% { transform:translate3d(5px, -10px, 0) }
+  100% { -moz-transform:translate3d(5px, -10px, 0) }
+  100% { -webkit-transform:translate3d(5px, -10px, 0) }
+}
+@keyframes tag_move_0{
+  0%   { transform:translate3d(0, 0, 0) }
+  0%   { -moz-transform:translate3d(0, 0, 0) }
+  0%   { -webkit-transform:translate3d(0, 0, 0) }
+  50%  { transform:translate3d(-10px, 5px, 0) }
+  50%  { -moz-transform:translate3d(-10px, 5px, 0) }
+  50%  { -webkit-transform:translate3d(-10px, 5px, 0) }
+  100% { transform:translate3d(10px, -5px, 0) }
+  100% { -moz-transform:translate3d(10px, -5px, 0) }
+  100% { -webkit-transform:translate3d(10px, -5px, 0) }
+}
+/* ======================================================================
+ animation [E_N_D]
+========================================================================*/

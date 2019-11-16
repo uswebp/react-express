@@ -57,7 +57,9 @@ class ViewChat extends Component {
         let td_num = 0;
         let tr_num = 0;
         // td数
-        if(table_size_width >= 450 && table_size_width < 600) {
+        if (table_size_width < 450) {
+            td_num = 3;
+        } else if(table_size_width >= 450 && table_size_width < 600) {
             td_num = 3;
         } else if(table_size_width >= 600 && table_size_width < 700){
             td_num = 4;
@@ -95,8 +97,8 @@ class ViewChat extends Component {
             tr_num = 7;
         }
         // タグ関係
-        let tag_width = (table_size_width / td_num) * 0.6;
-        let tag_height = (table_size_height / tr_num) * 0.6;
+        let tag_width = (table_size_width / td_num) * 0.62;
+        let tag_height = (table_size_height / tr_num) * 0.62;
         let tag_num = Math.floor((td_num * tr_num) * 0.8);
         // カラム総数
         let total_td = td_num * tr_num;
@@ -184,7 +186,7 @@ class ViewChat extends Component {
         let tr_width = table_width;
         let tr_height = Math.floor(table_height / r);
         //tdサイズ
-        let td_width = Math.floor(table_width / d) - 1;
+        let td_width = Math.floor(table_width / d) - 2;
         let td_height = tr_height;
 
         // テーブル
@@ -231,6 +233,7 @@ class ViewChat extends Component {
                 }
                 // 豆知識情報セット
                 let p_lang_name = trivia[i].p_lang_name;
+                let trivia_id = trivia[i].trivia_id;
                 let p_lang_color_code = trivia[i].p_lang_color_code;
                 // 乱数取り出し
                 let tn = randum_array[i];
@@ -238,7 +241,7 @@ class ViewChat extends Component {
                 let div = document.createElement('div');
                 let span = document.createElement('span');
                 div.classList.add('trivia-tag');
-                div.classList.add('tag-id-' + i);
+                div.classList.add('tag-id-' + trivia_id);
                 span.classList.add('trivia-name');
                 // プログラミング言語セット
                 triviaTd[tn].appendChild(div).appendChild(span).innerText = p_lang_name;
@@ -264,32 +267,32 @@ class ViewChat extends Component {
             let pos_x = Math.floor(Math.random() * (size * 0.5));
             let pos_y = Math.floor(Math.random() * (size * 0.5));
             // アニメーション
-            let animation_sec = Math.floor((Math.random() * 10) + 8);
+            let animation_sec = Math.floor((Math.random() * 10) + 6);
             let animation_kind = '';
             // アニメーション振り分け
             let animation_val = Math.floor(Math.random() * 10);
             switch (animation_val) {
-                case 0: animation_kind = 'tag_move_2';
+                case 0: animation_kind = 'tag_move_0';
                         break;
                 case 1: animation_kind = 'tag_move_1';
                         break;
                 case 2: animation_kind = 'tag_move_2';
                         break;
-                case 3: animation_kind = 'tag_move_1';
+                case 3: animation_kind = 'tag_move_3';
                         break;
-                case 4: animation_kind = 'tag_move_2';
+                case 4: animation_kind = 'tag_move_4';
                         break;
-                case 5: animation_kind = 'tag_move_1';
+                case 5: animation_kind = 'tag_move_5';
                         break;
-                case 6: animation_kind = 'tag_move_2';
+                case 6: animation_kind = 'tag_move_6';
                         break;
-                case 7: animation_kind = 'tag_move_1';
+                case 7: animation_kind = 'tag_move_7';
                         break;
-                case 8: animation_kind = 'tag_move_2';
+                case 8: animation_kind = 'tag_move_8';
                         break;
-                case 9: animation_kind = 'tag_move_1';
+                case 9: animation_kind = 'tag_move_0';
                         break;
-                default: animation_kind = 'tag_move_2';
+                default: animation_kind = 'tag_move_0';
                         break;
             }
             // スタイルセット
