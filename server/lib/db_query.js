@@ -1,12 +1,12 @@
 // db_query_functions
 
 // 豆知識10件取得
-exports.getTrivia = () => {
+exports.getTrivia = (limit_n) => {
     let sql = 'SELECT * FROM trivia_table AS tr ';
         sql += 'LEFT JOIN p_lang_mst AS pm ';
         sql += 'ON tr.p_lang_id = pm.p_lang_id ';
         sql += 'ORDER BY tr.ins_dt DESC ';
-        sql += 'limit 12';
+        sql += 'limit ' + limit_n;
 
     return sql;
 }
