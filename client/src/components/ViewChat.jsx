@@ -235,6 +235,7 @@ class ViewChat extends Component {
                 let p_lang_name = trivia[i].p_lang_name;
                 let trivia_id = trivia[i].trivia_id;
                 let p_lang_color_code = trivia[i].p_lang_color_code;
+                let article = trivia[i].article;
                 // 乱数取り出し
                 let tn = randum_array[i];
                 // タグを生成後、配置
@@ -267,7 +268,8 @@ class ViewChat extends Component {
             let pos_x = Math.floor(Math.random() * (size * 0.5));
             let pos_y = Math.floor(Math.random() * (size * 0.5));
             // アニメーション
-            let animation_sec = Math.floor((Math.random() * 10) + 6);
+            let animation_move_sec = Math.floor((Math.random() * 10) + 6);
+            let animation_view_sec = Math.floor((Math.random() * 3) + 2);
             let animation_kind = '';
             // アニメーション振り分け
             let animation_val = Math.floor(Math.random() * 10);
@@ -305,9 +307,14 @@ class ViewChat extends Component {
             tag[i].style.left = pos_y + 'px';
             tag[i].style.width = size + 'px';
             tag[i].style.height = size + 'px';
-            tag[i].style.animationName = animation_kind;
-            tag[i].style.webkitAnimationDuration = animation_sec + 's';
-            tag[i].style.webkitAnimationIterationCount = 'infinite';
+            tag[i].style.animationName = 'tagview';
+            tag[i].style.webkitAnimationDuration = animation_view_sec + 's';
+            tag[i].style.webkitAnimationIterationCount = '1';
+            // タグの出現が終わり次第動かす
+            tag[i].addEventListener('animationend',function(){
+                tag[i].style.animation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';
+                tag[i].style.webkitAnimation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';
+            });
         }
     }
     

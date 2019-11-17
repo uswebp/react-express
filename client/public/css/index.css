@@ -75,7 +75,7 @@ code {
 }
 
 .trvia-td {
-  border:solid 0.1px #e3e3e3;
+  /* border:solid 0.1px #e3e3e3; */
   box-sizing:border-box;
   display: inline-block;
   position: relative;
@@ -99,7 +99,6 @@ code {
   box-sizing: border-box;
   transition: all .2s ease-in-out;
   letter-spacing: .5px;
-  animation-direction: alternate;
 }
 .trivia-name {
   display: inline-block;
@@ -113,9 +112,7 @@ code {
   box-sizing: border-box;
 
 }
-.tag-animation {
 
-}
 /* 言語カラー */
 /* HTML */
 .p_e34f26 {
@@ -206,14 +203,6 @@ code {
   0% {
     opacity: 0;
     transform: scale(0);
-  }
-  40% {
-    opacity: 0;
-    transform: scale(0);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(.6);
   }
   100% {
     opacity: 1;
