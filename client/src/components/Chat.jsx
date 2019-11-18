@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import socketIOClient from "socket.io-client";
 import history from '../lib/history';
 import df from '../config/define';
-// import { Link } from 'react-router-dom';
+
 class Chat extends Component {
     constructor() {
         super();
@@ -75,7 +75,7 @@ class Chat extends Component {
     }
     // 豆知識取得
     getTrivia = () => {
-        fetch(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT + '/trivia')
+        fetch(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT + '/trivia/12')
           .then(response => response.json())
           .then((data) => {
             this.setTrivia(data);
@@ -136,6 +136,7 @@ class Chat extends Component {
               <button onClick={this.routerAction} data-num='/article' className="article_btn"> articleへ</button>
               <button onClick={this.routerAction} data-num='/linktest' className="article_btn"> linktestへ</button>
               <button onClick={this.routerAction} data-num='/cell' className="article_btn"> 分割テスト</button>
+              <button onClick={this.routerAction} data-num='/chat_view' className="article_btn"> チャット</button>
           </div>
         )
     }
