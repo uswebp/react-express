@@ -22,7 +22,7 @@ module.exports = function(socket){
     socket.on('amputation_socket', () => {
         socket.disconnect();
     });
-
+    // 豆知識投稿時
     socket.on('send_trivia', (data) => {
         const INS_TRIVIA = dbQuery.insTrivia(data.p_lang_id,data.article);
         const GET_P_COLOR = dbQuery.getSPcolor(data.p_lang_id);

@@ -1,9 +1,13 @@
-<<<<<<< HEAD
 *node_modules/
 node_modules/
 *node_modules*
-=======
->>>>>>> 6600002031bc499085910112c9eee7cd0706a6eb
+
+*build/
+build/
+*build*
+
+config/db_conf.js
+
 # Logs
 logs
 *.log

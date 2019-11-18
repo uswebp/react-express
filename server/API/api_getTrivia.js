@@ -6,8 +6,9 @@ const dbQuery = require('../lib/db_query');
 const df = require('../config/define');
 //======================================================================
 exports.getAPI = function (req,res) {
-    const SELECT_ALL_REACT_TEST_Q = dbQuery.getTrivia();
-    dbConf.connection.query(SELECT_ALL_REACT_TEST_Q, (err, results) => {
+    let fetch_num = req.params.num;
+    const GET_TRIVIA_TABLE_Q = dbQuery.getTrivia(fetch_num);
+    dbConf.connection.query(GET_TRIVIA_TABLE_Q, (err, results) => {
         if(err) {
             return res.send(err)
         } else {

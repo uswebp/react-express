@@ -4,6 +4,7 @@
     ```
     git checkout master  
     git fetch origin master  
+    git merge origin master
     ```
 
 2. developを最新にする  
@@ -15,7 +16,7 @@
 
 3. ブランチ作成  
     ```
-    git checkout -b name_date  
+    git checkout -b f/name_date  
     ```
 
 > ## 作業後... 
@@ -24,11 +25,11 @@
     ```
     git add .  
     git commit -m 'どういう機能か、修正・変更内容' => 1行程度  
-    git push origin name_date  
+    git push origin f/name_date  
     ```
 
 5. developに変更内容マージ  
-    - GitHub上でプルリクエスト name_date => develop 
+    - GitHub上でプルリクエスト f/name_date => develop 
 
 > ### **bさん 
 
@@ -37,7 +38,8 @@
     ```
     git checkout develop  
     git fetch origin name_date  
-    git merge origin name_date  
+    git merge origin name_date
+    git push origin develop
     ```
 
 7. developブランチで動作確認  ➔ 動作確認後...
