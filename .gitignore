@@ -2,6 +2,10 @@
 node_modules/
 *node_modules*
 
+*build/
+build/
+*build*
+
 config/db_conf.js
 
 # Logs
