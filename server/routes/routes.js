@@ -29,7 +29,7 @@ module.exports = function(app) {
     // 言語カラー取得
     app.use('/p_lang_color',require('../API/api_getPlangColor').getAPI);
     // 豆知識取得
-    app.use('/trivia',require('../API/api_getTrivia').getAPI);
+    app.use('/trivia/:num',require('../API/api_getTrivia').getAPI);
     // 最近の豆知識情報(重複なし)取得
     app.use('/getRecentlyLang',require('../API/api_getRecentlyLang').getAPI);
     // 乱数
