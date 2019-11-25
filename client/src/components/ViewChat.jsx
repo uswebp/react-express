@@ -153,7 +153,8 @@ class ViewChat extends Component {
             // 乱数配列をセット
             this.setTagNum(randum);
             this.setTrivia(data);
-        }).catch(err => console.error(err))
+        })
+        .catch(err => console.error(err))
     }
     /**
      * @description タグの乱数をstateにセット
@@ -269,7 +270,7 @@ class ViewChat extends Component {
             let pos_y = Math.floor(Math.random() * (size * 0.5));
             // アニメーション
             let animation_move_sec = Math.floor((Math.random() * 10) + 6);
-            let animation_view_sec = Math.floor((Math.random() * 3) + 2);
+            let animation_view_sec = Math.floor((Math.random() * 5) + 2);
             let animation_kind = '';
             // アニメーション振り分け
             let animation_val = Math.floor(Math.random() * 10);
@@ -292,7 +293,7 @@ class ViewChat extends Component {
                         break;
                 case 8: animation_kind = 'tag_move_8';
                         break;
-                case 9: animation_kind = 'tag_move_0';
+                case 9: animation_kind = 'tag_move_9';
                         break;
                 default: animation_kind = 'tag_move_0';
                         break;
@@ -307,9 +308,8 @@ class ViewChat extends Component {
             tag[i].style.left = pos_y + 'px';
             tag[i].style.width = size + 'px';
             tag[i].style.height = size + 'px';
-            tag[i].style.animationName = 'tagview';
-            tag[i].style.webkitAnimationDuration = animation_view_sec + 's';
-            tag[i].style.webkitAnimationIterationCount = '1';
+            tag[i].style.animation = 'tagview ' + animation_view_sec + 's 1';
+
             // タグの出現が終わり次第動かす
             tag[i].addEventListener('animationend',function(){
                 tag[i].style.animation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';

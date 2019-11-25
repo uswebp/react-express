@@ -10,7 +10,6 @@ const socketIO = require('socket.io');
 const io = socketIO(server);
 const SocketManager = require('./SocketManager');
 //======================================================================
-
 // ルーティング
 require('./routes/routes')(app);
 
