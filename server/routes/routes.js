@@ -34,5 +34,9 @@ module.exports = function(app) {
     app.use('/getRecentlyLang',require('../API/api_getRecentlyLang').getAPI);
     // 乱数
     app.use('/tagrandum/:num',require('../API/api_tagRandum').getAPI);
+    // 検索ページの豆知識取得
+    app.use('/search_trivia/page/:page/limit/:limit',require('../API/api_searchTrivia').getAPI);
+    // 豆知識数
+    app.use('/count_trivia',require('../API/api_getTriviaCount').getAPI);
 }
 

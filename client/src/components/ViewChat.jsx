@@ -36,9 +36,9 @@ class ViewChat extends Component {
     }
 
     componentDidMount() {
-        const TOTAL_TD = this.state.TOTAL_TD;
+        let total_td = this.state.TOTAL_TD;
         // Fetch・DOM操作
-        this.installationGetTag(TOTAL_TD);
+        this.installationGetTag(total_td);
     }
 /*=======================================================================
  methods
@@ -131,15 +131,16 @@ class ViewChat extends Component {
           .then(response => response.json())
           .then((data) => {
             let trivia_num = this.state.TAG_NUM;
+            let randum = data.randum;
             // 豆知識取得
-            this.getTrivia(data.randum, trivia_num);
+            this.getTrivia(randum, trivia_num);
           })
           .catch(err => console.error(err))
     }
     /**
      * @description 豆知識取得
-     * @param {Array} randum // 乱数配列
-     * @param {Int} trivia_num // 取得する豆知識の個数
+     * @param {Array} randum | 乱数配列
+     * @param {Int} trivia_num | 取得する豆知識の個数
      * @returns ×
      */
     getTrivia = (randum, trivia_num) => {
@@ -148,8 +149,10 @@ class ViewChat extends Component {
           .then((data) => {
             let tag_size = this.state.TAG_SIZE;
             let tag_num = this.state.TAG_NUM;
+            let randum_array = randum;
+            let trivia = data.trivia;
             // タグを生成
-            this.tagGeneration(tag_size, randum, tag_num, data.trivia);
+            this.tagGeneration(tag_size, randum_array, tag_num, trivia);
             // 乱数配列をセット
             this.setTagNum(randum);
             this.setTrivia(data);
@@ -158,11 +161,11 @@ class ViewChat extends Component {
     }
     /**
      * @description タグの乱数をstateにセット
-     * @param {Array} data | 乱数配列
+     * @param {Array} randum | 乱数配列
      * @returns ×
      */
-    setTagNum = (data) => {
-        this.setState({ TAG_RANDUM_ARR: data });
+    setTagNum = (randum) => {
+        this.setState({ TAG_RANDUM_ARR: randum });
     }
     /**
      * @description 豆知識をstateにセット
@@ -209,68 +212,75 @@ class ViewChat extends Component {
     }
     /**
      * @description タグを生成
-     * @param {Int} size | タグサイズ
+     * @param {Int} tag_size | タグサイズ
      * @param {Array} randum_array | 乱数配列
      * @param {Int} tag_num | 出力タグ数
      * @param {Object} trivia | 豆知識
      * @returns ×
      */
-    tagGeneration = (size, randum_array, tag_num, trivia) => {
+    tagGeneration = (tag_size, randum_array, tag_num, trivia) => {
         // 乱数配列が存在する場合
         if(randum_array){
             // td取得
-            let triviaTd = document.querySelectorAll('.trvia-td');
+            let trivia_td = document.querySelectorAll('.trvia-td');
+            // 豆知識のカラム数
+            let trivia_td_len = trivia_td.length;
+            // 乱数配列の長さ
+            let randum_ary_len = randum_array.length;
             // 全てのタグをリセット
-            for (let i = 0; i < triviaTd.length; i++) {
-                while (triviaTd[i].firstChild) {
-                    triviaTd[i].removeChild(triviaTd[i].firstChild);
+            for (let i = 0; i < trivia_td_len; i++) {
+                while (trivia_td[i].firstChild) {
+                    trivia_td[i].removeChild(trivia_td[i].firstChild);
                 }
             }
-            // タグをランダムに設置
-            for (let i = 0; i < triviaTd.length; i++) {
-                // タグの個数分ループ
-                if (i === tag_num) {
-                    break;
+            // 総TD数と乱数配列の数の整合性チェック
+            if (trivia_td_len === randum_ary_len) {
+                // タグをランダムに設置
+                for (let i = 0; i < trivia_td_len; i++) {
+                    // タグの個数分ループ
+                    if (i === tag_num) {
+                        break;
+                    }
+                    // 豆知識情報セット
+                    let p_lang_name = trivia[i].p_lang_name;
+                    let trivia_id = trivia[i].trivia_id;
+                    let p_lang_color_code = trivia[i].p_lang_color_code;
+                    // let article = trivia[i].article;　<= そのうち使用する
+                    // 乱数取り出し
+                    let tn = randum_array[i];
+                    // タグを生成後、配置
+                    let div = document.createElement('div');
+                    let span = document.createElement('span');
+                    div.classList.add('trivia-tag');
+                    div.classList.add('tag-id-' + trivia_id);
+                    span.classList.add('trivia-name');
+                    // プログラミング言語セット
+                    trivia_td[tn].appendChild(div).appendChild(span).innerText = p_lang_name;
+                    // プログラミング言語カラーセット
+                    trivia_td[tn].querySelector('.trivia-tag').style.backgroundColor = '#' + p_lang_color_code;
                 }
-                // 豆知識情報セット
-                let p_lang_name = trivia[i].p_lang_name;
-                let trivia_id = trivia[i].trivia_id;
-                let p_lang_color_code = trivia[i].p_lang_color_code;
-                let article = trivia[i].article;
-                // 乱数取り出し
-                let tn = randum_array[i];
-                // タグを生成後、配置
-                let div = document.createElement('div');
-                let span = document.createElement('span');
-                div.classList.add('trivia-tag');
-                div.classList.add('tag-id-' + trivia_id);
-                span.classList.add('trivia-name');
-                // プログラミング言語セット
-                triviaTd[tn].appendChild(div).appendChild(span).innerText = p_lang_name;
-                // プログラミング言語カラーセット
-                triviaTd[tn].querySelector('.trivia-tag').style.backgroundColor = '#' + p_lang_color_code;
+                // 生成した後タグを取得
+                let trivia_tag = document.querySelectorAll('.trivia-tag');
+                // タグにスタイル適応
+                this.tagStyleAddition(trivia_tag, tag_size);
             }
-            // 生成した後タグを取得
-            let triviaTag = document.querySelectorAll('.trivia-tag');
-            // タグにスタイル適応
-            this.tagStyleAddition(triviaTag, size);
         }
     }
     /**
      * @description タグのスタイル適応処理(CSSアニメーション振り分け含む)
-     * @param {Object} tag | 生成された豆知識タグ要素
-     * @param {Int} size | タグの大きさ
+     * @param {Object} trivia_tag | 生成された豆知識タグ要素
+     * @param {Int} tag_size | タグの大きさ
      * @returns ×
      */ 
-    tagStyleAddition = (tag, size) => {
+    tagStyleAddition = (trivia_tag, tag_size) => {
         // スタイル適応繰り返し
-        for (let i = 0; i < tag.length; i++) {
+        for (let i = 0; i < trivia_tag.length; i++) {
             // 開始ポジション
-            let pos_x = Math.floor(Math.random() * (size * 0.5));
-            let pos_y = Math.floor(Math.random() * (size * 0.5));
+            let pos_x = Math.floor(Math.random() * (tag_size * 0.5));
+            let pos_y = Math.floor(Math.random() * (tag_size * 0.5));
             // アニメーション
             let animation_move_sec = Math.floor((Math.random() * 10) + 6);
-            let animation_view_sec = Math.floor((Math.random() * 5) + 2);
+            let animation_view_sec = Math.floor((Math.random() * 5) + 3);
             let animation_kind = '';
             // アニメーション振り分け
             let animation_val = Math.floor(Math.random() * 10);
@@ -299,30 +309,30 @@ class ViewChat extends Component {
                         break;
             }
             // スタイルセット
-            tag[i].style.webkitTransitionProperty = "-webkit-transform";
-            tag[i].style.webkitTransitionDelay = "0.2s";
-            tag[i].style.webkitTransitionDuration = "0.5s";
-            tag[i].style.webkitTransitionTimingFunction = "ease-in-out";
-            tag[i].style.position = 'absolute';
-            tag[i].style.top = pos_x + 'px';
-            tag[i].style.left = pos_y + 'px';
-            tag[i].style.width = size + 'px';
-            tag[i].style.height = size + 'px';
-            tag[i].style.animation = 'tagview ' + animation_view_sec + 's 1';
+            trivia_tag[i].style.webkitTransitionProperty = "-webkit-transform";
+            trivia_tag[i].style.webkitTransitionDelay = "0.2s";
+            trivia_tag[i].style.webkitTransitionDuration = "0.5s";
+            trivia_tag[i].style.webkitTransitionTimingFunction = "ease-in-out";
+            trivia_tag[i].style.position = 'absolute';
+            trivia_tag[i].style.top = pos_x + 'px';
+            trivia_tag[i].style.left = pos_y + 'px';
+            trivia_tag[i].style.width = tag_size + 'px';
+            trivia_tag[i].style.height = tag_size + 'px';
+            trivia_tag[i].style.animation = 'tagview ' + animation_view_sec + 's 1';
 
             // タグの出現が終わり次第動かす
-            tag[i].addEventListener('animationend',function(){
-                tag[i].style.animation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';
-                tag[i].style.webkitAnimation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';
+            trivia_tag[i].addEventListener('animationend',function(){
+                trivia_tag[i].style.animation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';
+                trivia_tag[i].style.webkitAnimation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';
             });
         }
     }
     
     render() {
         // TD・TR数に応じてテーブル作成
-        const TD_NUM = this.state.TD_NUM;
-        const TR_NUM = this.state.TR_NUM;
-        const MAIN_TABLE = this.renderTable(TD_NUM, TR_NUM);
+        let d = this.state.TD_NUM;
+        let r = this.state.TR_NUM;
+        const MAIN_TABLE = this.renderTable(d, r);
 
         return (
             <div id="main">

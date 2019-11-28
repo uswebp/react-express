@@ -119,7 +119,6 @@ class Chat extends Component {
         for (let i in p_color_list) {
             list.push(<option key={p_color_list[i].p_lang_id} value={p_color_list[i].p_lang_id}>{p_color_list[i].p_lang_name}</option>);
         }
-        console.log(this.state);
         return (
           <div className="chat_area"> 
               <h2>Coodig.com</h2>
