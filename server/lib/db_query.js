@@ -54,3 +54,19 @@ exports.getRecentlyLang = (limit_n) => {
 
     return sql;
 }
+
+exports.getTriviaArticle = (page, limit_n) => {
+    let off = ((page * limit_n) - limit_n) + 1;
+    let sql = 'SELECT * FROM trivia_table AS tr ';
+        sql += 'LEFT JOIN p_lang_mst AS pm ';
+        sql += 'ON tr.p_lang_id = pm.p_lang_id ';
+        sql += 'ORDER BY tr.trivia_id ASC ';
+        sql += 'limit ' +  limit_n + ' offset ' + off;
+
+    return sql;
+}
+exports.getTriviaCount = () => {
+    let sql = 'SELECT count(*) as cnt FROM trivia_table';
+
+    return sql;
+}
