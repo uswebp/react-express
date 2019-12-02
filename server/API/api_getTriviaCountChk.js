@@ -9,7 +9,7 @@ exports.getAPI = function (req,res) {
     let word = req.params.word;
     let id = req.params.id;
 
-    const GET_TRIVIA_TABLE_Q = dbQuery.getTriviaCount(word, id);
+    const GET_TRIVIA_TABLE_Q = dbQuery.getTriviaCountChk(word, id);
     dbConf.connection.query(GET_TRIVIA_TABLE_Q, (err, results) => {
         if(err) {
             return res.send(err)

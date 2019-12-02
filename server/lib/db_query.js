@@ -56,7 +56,7 @@ exports.getRecentlyLang = (limit_n) => {
 }
 
 exports.getTriviaArticle = (page, limit_n) => {
-    let off = ((page * limit_n) - limit_n) + 1;
+    let off = ((page * limit_n) - limit_n);
     let sql = 'SELECT * FROM trivia_table AS tr ';
         sql += 'LEFT JOIN p_lang_mst AS pm ';
         sql += 'ON tr.p_lang_id = pm.p_lang_id ';
@@ -65,8 +65,104 @@ exports.getTriviaArticle = (page, limit_n) => {
 
     return sql;
 }
-exports.getTriviaCount = () => {
-    let sql = 'SELECT count(*) as cnt FROM trivia_table';
+exports.getTriviaCount = (search_word, search_pg) => {
+    search_word = search_word.trim();
+    let sql = 'SELECT count(*) as cnt FROM trivia_table ';
+        sql += 'WHERE 1 = 1 ';
+
+    if (search_word !== '') {
+        sql += 'AND article LIKE "%' + search_word + '%" ';
+    }
+    if (search_pg && search_pg !== 'all') {
+        sql += 'AND p_lang_id = ' + search_pg;
+    }
+    return sql;
+}
+exports.getTriviaCountChk = (search_word, search_pg) => {
+    search_word = search_word.trim();
+
+    let id_arr = [];
+    
+    if (search_pg.indexOf('all') === -1) {
+        id_arr = search_pg.split('_');
+        id_arr.pop();
+    }
+
+    let sql = 'SELECT count(*) as cnt FROM trivia_table ';
+        sql += 'WHERE 1 = 1 ';
+
+        if (search_word) {
+            sql += 'AND article LIKE "%' + search_word + '%" ';
+        }
+
+        if (search_pg.indexOf('all') === -1 ) {
+            for (let i = 0; i < id_arr.length; i++) {
+                if (i === 0) {
+                    sql += ' AND (p_lang_id =' + id_arr[i];
+                } else {
+                    sql += ' OR p_lang_id = ' + id_arr[i];
+                }
+            }
+            sql += ') ';
+        }
+    return sql;
+}
+
+exports.getsearchTriviaWhere = (word, id, page, limit) => {
+    let off = ((page * limit) - limit);
+    word = word.trim();
+
+    let sql = 'SELECT *,tr.ins_dt as ins_t FROM trivia_table AS tr ';
+        sql += 'LEFT JOIN p_lang_mst AS pm ';
+        sql += 'ON tr.p_lang_id = pm.p_lang_id ';
+        sql += 'WHERE 1=1 '
+        if (word) {
+            sql += 'AND tr.article LIKE "%' + word + '%" ';
+        }
+        if (id.indexOf('all') === -1 ) {
+            sql += 'AND tr.p_lang_id = ' + id;
+        }
+        sql += ' ORDER BY tr.trivia_id ASC ';
+        sql += 'limit ' +  limit + ' offset ' + off;
 
     return sql;
 }
+
+exports.getCheckBoxTrivia = (word, id, page, limit) => {
+    let off = ((page * limit) - limit);
+    word = word.trim();
+    let id_arr = [];
+    
+    console.log('chk');
+    if (id.indexOf('all') === -1) {
+        id_arr = id.split('_');
+        id_arr.pop();
+    }
+
+    let sql = 'SELECT * FROM trivia_table AS tr ';
+        sql += 'LEFT JOIN p_lang_mst AS pm ';
+        sql += 'ON tr.p_lang_id = pm.p_lang_id ';
+        sql += 'WHERE 1=1 '
+        if (word) {
+            sql += 'AND tr.article LIKE "%' + word + '%" ';
+        }
+
+        if (id.indexOf('all') === -1 ) {
+            for (let i = 0; i < id_arr.length; i++) {
+                if (i === 0) {
+                    sql += ' AND (tr.p_lang_id =' + id_arr[i];
+                } else {
+                    sql += ' OR tr.p_lang_id = ' + id_arr[i];
+                }
+            }
+            sql += ') ';
+    
+        }
+        sql += ' ORDER BY tr.trivia_id ASC ';
+        sql += 'limit ' +  limit + ' offset ' + off;
+
+        console.log(sql);
+    return sql;
+}
+
+
