@@ -97,7 +97,7 @@ code {
   z-index: 0;
   box-shadow: 0 0 1px .5px #545454;
   box-sizing: border-box;
-  transition: all .2s ease-in-out;
+  /* transition: all .2s ease-in-out; */
   letter-spacing: .5px;
 }
 .trivia-name {
@@ -195,6 +195,27 @@ code {
 .p_000080 {
   color:#000080;
 }
+
+.mouse-on-tag {
+  border-radius: 10px;
+  transform: scale(3);
+  -webkit-transform: scale(3);
+  z-index: 5;
+  transition: all 0.5s ease-in-out;
+}
+
+@keyframes AAA {
+  0% {
+  }
+  100% {
+  }
+}
+
+/* .tagview {
+  animation: tagview;
+} */
+
+
 
 /* ======================================================================
  animation [START]

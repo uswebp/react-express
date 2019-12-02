@@ -4,6 +4,7 @@
 import React, { Component } from "react";
 import EventListener from 'react-event-listener';
 import df from '../config/define';
+import { get } from "http";
 /*=======================================================================
  class
 =======================================================================*/
@@ -175,6 +176,50 @@ class ViewChat extends Component {
     setTrivia = (data) => {
         this.setState({ TRIVIA: data.trivia });
     }
+
+    onMouseOver = (trivia_tag, tag_content) => {
+        trivia_tag.addEventListener('mouseover', function() {
+            // console.log(trivia_tag);
+            // console.log(trivia_tag.querySelector('.trivia-name'));
+            // trivia_tag.style.borderRadius = '10px';
+            // trivia_tag.style.height = (trivia_tag.style.height.replace('px', '')) * 3 + 'px';
+            // trivia_tag.style.width = (trivia_tag.style.width.replace('px', '')) * 4 + 'px';
+            // trivia_tag.style.webkitTransform = 'scale(3)';
+
+            trivia_tag.style.animation = 'AAA' + ' infinite ';
+            // trivia_tag.style.webkitTransitionProperty = "-webkit-transform";
+            // trivia_tag.style.webkitTransitionDelay = "0.2s";
+            // trivia_tag.style.webkitTransitionDuration = "0.5s";
+            // trivia_tag.style.webkitTransitionTimingFunction = "ease-in-out";
+
+            trivia_tag.classList.add('mouse-on-tag');
+
+            // trivia_tag.style.webkitTransition = 'all 0.5s ease-in-out';
+
+            console.log('style set3');
+            console.log(trivia_tag.style.webkitTransition);
+
+
+
+        })
+    }
+
+    onMouseOut = (trivia_tag) => {
+        trivia_tag.addEventListener('mouseout', function() {
+            if(trivia_tag.className.length >= 30){
+                trivia_tag.classList.remove('mouse-on-tag');
+                // console.log(trivia_tag.className);
+
+                console.log('style set4');
+                console.log(trivia_tag.style.webkitTransition);
+
+
+            }
+    })
+}
+
+
+
     /**
      * @description テーブルを生成
      * @param {Int} d | TD数
@@ -235,6 +280,7 @@ class ViewChat extends Component {
             }
             // 総TD数と乱数配列の数の整合性チェック
             if (trivia_td_len === randum_ary_len) {
+                let tag_content = [];
                 // タグをランダムに設置
                 for (let i = 0; i < trivia_td_len; i++) {
                     // タグの個数分ループ
@@ -245,7 +291,17 @@ class ViewChat extends Component {
                     let p_lang_name = trivia[i].p_lang_name;
                     let trivia_id = trivia[i].trivia_id;
                     let p_lang_color_code = trivia[i].p_lang_color_code;
-                    // let article = trivia[i].article;　<= そのうち使用する
+                    let article = trivia[i].article;
+
+                    tag_content[i]=[];
+
+                    tag_content[i].push(p_lang_name);
+                    tag_content[i].push(trivia_id);
+                    tag_content[i].push(p_lang_color_code);
+                    tag_content[i].push(article);
+
+
+
                     // 乱数取り出し
                     let tn = randum_array[i];
                     // タグを生成後、配置
@@ -262,7 +318,7 @@ class ViewChat extends Component {
                 // 生成した後タグを取得
                 let trivia_tag = document.querySelectorAll('.trivia-tag');
                 // タグにスタイル適応
-                this.tagStyleAddition(trivia_tag, tag_size);
+                this.tagStyleAddition(trivia_tag, tag_size, tag_content);
             }
         }
     }
@@ -271,8 +327,9 @@ class ViewChat extends Component {
      * @param {Object} trivia_tag | 生成された豆知識タグ要素
      * @param {Int} tag_size | タグの大きさ
      * @returns ×
-     */ 
-    tagStyleAddition = (trivia_tag, tag_size) => {
+     */
+    tagStyleAddition = (trivia_tag, tag_size, tag_content) => {
+        console.log(tag_content);
         // スタイル適応繰り返し
         for (let i = 0; i < trivia_tag.length; i++) {
             // 開始ポジション
@@ -309,25 +366,46 @@ class ViewChat extends Component {
                         break;
             }
             // スタイルセット
-            trivia_tag[i].style.webkitTransitionProperty = "-webkit-transform";
-            trivia_tag[i].style.webkitTransitionDelay = "0.2s";
-            trivia_tag[i].style.webkitTransitionDuration = "0.5s";
-            trivia_tag[i].style.webkitTransitionTimingFunction = "ease-in-out";
+            // trivia_tag[i].style.webkitTransitionProperty = "-webkit-transform";
+            // trivia_tag[i].style.webkitTransitionProperty = "all";
+            // trivia_tag[i].style.webkitTransitionDelay = "0.2s";
+            // trivia_tag[i].style.webkitTransitionDuration = "0.5s";
+            // trivia_tag[i].style.webkitTransitionTimingFunction = "ease-in-out";
+
             trivia_tag[i].style.position = 'absolute';
             trivia_tag[i].style.top = pos_x + 'px';
             trivia_tag[i].style.left = pos_y + 'px';
             trivia_tag[i].style.width = tag_size + 'px';
             trivia_tag[i].style.height = tag_size + 'px';
             trivia_tag[i].style.animation = 'tagview ' + animation_view_sec + 's 1';
+            // trivia_tag[i].classList.add('tagview');
+            // trivia_tag[i].style.animation = animation_view_sec + 's 1';
+
+
+            console.log('style set1');
+            console.log(trivia_tag[i].style.webkitTransition);
 
             // タグの出現が終わり次第動かす
             trivia_tag[i].addEventListener('animationend',function(){
-                trivia_tag[i].style.animation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';
-                trivia_tag[i].style.webkitAnimation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';
+                let temp = trivia_tag[i].className;
+                // console.log(temp.length);
+                if(temp.length <= 30){
+                    trivia_tag[i].style.animation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';
+                    trivia_tag[i].style.webkitAnimation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';
+                    // trivia_tag[i].style.webkitTransition = 'all 0.5s ease-in-out';
+
+                    console.log('style set2');
+                    console.log(trivia_tag[i].style.webkitTransition);
+
+                }
             });
+
+            this.onMouseOver(trivia_tag[i], tag_content[i]);
+
+            this.onMouseOut(trivia_tag[i]);
         }
     }
-    
+
     render() {
         // TD・TR数に応じてテーブル作成
         let d = this.state.TD_NUM;
