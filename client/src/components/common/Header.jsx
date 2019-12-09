@@ -3,6 +3,7 @@
 =======================================================================*/
 import React from 'react';
 import history from '../../lib/history';
+
 /*=======================================================================
  class
 =======================================================================*/
@@ -15,7 +16,6 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
         };
     }
 /*=======================================================================
@@ -40,6 +40,11 @@ class Header extends React.Component {
         let link_path = url.currentTarget.getAttribute('data-num');
         // 遷移
         history.push(link_path);
+    }
+    // ページ遷移時ソケット情報削除
+    socketDct = () => {
+        let socket = this.state.socket;
+        socket.emit('amputation_socket');
     }
 
     render() {

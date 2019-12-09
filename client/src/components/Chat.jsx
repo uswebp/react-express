@@ -17,9 +17,13 @@ class Chat extends Component {
             recentlyLangs: [] // 呼び出し => this.state.recentlyLangs[0].p_lang_id
         };
     }
+    UNSAFE_componentWillMount() {
+        // 初期設定
+    }
 
     componentDidMount() {
         let socket = this.state.socket;
+
         // SocketIDセット
         socket.on("emit_socketid",(socketid) => {
             this.setSocketID(socketid);
@@ -40,9 +44,9 @@ class Chat extends Component {
             chat_txt.value = '';
             chat_txt.focus();
             msg_last.classList.add('killmsg');
-            msg_last.addEventListener('animationend',function(){
+            // msg_last.addEventListener('animationend',function(){
                 msg.removeChild(msg_last); 
-            });
+            // });
         });
         
         this.getTrivia();

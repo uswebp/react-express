@@ -3,6 +3,8 @@
 =======================================================================*/
 import React from 'react';
 import df from '../config/define';
+import socketIOClient from "socket.io-client";
+
 /*=======================================================================
  class
 =======================================================================*/
@@ -24,6 +26,9 @@ class TriviaSearch extends React.Component {
             SEARCH_WORD: "",
             SEARCH_P_LANG: 'all',
             HIT_COUNT: 0,
+            serverURL: df.FULL_LOCAL_URL + ':' + df.SERVER_PORT,
+            socket: socketIOClient(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT),
+
         };
     }
 /*=======================================================================
@@ -31,9 +36,14 @@ class TriviaSearch extends React.Component {
 =======================================================================*/
     UNSAFE_componentWillMount() {
         // 初期設定
+        console.log(this.state.socket);
+        this.socketDct();
     }
 
     componentDidMount() {
+        console.log(this.state.socket);
+        this.socketDct();
+
         let c_page = this.state.CURRENT_PAGE;
         let c_limit = this.state.CURRENT_LIMIT;
         let c_word = this.state.CURRENT_WORD;
@@ -50,6 +60,12 @@ class TriviaSearch extends React.Component {
 /*=======================================================================
 methods
 =======================================================================*/
+    // ページ遷移時ソケット情報削除
+    socketDct = () => {
+        let socket = this.state.socket;
+        socket.emit('amputation_socket');
+    }
+
     // 豆知識検索処理
     TriviaSearch = (e) => {
         e.preventDefault();  
@@ -89,22 +105,35 @@ methods
     }
     // 言語選択変更時
     changeSelectValue = (e) => {
-        let search_word = this.state.SEARCH_WORD;
+        // let search_word = this.state.SEARCH_WORD;
+        let search_word = document.querySelector('.t-search').value;
         let search_p_lang = e.target.value;
         let c_limit = this.state.CURRENT_LIMIT;
-        let c_page = this.state.CURRENT_PAGE;
+        // let c_page = this.state.CURRENT_PAGE;
+        let c_page = 1;
+        let nav_p_lang = '全て';
+        let nav_p_color = '#666';
         if (!search_word) {
             search_word = ' ';
         }
+        if (search_p_lang !== 'all') {
+            let nav_p_lang_num = search_p_lang - 1;
+            nav_p_lang = this.state.P_LANG_COLOR[nav_p_lang_num].p_lang_name;
+            nav_p_color = '#' + this.state.P_LANG_COLOR[nav_p_lang_num].p_lang_color_code;
+
+        }
+
+        let select_nav_name = document.querySelector('.nav-search-label');
+        select_nav_name.innerText = nav_p_lang;
         this.getSearchTrivia(search_word, search_p_lang, c_page, c_limit);
         this.getTriviaCount(search_word, search_p_lang);
         this.setState({CURRENT_P_LANG: search_p_lang});
+        this.setPage(1);
     }
 
     // ページ遷移
     changePage = (val) => {
         let status = val.currentTarget.getAttribute('data-num');
-        let pflg = val.currentTarget.getAttribute('data-pflg');
         let c_page = this.state.CURRENT_PAGE;
         let c_limit = this.state.CURRENT_LIMIT;
         let search_word = this.state.SEARCH_WORD;
@@ -186,18 +215,24 @@ methods
         this.setState({ SEARCH_WORD: data });
     }
 
+    dateCnv(ins_dt) {
+        // ins += 'ugawa';
+        ins_dt = ins_dt.replace('T', ' | ');
+        ins_dt = ins_dt.replace('.000Z', '');
+        return ins_dt;
+    }
     // 検索記事表示
     renderTrivia = () => ({ trivia_id, article, p_lang_color_code, p_lang_name, ins_t }) => 
         <article className={`trivia-area`} key={trivia_id} >
-            <div>{p_lang_name}</div>
-            <div>{article}</div>
-            <div>{ins_t}</div>
+            <div className="p-lang-name" style={{ borderColor: '#' + p_lang_color_code }}>{p_lang_name}</div>
+            <div className="t-article">{article}</div>
+            <div className="t-ins-dt">{this.dateCnv(ins_t)}</div>
         </article>
 
     selectPcolor = () => ({p_lang_id, p_lang_color_code, p_lang_name }) => <option value={p_lang_id} key={p_lang_id}>{p_lang_name}</option>
 
     render() {
-        console.log(this.state);
+        // console.log(this.state);
         const {TRIVIA} = this.state;
         const {P_LANG_COLOR} = this.state;
         let c_page = this.state.CURRENT_PAGE;
@@ -208,43 +243,71 @@ methods
         let end = c_page * c_limit;
         let next_page = "";
         let prev_page = "";
+
         if (c_page > 1) {
-            prev_page = <span　onClick={this.changePage} data-num='prev' >前のページ</span>;
+            prev_page = <span　onClick={this.changePage} data-num='prev' className="page-flow prev-page">前へ</span>;
         }
         if (c_page !== maxpage) {
-            next_page = <span　onClick={this.changePage} data-num='next' >次のページ</span>;
+            next_page = <span　onClick={this.changePage} data-num='next' className="page-flow next-page">次へ</span>;
         } else {
             end = count;
         }
 
+        if (count === 0) {
+            next_page = "";
+            c_page = 0;
+            start = 0;
+            end = 0;
+        }
         return (
-            <div>
+            <div className="trivia-content">
                 <form onSubmit={this.TriviaSearch} name="trivia_search" method="post" className="trivia-search">
-                        <div className="input-search-txt">
-                            <select name="p_lang_select" className="p-lang-select" value={this.state.CURRENT_P_LANG} onChange={this.changeSelectValue}>
-                                <option value="all">全て</option>
-                                {P_LANG_COLOR.map(this.selectPcolor())}
-                            </select>
-                            <input type="search" name="t_search" className="t-search" placeholder="Search" value={this.state.CURRENT_WORD} onChange={this.changeSearch} />
-                            <div className="search-btn" id="search-btn"></div>
+                        <div className="input-search-area">
+                            <div className="input-search-area-sub">
+                                <div className="select-nav">
+                                    <div className="nav-search-plang" data-value="search-alias=aps">
+                                        <span className="nav-search-label">全て</span>
+                                    </div>
+                                        <select name="p_lang_select" className="p-lang-select" value={this.state.CURRENT_P_LANG} onChange={this.changeSelectValue}>
+                                            <option value="all">全て</option>
+                                            {P_LANG_COLOR.map(this.selectPcolor())}
+                                        </select>
+                                </div>
+                                <div className="search-t-txt">
+                                    <input type="search" name="t_search" className="t-search" placeholder="Search" value={this.state.CURRENT_WORD} onChange={this.changeSearch} />
+                                    <div className="search-btn" id="search-btn" onClick={this.TriviaSearch}>
+                                        <div className="search-icon">
+                                            <i className="material-icons search-i">
+                                                search
+                                            </i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                 </form>
                 <div className="trivia-view">
-                    <select name="limit_select" className="limit-select" value={this.state.CURRENT_LIMIT} onChange={this.changeLimit}>
-                        <option value="10">10件</option>
-                        <option value="20">20件</option>
-                        <option value="50">50件</option>
-                        <option value="100">100件</option>
-                    </select>
-
-                    <div>HIT:{count}</div>
-                    <div>{start}件 ～ {end}件</div>
-                    <div>{maxpage}ページ中{c_page}ページ</div>
+                    <div className="search-result">
+                        <div className="limit-select-box">
+                            <select name="limit_select" className="limit-select" value={this.state.CURRENT_LIMIT} onChange={this.changeLimit}>
+                                <option value="10">10件</option>
+                                <option value="20">20件</option>
+                                <option value="50">50件</option>
+                                <option value="100">100件</option>
+                            </select>
+                        </div>
+                        <div className="hit-count">全 {count} 件</div>
+                        <div className="start-end-count"> {maxpage}ページ中{c_page}ページ / {start}件 ～ {end}件 </div>
+                        {/* <div>{maxpage}ページ中{c_page}ページ</div> */}
+                    </div>
                     <div className="p-lang-box">
                         {TRIVIA.map(this.renderTrivia())}
                         <div className="page_n">
-                            {prev_page}
-                            {next_page}
+                            <div className="page_n_inner">
+                                {prev_page}
+                                1 2 3 4 ... 30
+                                {next_page}
+                            </div>
                         </div>
                     </div>
                     </div>
