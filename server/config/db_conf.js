@@ -3,7 +3,7 @@ module.exports = {
     'connection': {
         'host': 'localhost',
         'user': 'root',
-        'password': 'Kawakami@5219',
+        'password': 'Usweb0812@',
         'database': 'coodig_test'
     }
 };

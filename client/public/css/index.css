@@ -10,7 +10,7 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
+} 
 
 .chat_area {
   width:350px;
@@ -215,7 +215,36 @@ code {
   animation: tagview;
 } */
 
-
+.tag_move_0 {
+  animation-name: tag_move_0;
+}
+.tag_move_1 {
+  animation-name: tag_move_1;
+}
+.tag_move_2 {
+  animation-name: tag_move_2;
+}
+.tag_move_3 {
+  animation-name: tag_move_3;
+}
+.tag_move_4 {
+  animation-name: tag_move_4;
+}
+.tag_move_5 {
+  animation-name: tag_move_5;
+}
+.tag_move_6 {
+  animation-name: tag_move_6;
+}
+.tag_move_7 {
+  animation-name: tag_move_7;
+}
+.tag_move_8 {
+  animation-name: tag_move_8;
+}
+.tag_move_9 {
+  animation-name: tag_move_9;
+}
 
 /* ======================================================================
  animation [START]

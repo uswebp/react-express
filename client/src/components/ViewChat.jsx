@@ -185,14 +185,20 @@ class ViewChat extends Component {
             // trivia_tag.style.height = (trivia_tag.style.height.replace('px', '')) * 3 + 'px';
             // trivia_tag.style.width = (trivia_tag.style.width.replace('px', '')) * 4 + 'px';
             // trivia_tag.style.webkitTransform = 'scale(3)';
-
-            trivia_tag.style.animation = 'AAA' + ' infinite ';
+            trivia_tag.classList.remove('tag_move_0');
+            trivia_tag.style.webkitTransform = ' ';
+            trivia_tag.style.transform = ' ';
+            trivia_tag.style.animation = 'AAA' + ' .1s ';
             // trivia_tag.style.webkitTransitionProperty = "-webkit-transform";
             // trivia_tag.style.webkitTransitionDelay = "0.2s";
             // trivia_tag.style.webkitTransitionDuration = "0.5s";
             // trivia_tag.style.webkitTransitionTimingFunction = "ease-in-out";
-
+            trivia_tag.addEventListener('animationend',function(){
+                trivia_tag.style.webkitTransform = 'scale(3)';
+                console.log('end...');
+            });
             trivia_tag.classList.add('mouse-on-tag');
+
 
             // trivia_tag.style.webkitTransition = 'all 0.5s ease-in-out';
 
@@ -206,15 +212,19 @@ class ViewChat extends Component {
 
     onMouseOut = (trivia_tag) => {
         trivia_tag.addEventListener('mouseout', function() {
-            if(trivia_tag.className.length >= 30){
+            // if(trivia_tag.className.length >= 30){
                 trivia_tag.classList.remove('mouse-on-tag');
-                // console.log(trivia_tag.className);
+                trivia_tag.classList.add('tag_move_0');
+                let animation_move_sec = Math.floor((Math.random() * 10) + 6);
+                // trivia_tag.classList.add(animation_kind);
+                trivia_tag.style.animationName  = 'tag_move_0';
+                trivia_tag.style.animationIterationCount  = 'infinite';
+                trivia_tag.style.animationDuration =  animation_move_sec + 's';
+                trivia_tag.style.animationDirection = 'alternate';
+                trivia_tag.style.webkitTransition = 'all 0.5s ease-in-out';
 
-                console.log('style set4');
-                console.log(trivia_tag.style.webkitTransition);
 
-
-            }
+            // }
     })
 }
 
@@ -366,11 +376,11 @@ class ViewChat extends Component {
                         break;
             }
             // スタイルセット
-            // trivia_tag[i].style.webkitTransitionProperty = "-webkit-transform";
-            // trivia_tag[i].style.webkitTransitionProperty = "all";
-            // trivia_tag[i].style.webkitTransitionDelay = "0.2s";
-            // trivia_tag[i].style.webkitTransitionDuration = "0.5s";
-            // trivia_tag[i].style.webkitTransitionTimingFunction = "ease-in-out";
+            trivia_tag[i].style.webkitTransitionProperty = "-webkit-transform";
+            trivia_tag[i].style.webkitTransitionProperty = "all";
+            trivia_tag[i].style.webkitTransitionDelay = "0.2s";
+            trivia_tag[i].style.webkitTransitionDuration = "0.5s";
+            trivia_tag[i].style.webkitTransitionTimingFunction = "ease-in-out";
 
             trivia_tag[i].style.position = 'absolute';
             trivia_tag[i].style.top = pos_x + 'px';
@@ -380,23 +390,18 @@ class ViewChat extends Component {
             trivia_tag[i].style.animation = 'tagview ' + animation_view_sec + 's 1';
             // trivia_tag[i].classList.add('tagview');
             // trivia_tag[i].style.animation = animation_view_sec + 's 1';
-
-
-            console.log('style set1');
-            console.log(trivia_tag[i].style.webkitTransition);
-
+            animation_kind = 'tag_move_0';
             // タグの出現が終わり次第動かす
             trivia_tag[i].addEventListener('animationend',function(){
                 let temp = trivia_tag[i].className;
-                // console.log(temp.length);
+
+                trivia_tag[i].style.animationName = '';
                 if(temp.length <= 30){
-                    trivia_tag[i].style.animation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';
-                    trivia_tag[i].style.webkitAnimation = animation_kind + ' infinite ' + animation_move_sec + 's alternate';
-                    // trivia_tag[i].style.webkitTransition = 'all 0.5s ease-in-out';
-
-                    console.log('style set2');
-                    console.log(trivia_tag[i].style.webkitTransition);
-
+                    trivia_tag[i].classList.add(animation_kind);
+                    trivia_tag[i].style.animationIterationCount  = 'infinite';
+                    trivia_tag[i].style.animationDuration = animation_move_sec + 's';
+                    trivia_tag[i].style.animationDirection = 'alternate';
+                    trivia_tag[i].style.webkitTransition = 'all 0.5s ease-in-out';
                 }
             });
 
