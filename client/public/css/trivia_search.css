@@ -280,9 +280,10 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 }
 
 .page_n_inner {
-    width:200px;
+    width:98%;
     height: auto;
     margin: 10px auto;
+    text-align: center;
 }
 
 .page-flow {
@@ -291,4 +292,22 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     cursor: pointer;
     color: #0366D6;
     margin-right: 10px;
+}
+
+.page-list-area {
+    display: inline-block;
+}
+.page_list {
+    display: inline-block;
+    width:auto;
+    margin:0 4px;
+    padding:0 2px;
+    cursor: pointer;
+    color: #0366D6;
+    font-weight: bold;
+}
+.now_page{
+    color:gray;
+    opacity: .8;
+    cursor: default;
 }
