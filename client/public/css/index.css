@@ -10,7 +10,7 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-} 
+}
 
 .chat_area {
   width:350px;
@@ -81,12 +81,13 @@ code {
   position: relative;
 }
 .trivia-tag {
-  border-radius: 50%; 
+  border-radius: 50%;
   display: block;
   animation-duration: 2s;
   animation: ease-in-out infinite normal;
   cursor: pointer;
   -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
   backface-visibility: hidden;
   will-change: transform;
   /* font-weight: bold; */
@@ -99,6 +100,7 @@ code {
   box-sizing: border-box;
   /* transition: all .2s ease-in-out; */
   letter-spacing: .5px;
+  transform: scale(1);
 }
 .trivia-name {
   display: inline-block;
@@ -110,6 +112,8 @@ code {
   transform: translate(0, -50%);
   padding: 5px;
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+
 
 }
 
@@ -198,16 +202,36 @@ code {
 
 .mouse-on-tag {
   border-radius: 10px;
-  transform: scale(3);
-  -webkit-transform: scale(3);
   z-index: 5;
   transition: all 0.5s ease-in-out;
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden;/* animation時のにじみ防止 */
+	-webkit-backface-visibility: hidden;/* animation時のにじみ防止 */
+	-webkit-font-smoothing: antialiased;/* animation時の文字にじみ防止 */
+	-moz-osx-font-smoothing: grayscale;/* animation時の文字にじみ防止 */
+}
+.mouse-out-tag {
+  border-radius: 50%;
+  z-index: 1;
+  transition: all 0.5s ease-in-out;
+  -webkit-font-smoothing: antialiased;
+
 }
 
-@keyframes AAA {
+@keyframes scale_up {
   0% {
+    transform: scale(1);
   }
   100% {
+    transform: scale(3);
+  }
+}
+@keyframes scale_down {
+  0% {
+    transform: scale(3);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 

@@ -55,7 +55,7 @@ methods
         } else {
             if (page !== 1) {
                 page -= 1
-            } 
+            }
         }
         this.getTrivia(page, limit);
         this.setPage(page);
@@ -66,7 +66,7 @@ methods
     }
     chengeCheck = () => {
         console.log("check!");
-    } 
+    }
     // 豆知識取得
     getTrivia = (page, limit) => {
         fetch(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT + '/search_trivia/page/' + page + '/limit/' + limit)
@@ -94,7 +94,7 @@ methods
             })
             .catch(err => console.error(err))
     }
-    
+
     // 豆知識セット
     setTrivia = (data) => {
         this.setState({ TRIVIA: data.trivia });
