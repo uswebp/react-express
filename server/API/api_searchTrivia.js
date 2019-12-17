@@ -17,5 +17,5 @@ exports.getAPI = function (req,res) {
                 trivia: results
             })
         }
-    }); 
+    });
 }
