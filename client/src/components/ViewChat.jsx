@@ -59,41 +59,41 @@ class ViewChat extends Component {
         // td数
         if (table_size_width < 450) {
             td_num = 3;
-        } else if(table_size_width >= 450 && table_size_width < 600) {
+        } else if (table_size_width >= 450 && table_size_width < 600) {
             td_num = 3;
-        } else if(table_size_width >= 600 && table_size_width < 700){
+        } else if (table_size_width >= 600 && table_size_width < 700) {
             td_num = 4;
-        } else if(table_size_width >= 600 && table_size_width < 700){
+        } else if (table_size_width >= 600 && table_size_width < 700) {
             td_num = 5;
-        } else if(table_size_width >= 700 && table_size_width < 800){
+        } else if (table_size_width >= 700 && table_size_width < 800) {
             td_num = 5;
-        } else if(table_size_width >= 800 && table_size_width < 900){
+        } else if (table_size_width >= 800 && table_size_width < 900) {
             td_num = 6;
-        } else if(table_size_width >= 900 && table_size_width < 1000){
+        } else if (table_size_width >= 900 && table_size_width < 1000) {
             td_num = 7;
-        } else if(table_size_width >= 1000 && table_size_width < 1200){
+        } else if (table_size_width >= 1000 && table_size_width < 1200) {
             td_num = 8;
-        } else if(table_size_width >= 1200 && table_size_width < 1400){
+        } else if (table_size_width >= 1200 && table_size_width < 1400) {
             td_num = 9;
-        } else if(table_size_width >= 1400){
+        } else if (table_size_width >= 1400) {
             td_num = 10;
         }
         // tr数
-        if(table_size_height < 450) {
+        if (table_size_height < 450) {
             tr_num = 3;
-        } else if(table_size_height >= 450 && table_size_height < 600) {
+        } else if (table_size_height >= 450 && table_size_height < 600) {
             tr_num = 4;
-        } else if(table_size_height >= 600 && table_size_height < 700){
+        } else if (table_size_height >= 600 && table_size_height < 700) {
             tr_num = 5;
-        } else if(table_size_height >= 700 && table_size_height < 800){
+        } else if (table_size_height >= 700 && table_size_height < 800) {
             tr_num = 5;
-        } else if(table_size_height >= 800 && table_size_height < 900){
+        } else if (table_size_height >= 800 && table_size_height < 900) {
             tr_num = 5;
-        } else if(table_size_height >= 900 && table_size_height < 1000){
+        } else if (table_size_height >= 900 && table_size_height < 1000) {
             tr_num = 6;
-        } else if(table_size_height >= 1000 && table_size_height < 1100){
+        } else if (table_size_height >= 1000 && table_size_height < 1100) {
             tr_num = 7;
-        } else if(table_size_height >= 1100){
+        } else if (table_size_height >= 1100) {
             tr_num = 7;
         }
         // タグ関係
@@ -117,7 +117,7 @@ class ViewChat extends Component {
         this.setState({ TABLE_SIZE_WIDTH: table_size_width });
         this.setState({ TABLE_SIZE_HEIGHT: table_size_height });
         // 初回のDOM操作を回避
-        if(this.state.TAG_RANDUM_ARR.length !== 0){
+        if (this.state.TAG_RANDUM_ARR.length !== 0) {
             this.installationGetTag(total_td);
         }
     }
@@ -144,7 +144,7 @@ class ViewChat extends Component {
      * @returns ×
      */
     getTrivia = (randum, trivia_num) => {
-        fetch(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT + '/trivia/'+ trivia_num)
+        fetch(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT + '/trivia/' + trivia_num)
           .then(response => response.json())
           .then((data) => {
             let tag_size = this.state.TAG_SIZE;
@@ -177,7 +177,7 @@ class ViewChat extends Component {
     }
 
     onMouseOver = (trivia_tag, tag_content, animation_kind) => {
-        trivia_tag.addEventListener('mouseenter', function() {
+        trivia_tag.addEventListener('mouseenter', function () {
             // 描画が終了していれば
             if (trivia_tag.classList.contains('view_end')) {
                 trivia_tag.classList.add('mouse-on-tag');
@@ -185,8 +185,12 @@ class ViewChat extends Component {
                 trivia_tag.style.backgroundColor = 'white';
                 trivia_tag.querySelector('.trivia-name').style.display = 'none';
                 trivia_tag.addEventListener('animationend', function(){
-                    trivia_tag.classList.remove(animation_kind);
-                    trivia_tag.classList.add('rug-stop');
+                    for (let i=0; i < 11; i++) {
+                        if (trivia_tag.classList.contains('tag_move_' + i)) {
+                            trivia_tag.classList.remove('tag_move_' + i);
+                        }
+                    }
+                    // console.log(animation_kind);
                     trivia_tag.style.webkitTransform = 'scale(3)';
                 });
             }
@@ -194,7 +198,7 @@ class ViewChat extends Component {
     }
 
     onMouseOut = (trivia_tag, tag_content, animation_kind) => {
-        trivia_tag.addEventListener('mouseleave', function() {
+        trivia_tag.addEventListener('mouseleave', function () {
 
             let tag_color = tag_content[2];
              // 描画が終了していれば
@@ -207,12 +211,12 @@ class ViewChat extends Component {
                 trivia_tag.style.backgroundColor = '#' + tag_color;
                 trivia_tag.querySelector('.trivia-name').style.display = 'inline-block';
 
-                trivia_tag.addEventListener('animationend', function(){
+                trivia_tag.addEventListener('animationend', function () {
                     let animation_move_sec = Math.floor((Math.random() * 10) + 6);
                     trivia_tag.classList.add(animation_kind);
                     trivia_tag.style.webkitTransform = 'scale(1)';
-                    trivia_tag.style.animationIterationCount  = 'infinite';
-                    trivia_tag.style.animationDuration =  animation_move_sec + 's';
+                    trivia_tag.style.animationIterationCount = 'infinite';
+                    trivia_tag.style.animationDuration = animation_move_sec + 's';
                     trivia_tag.style.animationDirection = 'alternate';
                     trivia_tag.style.webkitTransition = 'all 0.5s ease-in-out';
                 });
@@ -265,7 +269,7 @@ class ViewChat extends Component {
      */
     tagGeneration = (tag_size, randum_array, tag_num, trivia) => {
         // 乱数配列が存在する場合
-        if(randum_array){
+        if (randum_array) {
             // td取得
             let trivia_td = document.querySelectorAll('.trvia-td');
             // 豆知識のカラム数
@@ -287,23 +291,24 @@ class ViewChat extends Component {
                     if (i === tag_num) {
                         break;
                     }
+
+                    // 乱数取り出し
+                    let tn = randum_array[i];
+
                     // 豆知識情報セット
                     let p_lang_name = trivia[i].p_lang_name;
                     let trivia_id = trivia[i].trivia_id;
                     let p_lang_color_code = trivia[i].p_lang_color_code;
                     let article = trivia[i].article;
 
-                    tag_content[i]=[];
+                    tag_content[i] = [];
 
                     tag_content[i].push(p_lang_name);
                     tag_content[i].push(trivia_id);
                     tag_content[i].push(p_lang_color_code);
                     tag_content[i].push(article);
+                    tag_content[i].push(tn);
 
-
-
-                    // 乱数取り出し
-                    let tn = randum_array[i];
                     // タグを生成後、配置
                     let div = document.createElement('div');
                     let span = document.createElement('span');
@@ -364,6 +369,8 @@ class ViewChat extends Component {
                 default: animation_kind = 'tag_move_0';
                         break;
             }
+            animation_kind = 'tag_move_0';
+            tag_content[i].push(animation_kind);
             // スタイルセット
             trivia_tag[i].style.webkitTransitionProperty = "-webkit-transform";
             trivia_tag[i].style.webkitTransitionProperty = "all";
@@ -377,19 +384,20 @@ class ViewChat extends Component {
             trivia_tag[i].style.width = tag_size + 'px';
             trivia_tag[i].style.height = tag_size + 'px';
             trivia_tag[i].style.animation = 'tagview ' + animation_view_sec + 's 1';
-            // animation_kind = 'tag_move_0';
             // タグの出現が終わり次第動かす
-            trivia_tag[i].addEventListener('animationend',function(){
+            trivia_tag[i].addEventListener('animationend', function () {
                     trivia_tag[i].style.animationName = '';
                     trivia_tag[i].classList.add(animation_kind);
                     trivia_tag[i].classList.add('view_end');
-                    trivia_tag[i].style.animationIterationCount  = 'infinite';
+                    trivia_tag[i].style.animationIterationCount = 'infinite';
                     trivia_tag[i].style.animationDuration = animation_move_sec + 's';
                     trivia_tag[i].style.animationDirection = 'alternate';
                     trivia_tag[i].style.webkitTransition = 'all 0.5s ease-in-out';
             });
-            this.onMouseOver(trivia_tag[i], tag_content[i], animation_kind);
-            this.onMouseOut(trivia_tag[i], tag_content[i], animation_kind);
+
+            let trivia_td = document.querySelectorAll('.trvia-td');
+            this.onMouseOver(trivia_td[tag_content[i][4]].querySelector('.trivia-tag'), tag_content[i], animation_kind);
+            this.onMouseOut(trivia_td[tag_content[i][4]].querySelector('.trivia-tag'), tag_content[i], animation_kind);
         }
     }
 
@@ -401,7 +409,7 @@ class ViewChat extends Component {
 
         return (
             <div id="main">
-                <div dangerouslySetInnerHTML={{__html: MAIN_TABLE}}/>
+                <div dangerouslySetInnerHTML={{ __html: MAIN_TABLE }} />
                 <EventListener target="window" onResize={this.calculateTable} />
             </div>
         )
