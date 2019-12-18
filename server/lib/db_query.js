@@ -123,10 +123,10 @@ exports.getsearchTriviaWhere = (word, id, page, limit, order) => {
             sql += 'AND tr.p_lang_id = ' + id;
         }
 
-        if (order === 'default' || order === 'order_desc') {
+        if (order === 'default' || order === 'date_desc') {
             sql += ' ORDER BY tr.trivia_id DESC ';
         }
-        if (order === 'order_asc') {
+        if (order === 'date_asc') {
             sql += ' ORDER BY tr.trivia_id ASC ';
         }
 
@@ -140,7 +140,6 @@ exports.getCheckBoxTrivia = (word, id, page, limit) => {
     word = word.trim();
     let id_arr = [];
 
-    console.log('chk');
     if (id.indexOf('all') === -1) {
         id_arr = id.split('_');
         id_arr.pop();
@@ -163,7 +162,6 @@ exports.getCheckBoxTrivia = (word, id, page, limit) => {
                 }
             }
             sql += ') ';
-    
         }
         sql += ' ORDER BY tr.trivia_id ASC ';
         sql += 'limit ' +  limit + ' offset ' + off;

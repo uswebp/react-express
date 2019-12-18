@@ -4,6 +4,7 @@ module.exports = {
         'host': 'localhost',
         'user': 'root',
         'password': 'Usweb0812@',
-        'database': 'coodig_test'
+        'database': 'coodig_test',
+        timezone: 'jst'
     }
 };

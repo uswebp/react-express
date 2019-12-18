@@ -104,7 +104,16 @@
 }
 .limit-select-box::after,
 .order-select-box::after {
-    top: 39%;
+    top: 40%;
+    border-top: 5px solid #555;
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
+}
+.send-plang-box::after {
+    top: 40%;
+    border-top: 5px solid #555;
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
 }
 .nav-search-plang,
 .nav-search-list,
@@ -360,7 +369,7 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 
 .send-trivia-area {
     width:90%;
-    max-width:1000px;
+    max-width:1010px;
     min-width:600px;
     position:fixed;
     bottom:30px;
@@ -371,11 +380,10 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     height:50px;
     position: relative;
     background: rgba(100, 100, 100, .8);
-    /* opacity: .8; */
     text-align:center;
     text-decoration:none;
     float:right;
-    margin-right:-7%;
+    margin-right:-5%;
     cursor: pointer;
     box-shadow: 0 0 8px 1px rgba(100, 100, 100, .4);
 }
@@ -417,7 +425,7 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 }
 .trivia-send-form-inner {
     width:95%;
-    height:95%;
+    height:88%;
     margin:0 auto;
 }
 .send-plang-area {
@@ -463,6 +471,22 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     background: rgba(100, 100, 100, .6);
     display: none;
 }
+.ins-check-area {
+    width:100%;
+    height:20px;
+    margin-bottom:10px;
+    text-align: left;
+    overflow: hidden;
+}
+.ins-move {
+    width:auto;
+    animation-name: ins_move;
+    animation-duration: 5s;
+    font-size:12px;
+    text-indent: 1em;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
 .close-mdl-area {
     width: 100%;
     text-align: center;
@@ -475,4 +499,22 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     cursor: pointer;
     text-align: center;
     color: #888;
+}
+
+.btn-basic {
+
+}
+@keyframes ins_move{
+    0%   { transform: translateX(130%);
+           opacity: 0;
+         }
+    50% { transform: translateX(0%);
+           opacity: 1;
+         }
+    90% { transform: translateX(0%);
+           opacity: 1;
+         }
+    100% { transform: translateX(0%);
+           opacity: 0;
+         }
 }

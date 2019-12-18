@@ -22,7 +22,7 @@ class TriviaSearch extends React.Component {
             CURRENT_LIMIT: 20,
             CURRENT_WORD: "",
             CURRENT_P_LANG: 'all',
-            CURRENT_ORDER: 'order_desc',
+            CURRENT_ORDER: 'date_desc',
             SEARCH_WORD: "",
             SEARCH_P_LANG: 'all',
             HIT_COUNT: 0,
@@ -30,7 +30,6 @@ class TriviaSearch extends React.Component {
             socket: socketIOClient(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT),
             SEND_TRIVIA_TXT: "",
             SEND_PLANG: 1,
-
         };
     }
 /*=======================================================================
@@ -38,6 +37,7 @@ class TriviaSearch extends React.Component {
 =======================================================================*/
     UNSAFE_componentWillMount() {
         // 初期設定
+        // ソケット切断
         this.socketDct();
     }
 
@@ -133,13 +133,14 @@ methods
         // ページリセット
         let c_page = 1;
         let c_order = this.state.CURRENT_ORDER;
+        // 表示件数のラベル取得
         let select_limit_name = document.querySelector('.nav-search-list-label');
 
         // 検索ワードがない時
         if (!search_word) {
             search_word = ' ';
         }
-
+        // ラベル名の変更 [○○件]
         select_limit_name.innerText = c_limit + '件';
         // 表示件数セット
         this.setLimit(c_limit);
@@ -166,6 +167,7 @@ methods
         let nav_p_lang = '全て';
         // プログラミング言語カラー初期化
         let nav_p_color = '#666';
+        // 全件数表示エリアの色
         let hit_area_color = '#f38080';
         // セレクトエリアのラベル取得
         let select_nav_name = document.querySelector('.nav-search-label');
@@ -174,12 +176,11 @@ methods
         // 送信用プログラミング言語のラベル
         let send_plang_name = document.querySelector('.nav-send-label');
 
-
         // 検索ワードがない時
         if (!search_word) {
             search_word = ' ';
         }
-        // プログラミング言語が全て以外の時
+        // プログラミング言語選択が「全て」以外の時
         if (search_p_lang !== 'all') {
             // プログラミング言語id調整
             let nav_p_lang_num = search_p_lang - 1;
@@ -188,15 +189,14 @@ methods
             // プログラミング言語カラー取得
             nav_p_color = '#' + this.state.P_LANG_COLOR[nav_p_lang_num].p_lang_color_code;
             hit_area_color = '#' + this.state.P_LANG_COLOR[nav_p_lang_num].p_lang_color_code;
-
-            // 検索された現在のプログラミング言語を送信言語にセット
+            // 検索された現在のプログラミング言語を送信用言語にセット
             this.setState({SEND_PLANG: search_p_lang});
+            // ラベル名変更
             send_plang_name.innerText = nav_p_lang;
         } else {
-            // 検索された現在のプログラミング言語を送信言語にセット
+            // 「全て」を選択時、「HTML」を送信用言語にセット
             this.setState({SEND_PLANG: 1});
         }
-
         // セレクトエリアのラベルを変更
         select_nav_name.innerText = nav_p_lang;
         // ヒット件数の背景色を変更
@@ -212,10 +212,8 @@ methods
         this.setPage(c_page);
         // 検索プログラミング言語セット
         this.setSearchPlang(search_p_lang);
-
-
-
     }
+
     /**
      * @description 並び替え時
      * @param {Object} e | イベント
@@ -238,19 +236,21 @@ methods
         }
         // セレクトエリアのラベルを変更
         switch (c_order) {
-            case 'order_asc':
+            case 'date_asc':
                 order_label = '古い順';
                 break;
-            case 'order_desc':
+            case 'date_desc':
                 order_label = '新しい順';
                 break;
-
         }
+        // 並び替えラベル変更
         select_order_name.innerText = order_label;
 
         // 豆知識を検索して取得
         this.getSearchTrivia(search_word, search_p_lang, c_page, c_limit, c_order);
+        // 並び値セット
         this.setOrder(c_order);
+        // ページ番号セット
         this.setPage(c_page);
 
     }
@@ -350,6 +350,7 @@ methods
             })
             .catch(err => console.error(err))
     }
+
     /**
      * @description 豆知識投稿処理
      * @param {String} s_trivia_txt | 投稿内容
@@ -360,9 +361,13 @@ methods
         fetch(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT + '/ind_trivia/article/' + s_trivia_txt + '/id/' + s_plang_id)
             .then(response => response.json())
             .then((data) => {
-                // 登録成功
+                // 登録判定
                 if(data.res) {
-
+                    // 投稿成功時
+                    this.insCheck('ok');
+                } else {
+                    // 投稿失敗時
+                    this.insCheck('ng');
                 }
             })
             .catch(err => console.error(err))
@@ -384,19 +389,26 @@ methods
         let c_page = this.state.CURRENT_PAGE;
         let c_limit = this.state.CURRENT_LIMIT;
         let c_order = this.state.CURRENT_ORDER;
+        // テキストボックスエリア
+        let send_txt_area = document.querySelector('.trivia-txt-area textarea');
 
         // 検索ワードがない時
         if (!search_word) {
             search_word = ' ';
         }
-
+        // [/] をエスケープ
+        s_trivia_txt = encodeURIComponent(s_trivia_txt);
+        // 投稿!
         this.insTrivia(s_trivia_txt, s_plang_id);
         // 豆知識を再検索して取得
         this.getSearchTrivia(search_word, search_p_lang, c_page, c_limit, c_order);
         // 豆知識数再取得
         this.getTriviaCount(search_word, search_p_lang);
-
+        // テキストエリア初期化
+        send_txt_area.innerText = '';
+        this.setSendTriviaTxt('');
     }
+
     /**
      * @description 豆知識セット
      * @param {Object} data | 豆知識情報
@@ -405,6 +417,7 @@ methods
     setTrivia = (data) => {
         this.setState({ TRIVIA: data.trivia });
     }
+
     /**
      * @description 豆知識件数セット
      * @param {Int} data | 豆知識件数情報
@@ -413,6 +426,7 @@ methods
     setCount = (data) => {
         this.setState({ HIT_COUNT: data });
     }
+
     /**
      * @description プログラム言語情報セット
      * @param {Object} data | プログラム言語情報
@@ -421,6 +435,7 @@ methods
     setPcolor = (data) => {
         this.setState({ P_LANG_COLOR: data.color });
     }
+
     /**
      * @description ページセット
      * @param {Int} data | ページ情報
@@ -429,6 +444,7 @@ methods
     setPage = (data) => {
         this.setState({ CURRENT_PAGE: data });
     }
+
     /**
      * @description 表示件数セット
      * @param {Int} data | 表示件数情報
@@ -437,6 +453,7 @@ methods
     setLimit = (data) => {
         this.setState({ CURRENT_LIMIT: data });
     }
+
     /**
      * @description 検索プログラミング言語
      * @param {Int} data | 検索プログラミング言語ID
@@ -446,6 +463,7 @@ methods
         this.setState({ SEARCH_P_LANG: data });
         this.setState({ SEND_PLANG: data });
     }
+
     /**
      * @description 検索ワード
      * @param {String} data | 検索ワード
@@ -454,6 +472,7 @@ methods
     setSearchWord = (data) => {
         this.setState({ SEARCH_WORD: data });
     }
+
     /**
      * @description 投稿内容
      * @param {String} data | 投稿文字
@@ -464,39 +483,6 @@ methods
     }
 
     /**
-     * @description 投稿プログラミング言語をセット
-     * @param {Int} data | 投稿プログラミング言語ID
-     * @returns ×
-     */
-    changeSendPLang = (e) => {
-        let send_plang_name = document.querySelector('.nav-send-label');
-        let nav_p_lang_num = e.target.value;
-        let nav_p_lang = this.state.P_LANG_COLOR[nav_p_lang_num - 1].p_lang_name;
-        // プログラミング言語名取得
-        send_plang_name.innerText = nav_p_lang;
-        this.setState({ SEND_PLANG: nav_p_lang_num });
-    }
-    /**
-     * @description 投稿文字変更時
-     * @param {String} data | 投稿文字
-     * @returns ×
-     */
-    changeSendWord = (e) => {
-        let input_text_num = document.querySelector('.input-text-num');
-        let send_txt = e.target.value;
-        let send_txt_num = send_txt.length;
-        input_text_num.innerText = send_txt_num;
-        if (send_txt_num > 150) {
-            input_text_num.style.color = "red";
-        } else {
-            input_text_num.style.color = "#999";
-            // 日本語入力の際、最大投稿文字を超えないようにする
-            send_txt.slice(0, df.MAX_SEND_TXT_LENGTH);
-        }
-
-        this.setState({ SEND_TRIVIA_TXT: send_txt });
-    }
-    /**
      * @description 並び替え
      * @param {String} data | 並び替え条件
      * @returns ×
@@ -504,6 +490,55 @@ methods
     setOrder = (data) => {
         this.setState({ CURRENT_ORDER: data });
     }
+
+    /**
+     * @description 投稿プログラミング言語をセット
+     * @param {Object} e | イベント
+     * @returns ×
+     */
+    changeSendPLang = (e) => {
+        // プログラミング言語ラベル取得
+        let send_plang_name = document.querySelector('.nav-send-label');
+        // プログラミング言語値取得
+        let nav_p_lang_num = e.target.value;
+        // プログラミング言語情報取得
+        let nav_p_lang = this.state.P_LANG_COLOR[nav_p_lang_num - 1].p_lang_name;
+        // プログラミング言語名取得
+        send_plang_name.innerText = nav_p_lang;
+        // 送信用プログラミング言語をセット
+        this.setState({ SEND_PLANG: nav_p_lang_num });
+    }
+
+    /**
+     * @description 投稿文字変更時
+     * @param {Object} e | イベント
+     * @returns ×
+     */
+    changeSendWord = (e) => {
+        // 投稿文字数エリア
+        let input_text_num = document.querySelector('.input-text-num');
+        // 投稿文字取得
+        let send_txt = e.target.value;
+        // 投稿文字数
+        let send_txt_num = send_txt.length;
+        // 投稿文字数を表示
+        input_text_num.innerText = send_txt_num;
+        // 文字数判定
+        if (send_txt_num > df.MAX_SEND_TXT_LENGTH) {
+            // 最大文字数超えた時
+            input_text_num.style.color = "#e63b3b";
+            input_text_num.style.fontWeight = "bold";
+        } else {
+            // 文字数超えていない時
+            input_text_num.style.color = "#999";
+            input_text_num.style.fontWeight = "normal";
+            // 日本語入力の際、最大投稿文字を超えないよう超えた文字を削除する
+            send_txt.slice(0, df.MAX_SEND_TXT_LENGTH);
+        }
+        // 送信用テキストをセット
+        this.setState({ SEND_TRIVIA_TXT: send_txt });
+    }
+
     /**
      * @description 投稿日時情報変換
      * @param {String} ins_dt | 追加日
@@ -515,41 +550,57 @@ methods
         let year = date.getFullYear();
         let month = date.getMonth() + 1;
         let day = date.getDate();
-        var hour = date.getHours();
-        var min = date.getMinutes();
-        var sec = date.getSeconds();
+        let hour = date.getHours();
+        let min = date.getMinutes();
+        let sec = date.getSeconds();
+        // 返り値
+        let res_ins_dt = '';
 
-        // 日付整形
+        // 登録日・日付整形 [yyyy/mm/dd hh:ii:ss]
         let ins_dt_shap = ins_dt.replace(/-/g, '/');
-        ins_dt_shap = ins_dt_shap.replace(/T[0-9]{2}:[0-9]{2}:[0-9]{2}.000Z/, '');
-        // 時間有りver
-        let hms_ins_dt = ins_dt.replace(/.000Z/, '').replace(/T/, ' ');
+        // 登録日・日付整形 [yyyy/mm/dd]
+        let ins_day = ins_dt_shap.replace(/[0-9]{2}:[0-9]{2}:[0-9]{2}/g, '');
+        // 今日・日付整形 [yyyy/mm/dd hh:ii:ss]
         let sum_today =  year + '/' + month + '/' + day + ' ' + hour + ':' + min + ':' + sec;
-        console.log(hms_ins_dt);
-        console.log(sum_today);
-        // 日付 ⇒ 経過秒数
-        let before_day = new Date(ins_dt_shap);
+        // 今日・日付整形 [yyyy/mm/dd]
         let today = year + '/' + month + '/' + day;
-        let f_today = new Date(today);
-        // 秒数差 ⇒ 日数差
-        let term_day = (f_today - before_day) / 86400000;
 
-        //時間有りver 秒数変換
-        let hms_ins_dt_conv = new Date(hms_ins_dt);
+        // 日付 ⇒ 経過秒数
+        let before_day = new Date(ins_day);
+        let f_today = new Date(today);
+        let ins_dt_shap_conv = new Date(ins_dt_shap);
         let sum_today_conv = new Date(sum_today);
 
-        let sum_term_day = Math.ceil((sum_today_conv - hms_ins_dt_conv) / (1000 * 60 * 60));
-        console.log(sum_term_day);
+        // 秒数差 ⇒ 日数差
+        let term_day = (f_today - before_day) / 86400000;
+        // 秒数差 ⇒ 時間差
+        let sum_term_hour = Math.ceil((sum_today_conv - ins_dt_shap_conv) / (1000 * 60 * 60));
+        // 秒数差 ⇒ 分数差
+        let sum_term_min = Math.ceil((sum_today_conv - ins_dt_shap_conv) / (1000 * 60));
+        // 秒差取得 ⇒ 秒数差
+        let sum_term_sec = Math.ceil((sum_today_conv - ins_dt_shap_conv) / (1000));
         // 投稿日から1週間以内の場合
         if (term_day <= 7) {
-            if (sum_term_day < 24) {
-                ins_dt_shap = sum_term_day + 'hour ago';
+            // 投稿から1秒以内
+            if (sum_term_hour === 0) {
+                res_ins_dt = 'now';
+            } else if (sum_term_hour === 1) {
+                // 投稿から1時間以内
+                res_ins_dt = sum_term_min + 'minute ago';
+            }else if (sum_term_hour < 24) {
+                // 投稿から1日以内
+                res_ins_dt = sum_term_hour + 'hour ago';
             } else {
-                ins_dt_shap = term_day + ' day ago';
+                // 投稿から7日以内
+                res_ins_dt = term_day + ' day ago';
             }
+        } else {
+            // 投稿から一週間以上の場合 [yyyy/mm/dd]
+            res_ins_dt = ins_day;
         }
-        return ins_dt_shap;
+        return res_ins_dt;
     }
+
     /**
      * @description 投稿エリア非表示
      * @param ×
@@ -558,27 +609,70 @@ methods
     closeModal = () => {
         let modal_hide = document.querySelector('.hide-box');
         let post_area = document.querySelector('.post-area');
+        // 送信エリア非表示
         modal_hide.style.display = 'none';
         post_area.style.display = 'none';
     }
+
     /**
      * @description 投稿エリア表示
      * @param ×
      * @returns ×
      */
-
     opneModal = () => {
         let modal_hide = document.querySelector('.hide-box');
         let post_area = document.querySelector('.post-area');
         let send_txt_area = document.querySelector('.trivia-txt-area textarea');
         let input_text_num = document.querySelector('.input-text-num');
-
-        send_txt_area.innerText = '';
-        send_txt_area.focus();
+        // 送信エリア表示
         modal_hide.style.display = 'block';
         post_area.style.display = 'block';
+        // 投稿文字数初期化
         input_text_num.innerText = 0;
+        // 送信テキストエリア初期化
+        send_txt_area.innerText = '';
         this.setSendTriviaTxt('');
+    }
+
+    /**
+     * @description 投稿チェック
+     * @param chk | [ok | ng]
+     * @returns ×
+     */
+    insCheck = (chk) => {
+        let ins_check_area = document.querySelector('.ins-check-area');
+        let div = document.createElement('div');
+        let span = document.createElement('span');
+        let ins_check_msg = '';
+        let font_color = '';
+        // 投稿完了メッセージが残っていれば削除
+        while (ins_check_area.firstChild) {
+            ins_check_area.removeChild(ins_check_area.firstChild);
+        }
+        // 投稿判定
+        if (chk == 'ok') {
+            // 投稿成功時
+            ins_check_msg = '投稿が完了しました';
+            font_color = '#10b905';
+        } else {
+            // 投稿失敗時
+            ins_check_msg = '投稿が失敗しました';
+            font_color = '#e63b3b';
+        }
+        // クラス追加
+        div.classList.add('ins-move');
+        // 要素追加
+        ins_check_area.appendChild(div).appendChild(span).innerText = ins_check_msg;
+        // 完了メッセージ取得
+        let ins_move = ins_check_area.querySelector('.ins-move');
+        ins_move.style.color = font_color;
+        // 完了メッセージ表示後
+        ins_check_area.addEventListener('animationend',function(){
+            // 完了メッセージ削除
+            while (ins_check_area.firstChild) {
+                ins_check_area.removeChild(ins_check_area.firstChild);
+            }
+        });
     }
 
     /**
@@ -596,6 +690,7 @@ methods
             <div className="t-article">{article}</div>
             <div className="t-ins-dt">{this.dateCnv(ins_t)}</div>
         </article>
+
     /**
      * @description セレクトメニュー生成
      * @param {Int} p_lang_id | 豆知識番号
@@ -695,11 +790,10 @@ methods
         // 1ページ以降の時 [前へ] ボタン表示
         if (c_page > 1) {
             prev_page = <span　onClick={this.changePage} data-num='prev' className="page-flow prev-page">
-                <i className="material-icons r_arrow">
-                    keyboard_arrow_left
-                </i>
-
-            </span>;
+                            <i className="material-icons r_arrow">
+                                keyboard_arrow_left
+                            </i>
+                        </span>;
         }
         // 最大ページ以外の時 [次へ] ボタン表示
         if (c_page !== maxpage) {
@@ -767,8 +861,8 @@ methods
                             </div>
                             <select name="order_select" className="order-select" value={this.state.CURRENT_ORDER} onChange={this.changeOrder}>
                                 {/* <option value="default">並び替え</option> */}
-                                <option value="order_asc">古い順</option>
-                                <option value="order_desc">新しい順</option>
+                                <option value="date_asc">古い順</option>
+                                <option value="date_desc">新しい順</option>
                                 {/* <option value="order_fav">お気に入り数</option> */}
                             </select>
                         </div>
@@ -791,7 +885,6 @@ methods
                             </div>
                         </div>
                     </div>
-
                     <div className="send-trivia-area">
                         <div className="send-trivia-icon">
                             <i className="material-icons send-icon" onClick={this.opneModal}>
@@ -826,6 +919,8 @@ methods
                                         </div>
                                     </div>
                                 </div>
+                                <div className='ins-check-area'>
+                                </div>
                                 <div className='close-mdl-area'>
                                     <span className="close-mdl" onClick={this.closeModal}>閉じる</span>
                                 </div>
@@ -833,7 +928,6 @@ methods
                         </div>
                     </div>
                     <div className='hide-box' onClick={this.closeModal}></div>
-
                 </div>
         );
     }

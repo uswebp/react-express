@@ -15,5 +15,5 @@ exports.getAPI = function (req,res) {
                 data: results
             })
         }
-    }); 
+    });
 }
