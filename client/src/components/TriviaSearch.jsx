@@ -86,7 +86,6 @@ methods
         let search_p_lang = document.querySelector('.p-lang-select').value;
         let c_limit = this.state.CURRENT_LIMIT;
         let c_order = this.state.CURRENT_ORDER;
-
         // ページリセット
         let c_page = 1;
 
@@ -94,6 +93,8 @@ methods
         if (!search_word) {
             search_word = ' ';
         }
+        // [/] をエスケープ
+        search_word = encodeURIComponent(search_word);
 
         // ページセット ⇒ 1ページ目からスタート
         this.setPage(c_page);
@@ -142,6 +143,8 @@ methods
         }
         // ラベル名の変更 [○○件]
         select_limit_name.innerText = c_limit + '件';
+        // [/] をエスケープ
+        search_word = encodeURIComponent(search_word);
         // 表示件数セット
         this.setLimit(c_limit);
         // 豆知識を検索して取得
@@ -201,7 +204,8 @@ methods
         select_nav_name.innerText = nav_p_lang;
         // ヒット件数の背景色を変更
         hit_area.style.background = hit_area_color;
-
+        // [/] をエスケープ
+        search_word = encodeURIComponent(search_word);
         // 豆知識を検索して取得
         this.getSearchTrivia(search_word, search_p_lang, c_page, c_limit, c_order);
         // 検索条件の豆知識数取得
@@ -242,10 +246,13 @@ methods
             case 'date_desc':
                 order_label = '新しい順';
                 break;
+            default:
+                break;
         }
         // 並び替えラベル変更
         select_order_name.innerText = order_label;
-
+        // [/] をエスケープ
+        search_word = encodeURIComponent(search_word);
         // 豆知識を検索して取得
         this.getSearchTrivia(search_word, search_p_lang, c_page, c_limit, c_order);
         // 並び値セット
@@ -289,6 +296,8 @@ methods
             // クリックされたページ値を設定
             c_page = Number(status);
         }
+        // [/] をエスケープ
+        search_word = encodeURIComponent(search_word);
         // ページセット ⇒ 1ページ目からスタート
         this.setPage(c_page);
         // 表示件数セット
@@ -391,6 +400,10 @@ methods
         let c_order = this.state.CURRENT_ORDER;
         // テキストボックスエリア
         let send_txt_area = document.querySelector('.trivia-txt-area textarea');
+        // 投稿ボタン
+        let post_btn = document.getElementById('t-post-btn');
+        // 投稿文字数エリア
+        let input_text_num = document.querySelector('.input-text-num');
 
         // 検索ワードがない時
         if (!search_word) {
@@ -407,6 +420,11 @@ methods
         // テキストエリア初期化
         send_txt_area.innerText = '';
         this.setSendTriviaTxt('');
+        // 投稿ボタンスタイルリセット
+        post_btn.classList.add('btn-disable');
+        post_btn.classList.remove('btn-02');
+        // 文字数リセット
+        input_text_num.innerText = '0';
     }
 
     /**
@@ -517,6 +535,8 @@ methods
     changeSendWord = (e) => {
         // 投稿文字数エリア
         let input_text_num = document.querySelector('.input-text-num');
+        // 投稿ボタン
+        let post_btn = document.getElementById('t-post-btn');
         // 投稿文字取得
         let send_txt = e.target.value;
         // 投稿文字数
@@ -524,6 +544,13 @@ methods
         // 投稿文字数を表示
         input_text_num.innerText = send_txt_num;
         // 文字数判定
+        if (send_txt_num > 0) {
+            post_btn.classList.add('btn-02');
+            post_btn.classList.remove('btn-disable');
+        } else {
+            post_btn.classList.add('btn-disable');
+            post_btn.classList.remove('btn-02');
+        }
         if (send_txt_num > df.MAX_SEND_TXT_LENGTH) {
             // 最大文字数超えた時
             input_text_num.style.color = "#e63b3b";
@@ -566,33 +593,34 @@ methods
         let today = year + '/' + month + '/' + day;
 
         // 日付 ⇒ 経過秒数
-        let before_day = new Date(ins_day);
-        let f_today = new Date(today);
+        // let before_day = new Date(ins_day);
+        // let f_today = new Date(today);
         let ins_dt_shap_conv = new Date(ins_dt_shap);
         let sum_today_conv = new Date(sum_today);
 
         // 秒数差 ⇒ 日数差
-        let term_day = (f_today - before_day) / 86400000;
+        // let term_day = Math.floor((f_today - before_day) / (1000 * 60 * 60 * 24));
+        let sum_term_day = Math.floor((sum_today_conv - ins_dt_shap_conv) / (1000 * 60 * 60 * 24));
         // 秒数差 ⇒ 時間差
-        let sum_term_hour = Math.ceil((sum_today_conv - ins_dt_shap_conv) / (1000 * 60 * 60));
+        let sum_term_hour = Math.floor((sum_today_conv - ins_dt_shap_conv) / (1000 * 60 * 60));
         // 秒数差 ⇒ 分数差
-        let sum_term_min = Math.ceil((sum_today_conv - ins_dt_shap_conv) / (1000 * 60));
+        let sum_term_min = Math.floor((sum_today_conv - ins_dt_shap_conv) / (1000 * 60));
         // 秒差取得 ⇒ 秒数差
-        let sum_term_sec = Math.ceil((sum_today_conv - ins_dt_shap_conv) / (1000));
+        let sum_term_sec = Math.floor((sum_today_conv - ins_dt_shap_conv) / (1000));
         // 投稿日から1週間以内の場合
-        if (term_day <= 7) {
+        if (sum_term_day <= 7) {
             // 投稿から1秒以内
-            if (sum_term_hour === 0) {
-                res_ins_dt = 'now';
-            } else if (sum_term_hour === 1) {
+            if (sum_term_min === 0) {
+                res_ins_dt = sum_term_sec + ' secound ago';
+            } else if (sum_term_hour === 0) {
                 // 投稿から1時間以内
-                res_ins_dt = sum_term_min + 'minute ago';
-            }else if (sum_term_hour < 24) {
+                res_ins_dt = sum_term_min + ' minute ago';
+            } else if (sum_term_day === 0) {
                 // 投稿から1日以内
-                res_ins_dt = sum_term_hour + 'hour ago';
+                res_ins_dt = sum_term_hour + ' hour ago';
             } else {
                 // 投稿から7日以内
-                res_ins_dt = term_day + ' day ago';
+                res_ins_dt = sum_term_day + ' day ago';
             }
         } else {
             // 投稿から一週間以上の場合 [yyyy/mm/dd]
@@ -609,9 +637,22 @@ methods
     closeModal = () => {
         let modal_hide = document.querySelector('.hide-box');
         let post_area = document.querySelector('.post-area');
+        let ins_check_area = document.querySelector('.ins-check-area');
+        // 投稿ボタン
+        let post_btn = document.getElementById('t-post-btn');
+
         // 送信エリア非表示
         modal_hide.style.display = 'none';
         post_area.style.display = 'none';
+        // 完了メッセージ削除
+        while (ins_check_area.firstChild) {
+            ins_check_area.removeChild(ins_check_area.firstChild);
+        }
+        if (post_btn.classList.contains('btn-02') && !(post_btn.classList.contains('btn-disable'))) {
+            // 投稿ボタンスタイルリセット
+            post_btn.classList.add('btn-disable');
+            post_btn.classList.remove('btn-02');
+        }
     }
 
     /**
@@ -650,7 +691,7 @@ methods
             ins_check_area.removeChild(ins_check_area.firstChild);
         }
         // 投稿判定
-        if (chk == 'ok') {
+        if (chk === 'ok') {
             // 投稿成功時
             ins_check_msg = '投稿が完了しました';
             font_color = '#10b905';
@@ -687,7 +728,7 @@ methods
     renderTrivia = () => ({ trivia_id, article, p_lang_color_code, p_lang_name, ins_t }) =>
         <article className={`trivia-area`} key={trivia_id} >
             <div className="p-lang-name" style={{ borderColor: '#' + p_lang_color_code }}>{p_lang_name}</div>
-            <div className="t-article">{article}</div>
+            <div className="t-article" style={{whiteSpace: 'pre-line'}}>{article}</div>
             <div className="t-ins-dt">{this.dateCnv(ins_t)}</div>
         </article>
 
@@ -731,7 +772,7 @@ methods
         let page_list_arr = [];
 
         // 最大ページ数が6以上の時
-        if (maxpage > df.VIEW_PAGE_NUMBER) {
+        if (maxpage > df.VIEW_PAGE_NUMBER + 1) {
             // 表示ページ番号 (現ページから5ページ分)
             let view_count = c_page + df.VIEW_PAGE_NUMBER;
             // 配列用カウント番号
@@ -816,7 +857,7 @@ methods
         //===================================================
 
         return (
-            <div className="trivia-content">
+            <div className="trivia-content" lang='en'>
                 <form onSubmit={this.TriviaSearch} name="trivia_search" method="post" className="trivia-search">
                         <div className="input-search-area">
                             <div className="input-search-area-sub">
@@ -912,10 +953,10 @@ methods
                                     </div>
                                     <div className="send-area-foot">
                                         <div className="send_btn">
-                                            <input type="submit" value="投稿↪" id="t-post-btn" className="btn-basic btn-02" />
+                                            <input type="submit" value="投稿↪" id="t-post-btn" className="btn-basic btn-disable" />
                                         </div>
                                         <div className="txt-count-area">
-                                            <span className="txt-counter"><span className="input-text-num">0</span>文字/150文字</span>
+                                            <span className="txt-counter"><span className="input-text-num">0</span>文字 / 150文字</span>
                                         </div>
                                     </div>
                                 </div>
