@@ -41,15 +41,14 @@ class Chat extends Component {
             chat_txt.focus();
             msg_last.classList.add('killmsg');
             msg_last.addEventListener('animationend',function(){
-                msg.removeChild(msg_last); 
+                msg.removeChild(msg_last);
             });
         });
-        
         this.getTrivia();
         this.getPcolor();
     }
 
-    // ルーティング 
+    // ルーティング
     routerAction = (url) => {
         let link_path = url.currentTarget.getAttribute('data-num');
         // Socket切断
@@ -120,7 +119,7 @@ class Chat extends Component {
             list.push(<option key={p_color_list[i].p_lang_id} value={p_color_list[i].p_lang_id}>{p_color_list[i].p_lang_name}</option>);
         }
         return (
-          <div className="chat_area"> 
+          <div className="chat_area">
               <h2>Coodig.com</h2>
               <div className="container">
                   <select name="p_lang_color" className="p_lang_color">
