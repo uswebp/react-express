@@ -112,17 +112,17 @@ class ViewChat extends Component {
         }
         // カラム総数によってフォントサイズ変更
         if (total_td >= 50) {
-            font_size = 12;
+            font_size = 9;
         } else if (total_td >= 40) {
-            font_size = 11;
-        } else if (total_td >= 30) {
-            font_size = 10;
-        } else if (total_td >= 20) {
             font_size = 8;
+        } else if (total_td >= 30) {
+            font_size = 7;
+        } else if (total_td >= 20) {
+            font_size = 7;
         } else if (total_td >= 18) {
             font_size = 7;
         } else if (total_td >= 15) {
-            font_size = 7;
+            font_size = 6;
         } else if (total_td >= 10) {
             font_size = 6;
         } else {
@@ -199,6 +199,7 @@ class ViewChat extends Component {
 
     onMouseOver = (trivia_tag, tag_content, animation_kind, font_size) => {
         trivia_tag.addEventListener('mouseenter', function () {
+
             // 描画が終了していれば
             if (trivia_tag.classList.contains('view_end')) {
                 trivia_tag.classList.add('mouse-on-tag');
@@ -212,14 +213,32 @@ class ViewChat extends Component {
                 let p_lang_color_code = tag_content[2];
                 let article = tag_content[3];
 
+                // DOM作成
                 let lang_name_div = document.createElement('div');
                 let article_div = document.createElement('div');
-                lang_name_div.classList.add('hover_p_lang_name');
-                article_div.classList.add('hover_article');
-                lang_name_div.style.fontSize = font_size + 1 + 'px';
-                article_div.style.fontSize = font_size -1 + 'px';
-                trivia_tag.appendChild(lang_name_div).innerText = p_lang_name;
-                trivia_tag.appendChild(article_div).innerText = article;
+                let lang_name_p= document.createElement('p');
+                let article_p = document.createElement('p');
+
+                // クラス追加
+                lang_name_div.classList.add('hover_PLN_div');
+                article_div.classList.add('hover_ATL_div');
+                lang_name_p.classList.add('hover_PLN_span');
+                article_p.classList.add('hover_ATL_span');
+                lang_name_p.style.fontSize = font_size + 2 + 'px';
+                article_p.style.fontSize = font_size + 'px';
+
+                // DOM構築
+                lang_name_p.innerText = p_lang_name;
+                article_p.innerText = article;
+                lang_name_div.appendChild(lang_name_p);
+                article_div.appendChild(article_p);
+                trivia_tag.appendChild(lang_name_div);
+                trivia_tag.appendChild(article_div);
+
+                lang_name_div.style.transform = 'scale(1)';
+                article_div.style.transform = 'scale(1)';
+                lang_name_p.style.transform = 'scale(.3)';
+                article_p.style.transform = 'scale(.3)';
 
                 lang_name_div.style.borderLeftColor = '#' + p_lang_color_code;
                 lang_name_div.style.borderLeftWidth = '5px';
@@ -253,8 +272,7 @@ class ViewChat extends Component {
 
                 if (trivia_tag.classList.contains('mouse-on-tag')) {
                     trivia_tag.classList.remove('mouse-on-tag');
-                    // trivia_tag.removeChild(lang_name_div);
-                    // trivia_tag.removeChild(article_div);
+
                     for (let i =0; i < lang_name_div.length; i++) {
                         trivia_tag.removeChild(lang_name_div[i]);
                     }

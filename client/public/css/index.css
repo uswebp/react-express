@@ -115,16 +115,33 @@ code {
   -webkit-font-smoothing: antialiased;
 }
 
-.hover_p_lang_name {
-  overflow: hidden;
+.hover_PLN_div {
+  text-align: left;
   margin: 5px;
-  color: black;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.hover_article {
-  overflow: hidden;
+.hover_ATL_div {
+  text-align: left;
   margin: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  clear: both;
+}
+
+.hover_PLN_span {
+  /* overflow: hidden; */
   color: black;
+  float: left;
+  width: auto;
+}
+
+.hover_ATL_span {
+  /* overflow: hidden; */
+  color: black;
+  float: left;
+  width: auto;
 }
 
 /* 言語カラー */
@@ -213,12 +230,13 @@ code {
 .mouse-on-tag {
   border-radius: 10px;
   z-index: 5;
-  transition: all 0.5s ease-in-out;
+  /* transition: all 0.5s ease-in-out; */
   -webkit-font-smoothing: antialiased;
   backface-visibility: hidden;/* animation時のにじみ防止 */
 	-webkit-backface-visibility: hidden;/* animation時のにじみ防止 */
 	-webkit-font-smoothing: antialiased;/* animation時の文字にじみ防止 */
-	-moz-osx-font-smoothing: grayscale;/* animation時の文字にじみ防止 */
+  -moz-osx-font-smoothing: grayscale;/* animation時の文字にじみ防止 */
+  will-change: contents;
 }
 .mouse-out-tag {
   border-radius: 50%;
