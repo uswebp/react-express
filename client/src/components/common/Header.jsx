@@ -53,6 +53,7 @@ class Header extends React.Component {
                 <h1 onClick={this.routerAction} data-num='/'>COODIG</h1>
                 <nav>
                     <ul>
+                        <li onClick={this.routerAction} data-num='/chat_view'>チャット</li>
                         <li onClick={this.routerAction} data-num='/search'>投稿一覧</li>
                         <li>GitHub</li>
                         <li>お問い合わせ</li>

@@ -95,7 +95,8 @@ methods
         }
         // [/] をエスケープ
         search_word = encodeURIComponent(search_word);
-
+        // 検索ワード用にデコード
+        let search_word_dc = decodeURIComponent(search_word);
         // ページセット ⇒ 1ページ目からスタート
         this.setPage(c_page);
         // 表示件数セット
@@ -103,7 +104,7 @@ methods
         // 検索プログラミング言語セット
         this.setSearchPlang(search_p_lang);
         // 検索ワードセット
-        this.setSearchWord(search_word);
+        this.setSearchWord(search_word_dc);
         // 豆知識を検索して取得
         this.getSearchTrivia(search_word, search_p_lang, c_page, c_limit, c_order);
         // 検索条件の豆知識数取得
@@ -741,6 +742,7 @@ methods
     selectPcolor = () => ({p_lang_id, p_lang_name }) => <option value={p_lang_id} key={p_lang_id}>{p_lang_name}</option>
 
     render() {
+        console.log(this.state);
         //===================================================
         // state情報取得
         //===================================================

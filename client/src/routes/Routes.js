@@ -13,7 +13,7 @@ import Chat from '../components/Chat.jsx';
 import LinkTest from '../components/LinkTest.jsx';
 import SocketBug from '../components/SocketBug.jsx';
 import Cell from '../components/Cell.jsx';
-import ViewChat from '../components/ViewChat_sub.jsx';
+import ViewChat from '../components/ViewChat.jsx';
 import TriviaSearch from '../components/TriviaSearch.jsx';
 /*=======================================================================
  class

@@ -111,6 +111,7 @@ exports.getTriviaCountChk = (search_word, search_pg) => {
 exports.getsearchTriviaWhere = (word, id, page, limit, order) => {
     let off = ((page * limit) - limit);
     word = word.trim();
+    console.log(word);
 
     let sql = 'SELECT *,tr.ins_dt as ins_t FROM trivia_table AS tr ';
         sql += 'LEFT JOIN p_lang_mst AS pm ';
@@ -132,6 +133,7 @@ exports.getsearchTriviaWhere = (word, id, page, limit, order) => {
 
         sql += 'limit ' +  limit + ' offset ' + off;
 
+        // console.log(sql);
     return sql;
 }
 

@@ -101,6 +101,8 @@ code {
   /* transition: all .2s ease-in-out; */
   letter-spacing: .5px;
   transform: scale(1);
+  backface-visibility: hidden;
+  overflow: hidden;
 }
 .trivia-name {
   display: inline-block;
@@ -213,17 +215,17 @@ code {
 .mouse-on-tag {
   border-radius: 10px;
   z-index: 5;
-  transition: all 0.5s ease-in-out;
   -webkit-font-smoothing: antialiased;
-  backface-visibility: hidden;/* animation時のにじみ防止 */
-	-webkit-backface-visibility: hidden;/* animation時のにじみ防止 */
-	-webkit-font-smoothing: antialiased;/* animation時の文字にじみ防止 */
-	-moz-osx-font-smoothing: grayscale;/* animation時の文字にじみ防止 */
+  backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	-webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  will-change: contents; /* ← 追加 */
+  overflow: hidden;
 }
 .mouse-out-tag {
   border-radius: 50%;
   z-index: 1;
-  transition: all 0.5s ease-in-out;
   -webkit-font-smoothing: antialiased;
 
 }
