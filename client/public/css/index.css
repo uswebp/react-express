@@ -81,12 +81,13 @@ code {
   position: relative;
 }
 .trivia-tag {
-  border-radius: 50%; 
+  border-radius: 50%;
   display: block;
   animation-duration: 2s;
   animation: ease-in-out infinite normal;
   cursor: pointer;
   -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
   backface-visibility: hidden;
   will-change: transform;
   /* font-weight: bold; */
@@ -97,8 +98,11 @@ code {
   z-index: 0;
   box-shadow: 0 0 1px .5px #545454;
   box-sizing: border-box;
-  transition: all .2s ease-in-out;
+  /* transition: all .2s ease-in-out; */
   letter-spacing: .5px;
+  transform: scale(1);
+  backface-visibility: hidden;
+  overflow: hidden;
 }
 .trivia-name {
   display: inline-block;
@@ -110,7 +114,19 @@ code {
   transform: translate(0, -50%);
   padding: 5px;
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
 
+.hover_p_lang_name {
+  overflow: hidden;
+  margin: 5px;
+  color: black;
+}
+
+.hover_article {
+  overflow: hidden;
+  margin: 5px;
+  color: black;
 }
 
 /* 言語カラー */
@@ -194,6 +210,76 @@ code {
 /* Lua */
 .p_000080 {
   color:#000080;
+}
+
+.mouse-on-tag {
+  border-radius: 10px;
+  z-index: 5;
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	-webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  will-change: contents; /* ← 追加 */
+  overflow: hidden;
+}
+.mouse-out-tag {
+  border-radius: 50%;
+  z-index: 1;
+  -webkit-font-smoothing: antialiased;
+
+}
+
+@keyframes scale_up {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(3);
+  }
+}
+@keyframes scale_down {
+  0% {
+    transform: scale(3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* .tagview {
+  animation: tagview;
+} */
+
+.tag_move_0 {
+  animation-name: tag_move_0;
+}
+.tag_move_1 {
+  animation-name: tag_move_1;
+}
+.tag_move_2 {
+  animation-name: tag_move_2;
+}
+.tag_move_3 {
+  animation-name: tag_move_3;
+}
+.tag_move_4 {
+  animation-name: tag_move_4;
+}
+.tag_move_5 {
+  animation-name: tag_move_5;
+}
+.tag_move_6 {
+  animation-name: tag_move_6;
+}
+.tag_move_7 {
+  animation-name: tag_move_7;
+}
+.tag_move_8 {
+  animation-name: tag_move_8;
+}
+.tag_move_9 {
+  animation-name: tag_move_9;
 }
 
 /* ======================================================================

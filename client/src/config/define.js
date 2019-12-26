@@ -14,6 +14,10 @@ const SERVER_PORT = 5000;
 const FRONT_PORT = 3000;
 // トップに出すPGタグの数
 const TOP_VIEW_TOTAL_NUMBER = 10;
+// 投稿一覧のページリスト表示数
+const VIEW_PAGE_NUMBER = 5;
+// 最大投稿文字数
+const MAX_SEND_TXT_LENGTH = 150;
 
 export default{
     APP_DOMAIN:APP_DOMAIN,
@@ -24,5 +28,7 @@ export default{
     SERVER_PORT:SERVER_PORT,
     FRONT_PORT:FRONT_PORT,
     TOP_VIEW_TOTAL_NUMBER: TOP_VIEW_TOTAL_NUMBER,
+    VIEW_PAGE_NUMBER: VIEW_PAGE_NUMBER,
+    MAX_SEND_TXT_LENGTH: MAX_SEND_TXT_LENGTH,
 };
 

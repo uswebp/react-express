@@ -36,7 +36,15 @@ module.exports = function(app) {
     app.use('/tagrandum/:num',require('../API/api_tagRandum').getAPI);
     // 検索ページの豆知識取得
     app.use('/search_trivia/page/:page/limit/:limit',require('../API/api_searchTrivia').getAPI);
+    // 検索ページの豆知識取得
+    app.use('/search_trivia_where/word/:word/id/:id/page/:page/limit/:limit/order/:order',require('../API/api_searchTriviaWhere').getAPI);
+    // 検索ページの豆知識取得(チェックボックス用)
+    app.use('/search_trivia_chk/word/:word/id/:id/page/:page/limit/:limit',require('../API/api_getCheckBoxTrivia').getAPI);
     // 豆知識数
-    app.use('/count_trivia',require('../API/api_getTriviaCount').getAPI);
+    app.use('/count_trivia/word/:word/id/:id',require('../API/api_getTriviaCount').getAPI);
+    // 検索ページの豆知識取得(チェックボックス用)
+    app.use('/count_trivia_chk/word/:word/id/:id',require('../API/api_getTriviaCountChk').getAPI);
+    //豆知識登録用API
+    app.use('/ind_trivia/article/:article/id/:id',require('../API/api_insTrivia').getAPI);
 }
 
