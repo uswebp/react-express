@@ -25,7 +25,6 @@ class ViewChat extends Component {
             TOTAL_TD: 0,
             TAG_RANDUM_ARR: [],
             TRIVIA: [],
-            FONT_SIZE: 10,
         };
     }
     /*=======================================================================
@@ -57,7 +56,6 @@ class ViewChat extends Component {
         let tag_size = 0;
         let td_num = 0;
         let tr_num = 0;
-        let font_size = 0;
         // td数
         if (table_size_width < 450) {
             td_num = 3;
@@ -110,24 +108,6 @@ class ViewChat extends Component {
         } else {
             tag_size = Math.floor(tag_width);
         }
-        // カラム総数によってフォントサイズ変更
-        if (total_td >= 50) {
-            font_size = 12;
-        } else if (total_td >= 40) {
-            font_size = 11;
-        } else if (total_td >= 30) {
-            font_size = 10;
-        } else if (total_td >= 20) {
-            font_size = 8;
-        } else if (total_td >= 18) {
-            font_size = 7;
-        } else if (total_td >= 15) {
-            font_size = 7;
-        } else if (total_td >= 10) {
-            font_size = 6;
-        } else {
-            font_size = 5;
-        }
         // stateに値をセット
         this.setState({ TD_NUM: td_num });
         this.setState({ TR_NUM: tr_num });
@@ -136,7 +116,6 @@ class ViewChat extends Component {
         this.setState({ TAG_NUM: tag_num });
         this.setState({ TABLE_SIZE_WIDTH: table_size_width });
         this.setState({ TABLE_SIZE_HEIGHT: table_size_height });
-        this.setState({ FONT_SIZE: font_size });
         // 初回のDOM操作を回避
         if (this.state.TAG_RANDUM_ARR.length !== 0) {
             this.installationGetTag(total_td);
@@ -197,7 +176,7 @@ class ViewChat extends Component {
         this.setState({ TRIVIA: data.trivia });
     }
 
-    onMouseOver = (trivia_tag, tag_content, animation_kind, font_size) => {
+    onMouseOver = (trivia_tag, tag_content, animation_kind) => {
         trivia_tag.addEventListener('mouseenter', function () {
             // 描画が終了していれば
             if (trivia_tag.classList.contains('view_end')) {
@@ -205,32 +184,9 @@ class ViewChat extends Component {
                 trivia_tag.style.animation = 'scale_up .7s forwards';
                 trivia_tag.style.backgroundColor = 'white';
                 trivia_tag.querySelector('.trivia-name').style.display = 'none';
-
-                // 中身
-                let p_lang_name = tag_content[0];
-                // let trivia_id = tag_content[1];
-                let p_lang_color_code = tag_content[2];
-                let article = tag_content[3];
-                let lang_name_div = document.createElement('div');
-                let article_div = document.createElement('div');
-                lang_name_div.classList.add('hover_p_lang_name');
-                article_div.classList.add('hover_article');
-                lang_name_div.style.fontSize = font_size + 1 + 'px';
-                article_div.style.fontSize = font_size -1 + 'px';
-                trivia_tag.appendChild(lang_name_div).innerText = p_lang_name;
-                trivia_tag.appendChild(article_div).innerText = article;
-
-                lang_name_div.style.borderLeftColor = '#' + p_lang_color_code;
-                lang_name_div.style.borderLeftWidth = '5px';
-                lang_name_div.style.borderLeftStyle = 'solid';
-
-
                 trivia_tag.addEventListener('animationend', function () {
-                    for (let i = 0; i < 11; i++) {
-                        if (trivia_tag.classList.contains('tag_move_' + i)) {
-                            trivia_tag.classList.remove('tag_move_' + i);
-                        }
-                    }
+                    trivia_tag.classList.remove(animation_kind);
+                    trivia_tag.classList.add('rug-stop');
                     trivia_tag.style.webkitTransform = 'scale(3)';
                 });
             }
@@ -244,19 +200,8 @@ class ViewChat extends Component {
             // 描画が終了していれば
             if (trivia_tag.classList.contains('view_end')) {
 
-                let lang_name_div = document.getElementsByClassName('hover_p_lang_name');
-                let article_div = document.getElementsByClassName('hover_article');
-
                 if (trivia_tag.classList.contains('mouse-on-tag')) {
                     trivia_tag.classList.remove('mouse-on-tag');
-                    // trivia_tag.removeChild(lang_name_div);
-                    // trivia_tag.removeChild(article_div);
-                    for (let i =0; i < lang_name_div.length; i++) {
-                        trivia_tag.removeChild(lang_name_div[i]);
-                    }
-                    for (let i =0; i < article_div.length; i++) {
-                        trivia_tag.removeChild(article_div[i]);
-                    }
                 }
                 trivia_tag.style.animation = 'scale_down 1.5s forwards';
                 trivia_tag.style.backgroundColor = '#' + tag_color;
@@ -360,6 +305,7 @@ class ViewChat extends Component {
                     tag_content[i].push(article);
                     tag_content[i].push(tn);
 
+
                     // タグを生成後、配置
                     let div = document.createElement('div');
                     let span = document.createElement('span');
@@ -420,7 +366,6 @@ class ViewChat extends Component {
                 default: animation_kind = 'tag_move_0';
                     break;
             }
-            tag_content[i].push(animation_kind);
             // スタイルセット
             trivia_tag[i].style.webkitTransitionProperty = "-webkit-transform";
             trivia_tag[i].style.webkitTransitionProperty = "all";
@@ -434,6 +379,7 @@ class ViewChat extends Component {
             trivia_tag[i].style.width = tag_size + 'px';
             trivia_tag[i].style.height = tag_size + 'px';
             trivia_tag[i].style.animation = 'tagview ' + animation_view_sec + 's 1';
+            // animation_kind = 'tag_move_0';
             // タグの出現が終わり次第動かす
             trivia_tag[i].addEventListener('animationend', function () {
                 trivia_tag[i].style.animationName = '';
@@ -445,10 +391,9 @@ class ViewChat extends Component {
                 trivia_tag[i].style.webkitTransition = 'all 0.5s ease-in-out';
             });
 
-            let font_size = this.state.FONT_SIZE;
-
             let trivia_td = document.querySelectorAll('.trvia-td');
-            this.onMouseOver(trivia_td[tag_content[i][4]].querySelector('.trivia-tag'), tag_content[i], animation_kind, font_size);
+
+            this.onMouseOver(trivia_td[tag_content[i][4]].querySelector('.trivia-tag'), tag_content[i], animation_kind);
             this.onMouseOut(trivia_td[tag_content[i][4]].querySelector('.trivia-tag'), tag_content[i], animation_kind);
         }
     }

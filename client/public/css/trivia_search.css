@@ -1,0 +1,549 @@
+/*===================================================================================
+投稿一覧ページ
+===================================================================================*/
+/* Material iconsを利用する */
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 12px;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    text-transform: none;
+    /* WebKitブラウザサポート */
+    -webkit-font-smoothing: antialiased;
+    /* Chrome、Safariサポート */
+    text-rendering: optimizeLegibility;
+    /* Firefoxサポート */
+    -moz-osx-font-smoothing: grayscale;
+    /* IEサポート */
+    font-feature-settings: 'liga';
+}
+/* 大枠 */
+.trivia-content {
+    width:98%;
+    max-width:1000px;
+    min-width:600px;
+    height: 100%;
+    margin: 10px auto;
+}
+/* 検索エリア */
+.trivia-search {
+    width: 100%;
+    height: 80px;
+    margin-top: 20px;
+}
+.input-search-area {
+    width: 100%;
+    height: 40px;
+    margin: 20px auto;
+    position: relative;
+}
+.input-search-area-sub {
+    width: 90%;
+    height:100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+/* セレクトメニュー */
+.select-nav,
+.limit-select-box,
+.order-select-box,
+.send-plang-box {
+    background-color: #f3f3f3;
+    background-image: none;
+    border-left: 1px solid #f3f3f3;
+    border-top: 1px solid #f3f3f3;
+    border-bottom: 1px solid #f3f3f3;
+    position: relative;
+    float: left;
+    height: 35px;
+    margin: 0;
+    padding-left: 5px;
+    overflow: hidden;
+    border: 1px solid #cdcdcd;
+    border-top-color: #bdbdbd;
+    -webkit-border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+}
+.limit-select-box,
+.order-select-box {
+    height: 20px;
+    margin:10px 0;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.send-plang-box {
+    height: 30px;
+    margin:10px 0;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+}
+.limit-select-box {
+    float: right;
+}
+.select-nav::after,
+.limit-select-box::after,
+.order-select-box::after,
+.send-plang-box::after {
+    content : '';
+    position: absolute;
+    top: 45%;
+    right: 8px;
+    transform: translateX(-50%);
+    border-top: 5px solid #555;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    z-index:1;
+}
+.limit-select-box::after,
+.order-select-box::after {
+    top: 40%;
+    border-top: 5px solid #555;
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
+}
+.send-plang-box::after {
+    top: 40%;
+    border-top: 5px solid #555;
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
+}
+.nav-search-plang,
+.nav-search-list,
+.nav-search-order,
+.nav-send-plang {
+    position: relative;
+    float: left;
+    cursor: pointer;
+    overflow: hidden;
+    top: 1px;
+}
+.p-lang-select,
+.limit-select,
+.order-select,
+.send-plang {
+    position: absolute;
+    display: block;
+    top: -1px;
+    left: 0;
+    height: 35px;
+    width: 100%;
+    font-family: arial,sans-serif;
+    outline: 0;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    visibility: visible;
+    border: 0;
+    display: block;
+    top: 0px;
+    z-index:5;
+}
+.send-plang {
+    height: 30px;
+}
+.limit-select,
+.order-select {
+    height: 22px;
+}
+.nav-search-label,
+.nav-search-list-label,
+.nav-search-order-label,
+.nav-search-label {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #666;
+    font-size: 12px;
+    line-height: 33px;
+    margin-right: 25px;
+    margin-left: 5px;
+    padding:0 10px;
+}
+.nav-search-list-label,
+.nav-search-order-label {
+    font-size: 11px;
+    line-height: 18px;
+    margin-right: 20px;
+    margin-left: 5px;
+    padding:0 8px;
+}
+.nav-send-label {
+    font-size: 11px;
+    line-height: 28px;
+    margin-right: 20px;
+    margin-left: 5px;
+    padding:0 8px;
+
+}
+/* 検索ワードエリア */
+.search-t-txt {
+    width: 80%;
+    height: 37px;
+    float:left;
+    position: relative;
+    border: 1px solid #cdcdcd;
+    box-sizing: border-box;
+}
+.t-search {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    line-height: 15px;
+    padding: 4px 20px 4px 0;
+    margin: 0;
+    border: 0;
+    height: 100%;
+    font-family: sans-serif;
+    font-size: 15px;
+    color: #111;
+    outline: 0;
+    -webkit-appearance: none;
+    box-shadow: none;
+    text-indent: 8px;
+    zoom: 1;
+    text-align: left;
+    box-sizing: border-box;
+}
+/* サーチボックスの[×]を消す */
+input[type=search]::-ms-clear {  display: none; width : 0; height: 0; }
+input[type=search]::-ms-reveal {  display: none; width : 0; height: 0; }
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
+
+/* サーチボタン */
+.search-btn {
+    width: 60px;
+    height: 37px;
+    background-color: #f3f3f3;
+    border: 1px solid #cdcdcd;
+    box-sizing: border-box;
+    position: absolute;
+    right: -60px;
+    top: -1px;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+}
+.search-icon {
+    width:100%;
+    height:100%;
+    position:relative;
+    text-align: center;
+    vertical-align: middle;
+}
+.search-i {
+   margin-top:5px;
+   color:gray;
+}
+
+.search-result {
+    width:100%;
+    height: auto;
+    padding-bottom:20px;
+    margin-bottom: 10px;
+}
+.hit-count {
+    display: inline-block;
+    min-width: 25px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+    background-color: #f38080;
+    border-radius: 10px;
+    margin:10px;
+}
+
+.start-end-count {
+    display: block;
+    width: auto;
+    color: #666;
+    font-size:14px;
+    float:right;
+    margin:10px;
+
+}
+
+/* 投稿内容エリア */
+.trivia-view {
+    width:100%;
+    max-width:1000px;
+    min-width:600px;
+    margin: 10px auto;
+    clear:both;
+}
+.trivia-area:first-child {
+    border-top: 1px solid #cdcdcd;
+}
+.trivia-area {
+    width: 100%;
+    height:auto;
+    border-bottom: 1px solid #cdcdcd;
+    box-sizing: border-box;
+    padding: 10px 0;
+    position: relative;
+}
+/* プログラミング言語 */
+.p-lang-name {
+    width:100%;
+    height:auto;
+    padding:0 5px;
+    margin:5px 0 10px 0;
+    color:#111;
+    box-sizing: border-box;
+    border-left: solid .3em;
+    text-indent:5px;
+    line-height:1;
+}
+/* 投稿内容 */
+.t-article{
+    width:100%;
+    height:auto;
+    padding:0 2em;
+    font-size:13px;
+    color:#333;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+/* 投稿日 */
+.t-ins-dt {
+    width:100%;
+    height:auto;
+    box-sizing: border-box;
+    padding:0 10px;
+    text-align:right;
+    color: #999;
+    font-size:12px;
+    font-weight: bold;
+}
+
+/* ページング */
+.page_n_inner {
+    width:98%;
+    height: auto;
+    margin: 10px auto;
+    text-align: center;
+}
+
+.page-list-area {
+    display: inline-block;
+}
+.page-flow > .r_arrow {
+    font-size:13px;
+    padding:0;
+    font-weight:bold;
+}
+.page-flow,.page_list{
+    font-size:13px;
+    display: inline-block;
+    width:auto;
+    cursor: pointer;
+    color: #0366D6;
+    font-weight: bold;
+    border: solid .5px #eee;
+    padding: 5px 8px;
+}
+.now_page{
+    color:gray;
+    opacity: .8;
+    cursor: default;
+}
+
+.send-trivia-area {
+    width:90%;
+    max-width:1010px;
+    min-width:600px;
+    position:fixed;
+    bottom:30px;
+}
+.send-trivia-icon {
+    border-radius: 50%;
+    width:50px;
+    height:50px;
+    position: relative;
+    background: rgba(100, 100, 100, .8);
+    text-align:center;
+    text-decoration:none;
+    float:right;
+    margin-right:-5%;
+    cursor: pointer;
+    box-shadow: 0 0 8px 1px rgba(100, 100, 100, .4);
+}
+.send-trivia-icon > .send-icon {
+    display:inline-block;
+    width:100%;
+    height:100%;
+    font-size: 26px;
+    vertical-align: top;
+    line-height: 50px;
+    color: #eee;
+
+}
+.post-area {
+    position: absolute;
+    width:100%;
+    height:100%;
+    left: 0;
+    top: 0;
+    display: none;
+}
+.post-area-inner {
+    width: 100%;
+    height:100%;
+    position: relative;
+}
+.trivia-send-form {
+    width: 400px;
+    height:400px;
+    background-color: #efefef;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    padding: 20px;
+    z-index: 15;
+    border-radius: 3px;
+    box-shadow: 0 0 8px 3px rgba(100, 100, 100, .4);
+}
+.trivia-send-form-inner {
+    width:95%;
+    height:88%;
+    margin:0 auto;
+}
+.send-plang-area {
+    width: 100%;
+    height:30px;
+    /* border: solid 1px black; */
+}
+.trivia-txt-area{
+    width: 100%;
+    height: auto;
+}
+.trivia-txt-area textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    box-sizing: border-box;
+    resize: none;
+    border-radius: 3px;
+    letter-spacing: 1.5px;
+}
+.send-area-foot {
+    width:100%;
+    height: auto;
+    padding: 5px 0;
+}
+.send_btn {
+    width:auto;
+    float: left;
+}
+.txt-count-area {
+    width: auto;
+    float:right;
+    font-size: 11px;
+    color: #999;
+    margin-right: 10px;
+    letter-spacing: 2.5px;
+}
+.hide-box {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index: 8;
+    background: rgba(100, 100, 100, .6);
+    display: none;
+}
+.ins-check-area {
+    width:100%;
+    height:20px;
+    margin-bottom:10px;
+    text-align: left;
+    overflow: hidden;
+}
+.ins-move {
+    width:auto;
+    animation-name: ins_move;
+    animation-duration: 5s;
+    font-size:12px;
+    text-indent: 1em;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+.close-mdl-area {
+    width: 100%;
+    text-align: center;
+    border-top: solid .2px #cdcdcd;
+    padding-top: 5px;
+}
+.close-mdl {
+    width: 100%;
+    font-size: 11px;
+    cursor: pointer;
+    text-align: center;
+    color: #888;
+}
+
+.btn-basic {
+    outline: none;
+    position: relative;
+    z-index: 0;
+    font-size: 14px;
+    letter-spacing: 1.2px;
+    background: none;
+    border-radius: 3px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-weight: 500;
+    outline: none;
+    padding: 8px 16px;
+    color: #fff;
+    border: none;
+    transition: all .2s ease-in-out;
+}
+.btn-disable {
+    background-color:#bfbfbf;
+    opacity:.5;
+    pointer-events: none;
+}
+.btn-basic:hover {
+    box-shadow:0 0 5px #999;
+    transition: all .2s ease-in-out;
+    opacity: .9;
+}
+.btn-02 {
+    background-color: #018bb3;
+}
+@keyframes ins_move{
+    0%   { transform: translateX(130%);
+           opacity: 0;
+         }
+    50% { transform: translateX(0%);
+           opacity: 1;
+         }
+    90% { transform: translateX(0%);
+           opacity: 1;
+         }
+    100% { transform: translateX(0%);
+           opacity: 0;
+         }
+}

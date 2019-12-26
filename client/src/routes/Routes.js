@@ -14,6 +14,7 @@ import LinkTest from '../components/LinkTest.jsx';
 import SocketBug from '../components/SocketBug.jsx';
 import Cell from '../components/Cell.jsx';
 import ViewChat from '../components/ViewChat.jsx';
+import TriviaSearch from '../components/TriviaSearch.jsx';
 /*=======================================================================
  class
 =======================================================================*/
@@ -36,6 +37,7 @@ class Routes extends Component {
                         <Route path="/soket_bug" exact component={SocketBug} />
                         <Route path="/cell" exact component={Cell} />
                         <Route path="/chat_view" exact component={ViewChat} />
+                        <Route path="/search" exact component={TriviaSearch} />
                     </div>
                 </Router>
           </div>
