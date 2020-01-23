@@ -22,6 +22,12 @@ module.exports = function(socket){
     socket.on('amputation_socket', () => {
         socket.disconnect();
     });
+    // 即レスポンス返すだけ
+    socket.on('send_sign', () => {
+        console.log('received sign');
+        socket.emit('received_sign');
+        socket.broadcast.emit('received_sign');
+    });
     // 豆知識投稿時
     socket.on('send_trivia', (data) => {
         const INS_TRIVIA = dbQuery.insTrivia(data.p_lang_id,data.article);

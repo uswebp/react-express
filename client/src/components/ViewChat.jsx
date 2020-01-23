@@ -46,7 +46,7 @@ class ViewChat extends Component {
 
         let total_td = this.state.TOTAL_TD;
 
-        // 豆知識送信時
+        // 豆知識送信後、レスポンス受信処理
         socket.on("emit_from_server_trivia", (data) => {
 
             let p_lang_name = data.p_lang_name;
@@ -86,136 +86,14 @@ class ViewChat extends Component {
             // タグ削除
             while (parent_td.firstChild) parent_td.removeChild(parent_td.firstChild);
 
-            (async () => {
-                try {
-                    await this.sample1(trivia_id, td_num, p_lang_name, p_lang_color_code, parent_td);
-                } catch (err) {
-                    console.log(err);
-                }
-            })();
+            this.sample1(trivia_id, td_num, p_lang_name, p_lang_color_code, parent_td);
 
-            (async () => {
-                try {
-                    await this.sample2(trivia_id, p_lang_name, article, tag_size);
-                } catch (err) {
-                    console.log(err);
-                }
-            })();
+            this.sample2(trivia_id, p_lang_name, article, tag_size);
+        });
 
-            // let div = document.createElement('div');
-            // let span = document.createElement('span');
-
-            // // タグを生成後、配置
-            // div.classList.add('trivia-tag');
-            // div.classList.add('tag-id-' + trivia_id);
-            // div.setAttribute('current-td-num', td_num);
-            // span.classList.add('trivia-name');
-            // // プログラミング言語セット
-            // parent_td.appendChild(div).appendChild(span).innerText = p_lang_name;
-            // // プログラミング言語カラーセット
-            // parent_td.querySelector('.trivia-tag').style.backgroundColor = '#' + p_lang_color_code;
-
-            // let trivia_tag = document.querySelector('.tag-id-' + trivia_id);
-
-            // // 開始ポジション
-            // let pos_x = Math.floor(Math.random() * (tag_size * 0.5));
-            // let pos_y = Math.floor(Math.random() * (tag_size * 0.5));
-            // // アニメーション
-            // let animation_move_sec = Math.floor((Math.random() * 10) + 6);
-            // let animation_view_sec = Math.floor((Math.random() * 5) + 3);
-            // let animation_kind = '';
-            // // アニメーション振り分け
-            // let animation_val = Math.floor(Math.random() * 10);
-            // switch (animation_val) {
-            //     case 0: animation_kind = 'tag_move_0';
-            //         break;
-            //     case 1: animation_kind = 'tag_move_1';
-            //         break;
-            //     case 2: animation_kind = 'tag_move_2';
-            //         break;
-            //     case 3: animation_kind = 'tag_move_3';
-            //         break;
-            //     case 4: animation_kind = 'tag_move_4';
-            //         break;
-            //     case 5: animation_kind = 'tag_move_5';
-            //         break;
-            //     case 6: animation_kind = 'tag_move_6';
-            //         break;
-            //     case 7: animation_kind = 'tag_move_7';
-            //         break;
-            //     case 8: animation_kind = 'tag_move_8';
-            //         break;
-            //     case 9: animation_kind = 'tag_move_9';
-            //         break;
-            //     default: animation_kind = 'tag_move_0';
-            //         break;
-            // }
-            // tag_content.push(animation_kind);
-            // // スタイルセット
-            // trivia_tag.style.webkitTransitionProperty = "-webkit-transform";
-            // trivia_tag.style.webkitTransitionProperty = "all";
-            // trivia_tag.style.webkitTransitionDelay = "0.2s";
-            // trivia_tag.style.webkitTransitionDuration = "0.5s";
-            // trivia_tag.style.webkitTransitionTimingFunction = "ease-in-out";
-
-            // trivia_tag.style.position = 'absolute';
-            // trivia_tag.style.top = pos_x + 'px';
-            // trivia_tag.style.left = pos_y + 'px';
-            // trivia_tag.style.width = tag_size + 'px';
-            // trivia_tag.style.height = tag_size + 'px';
-            // trivia_tag.style.animation = 'tagview ' + animation_view_sec + 's 1';
-            // // タグの出現が終わり次第動かす
-            // trivia_tag.addEventListener('animationend', function () {
-            //     trivia_tag.style.animationName = '';
-            //     trivia_tag.classList.add(animation_kind);
-            //     trivia_tag.classList.add('view_end');
-            //     trivia_tag.style.animationIterationCount = 'infinite';
-            //     trivia_tag.style.animationDuration = animation_move_sec + 's';
-            //     trivia_tag.style.animationDirection = 'alternate';
-            //     trivia_tag.style.webkitTransition = 'all 0.5s ease-in-out';
-            // });
-
-            // trivia_tag.addEventListener('click', function (e) {
-            //     // 描画が終了していれば
-            //     if (trivia_tag.classList.contains('view_end')) {
-            //         // console.log(trivia_tag.getAttribute('current-td-num'));
-
-            //         let current_td_num = trivia_tag.getAttribute('current-td-num');
-
-            //         let temp = document.querySelector('.temp');
-            //         let temp_text = temp.innerText;
-
-            //         // モーダルの要素をクラス名で取得↑みたいな
-            //         let post_area = document.querySelector('.post-area');
-            //         let modal_hide = document.querySelector('.hide-box');
-
-            //         // 書き込む様相取得
-            //         let modal_p_lang = document.querySelector('.moda-p-lang');
-            //         // let modal_article_area = document.querySelector('.modal-article-area');
-            //         let modal_span = document.querySelector('.p-lang-span');
-            //         let modal_article_txt = document.querySelector('.modal-article-txt');
-
-
-            //         if (!temp_text) {
-            //             temp.innerText = current_td_num;
-
-            //             // モーダル表示ON
-            //             modal_hide.style.display = 'block';
-            //             post_area.style.display = 'block'
-
-            //             // innerTextでtag_contentの中身を取得したモーダルの要素に書き込み
-            //             modal_span.innerText = p_lang_name;
-            //             modal_article_txt.innerText = data.article;
-
-            //         } else {
-            //             temp.innerText = '';
-            //             modal_hide.style.display = 'none';
-            //             post_area.style.display = 'none';
-            //         }
-            //     }
-
-
-            // });
+        socket.on('received_sign', () => {
+            let send_button = document.getElementById('sendButton');
+            send_button.disabled = true;
         });
 
         // Fetch・DOM操作
@@ -292,6 +170,7 @@ class ViewChat extends Component {
         trivia_tag.style.width = tag_size + 'px';
         trivia_tag.style.height = tag_size + 'px';
         trivia_tag.style.animation = 'tagview ' + animation_view_sec + 's 1';
+
         // タグの出現が終わり次第動かす
         trivia_tag.addEventListener('animationend', function () {
             trivia_tag.style.animationName = '';
@@ -301,6 +180,10 @@ class ViewChat extends Component {
             trivia_tag.style.animationDuration = animation_move_sec + 's';
             trivia_tag.style.animationDirection = 'alternate';
             trivia_tag.style.webkitTransition = 'all 0.5s ease-in-out';
+
+
+            let send_button = document.getElementById('sendButton');
+            send_button.disabled = false;
         });
 
         trivia_tag.addEventListener('click', function (e) {
@@ -786,7 +669,11 @@ class ViewChat extends Component {
 
     // 豆知識送信
     sendTrivia = () => {
+
         let socket = this.state.socket;
+
+        socket.emit('send_sign');
+
         let trivia_txt = document.querySelector('.chat_area_tag').value;
         let p_lang_ids = document.querySelector('.p_lang_color');
         let idx = p_lang_ids.selectedIndex;
@@ -828,7 +715,7 @@ class ViewChat extends Component {
                         <select name="p_lang_color" className="p_lang_color">
                             {list}
                         </select>
-                        <button onClick={() => this.sendTrivia()}>send</button>
+                        <button id="sendButton" onClick={() => this.sendTrivia()}>send</button>
                         <textarea className="chat_area_tag" />
                     </div>
                 </div>
