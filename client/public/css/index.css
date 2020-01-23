@@ -117,16 +117,39 @@ code {
   -webkit-font-smoothing: antialiased;
 }
 
-.hover_p_lang_name {
-  overflow: hidden;
-  margin: 5px;
-  color: black;
+.modal-p-lang{
+  
+}
+.modal-article-area{
+  height: 50px;
+  overflow-y: scroll;
+  width: 95%;
+  word-break: break-all;
 }
 
-.hover_article {
-  overflow: hidden;
-  margin: 5px;
-  color: black;
+.modal-article{
+  margin-top: 20px;
+  width: 100%;
+  height: 200px;
+  box-sizing: border-box;
+  border: black 2px solid;
+  padding: 5px;
+  word-break: break-all;
+}
+
+.chat-modal{
+  width: 700px;
+  height: 100px;
+  background-color: #efefef;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  padding: 20px;
+  z-index: 15;
+  border-radius: 3px;
+  box-shadow: 0 0 8px 3px rgba(100, 100, 100, .4);
+  
 }
 
 /* 言語カラー */
