@@ -6,14 +6,14 @@ const dbQuery = require('./lib/db_query');
 //======================================================================
 //DB接続チェック
 dbConf.connection.connect(err => {
-    if(err) {
+    if (err) {
         return err;
     }
 });
 
-module.exports = function(socket){
+module.exports = function(socket) {
     console.log('socket connect ⇒ ' + socket.id);
-    socket.emit('emit_socketid', socket.id );
+    socket.emit('emit_socketid', socket.id);
     // socket切断時
     socket.on('disconnect', () => {
         console.log('user disconnected ⇒ ' + socket.id);
@@ -22,26 +22,31 @@ module.exports = function(socket){
     socket.on('amputation_socket', () => {
         socket.disconnect();
     });
+    // 任意にsocket接続
+    socket.on('test', () => {
+        console.log('setuzoku');
+        socket.connect();
+    });
     // 即レスポンス返すだけ
     socket.on('send_sign', () => {
-        console.log('received sign');
         socket.emit('received_sign');
         socket.broadcast.emit('received_sign');
     });
     // 豆知識投稿時
     socket.on('send_trivia', (data) => {
-        const INS_TRIVIA = dbQuery.insTrivia(data.p_lang_id,data.article);
+        data.artcle = decodeURIComponent(data.article);
+        const INS_TRIVIA = dbQuery.insTrivia(data.p_lang_id, data.artcle);
         const GET_P_COLOR = dbQuery.getSPcolor(data.p_lang_id);
         const GET_TRIVIA = dbQuery.getTrivia(1);
         // 豆知識投稿
         dbConf.connection.query(INS_TRIVIA, (err) => {
-            if(err) {
+            if (err) {
                 return res.send(err)
             }
         });
         // プログラム言語情報取得
         dbConf.connection.query(GET_TRIVIA, (err, results) => {
-            if(err) {
+            if (err) {
                 return res.send(err)
             } else {
                 // 言語情報登録

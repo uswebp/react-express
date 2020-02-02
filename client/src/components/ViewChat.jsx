@@ -52,7 +52,7 @@ class ViewChat extends Component {
             let p_lang_name = data.p_lang_name;
             let p_lang_color_code = data.p_lang_color;
             let trivia_id = data.trivia_id;
-            let article = data.article;
+            let article = decodeURIComponent(data.article);
 
             let tag_size = this.state.TAG_SIZE;
 
@@ -88,11 +88,12 @@ class ViewChat extends Component {
 
             this.sample1(trivia_id, td_num, p_lang_name, p_lang_color_code, parent_td);
 
-            this.sample2(trivia_id, p_lang_name, article, tag_size);
+            this.sample2(trivia_id, p_lang_name, article, tag_size, p_lang_color_code);
         });
 
         socket.on('received_sign', () => {
-            let send_button = document.getElementById('sendButton');
+            let send_button = document.getElementById('send-btn');
+            send_button.classList.add('btn-disable');
             send_button.disabled = true;
         });
 
@@ -120,9 +121,8 @@ class ViewChat extends Component {
         parent_td.querySelector('.trivia-tag').style.backgroundColor = '#' + p_lang_color_code;
     }
 
-    sample2 = (trivia_id, p_lang_name, article, tag_size) => {
+    sample2 = (trivia_id, p_lang_name, article, tag_size,p_lang_color_code) => {
         let trivia_tag = document.querySelector('.tag-id-' + trivia_id);
-
         // 開始ポジション
         let pos_x = Math.floor(Math.random() * (tag_size * 0.5));
         let pos_y = Math.floor(Math.random() * (tag_size * 0.5));
@@ -182,8 +182,12 @@ class ViewChat extends Component {
             trivia_tag.style.webkitTransition = 'all 0.5s ease-in-out';
 
 
-            let send_button = document.getElementById('sendButton');
+            let send_button = document.getElementById('send-btn');
+            let trivia_txt = document.querySelector('.chat-area-tag');
             send_button.disabled = false;
+            trivia_txt.value = "";
+            send_button.classList.remove('btn-disable');
+
         });
 
         trivia_tag.addEventListener('click', function (e) {
@@ -216,6 +220,7 @@ class ViewChat extends Component {
 
                     // innerTextでtag_contentの中身を取得したモーダルの要素に書き込み
                     modal_span.innerText = p_lang_name;
+                    modal_span.style.borderColor = '#' + p_lang_color_code;
                     modal_article_txt.innerText = article;
 
                 } else {
@@ -426,11 +431,11 @@ class ViewChat extends Component {
                 let modal_hide = document.querySelector('.hide-box');
 
                 // 書き込む様相取得
-                let modal_p_lang = document.querySelector('.moda-p-lang');
+                let modal_p_lang = document.querySelector('.modal-p-lang');
                 // let modal_article_area = document.querySelector('.modal-article-area');
-                let modal_span = document.querySelector('.p-lang-span');
+                let modal_span = document.querySelector('.modal-p-lang h2.p-lang-span');
                 let modal_article_txt = document.querySelector('.modal-article-txt');
-
+                console.log(modal_p_lang);
 
                 if (!temp_text) {
                     temp.innerText = current_td_num;
@@ -441,6 +446,7 @@ class ViewChat extends Component {
 
                     // innerTextでtag_contentの中身を取得したモーダルの要素に書き込み
                     modal_span.innerText = p_lang_name;
+                    modal_span.style.borderColor = '#' + p_lang_color_code;
                     modal_article_txt.innerText = article;
 
                 } else {
@@ -668,13 +674,15 @@ class ViewChat extends Component {
     }
 
     // 豆知識送信
-    sendTrivia = () => {
+    sendTrivia = (e) => {
+        // イベントキャンセル
+        e.preventDefault();
 
         let socket = this.state.socket;
 
         socket.emit('send_sign');
 
-        let trivia_txt = document.querySelector('.chat_area_tag').value;
+        let trivia_txt = document.querySelector('.chat-area-tag').value;
         let p_lang_ids = document.querySelector('.p_lang_color');
         let idx = p_lang_ids.selectedIndex;
         let p_lang_id = p_lang_ids.options[idx].value;
@@ -692,7 +700,17 @@ class ViewChat extends Component {
 
         // trivia_txt.innerText = '';
     }
-
+    // 任意にソケット情報削除
+    socketDct = () => {
+        let socket = this.state.socket;
+        socket.emit('amputation_socket');
+    }
+    // 任意にソケット接続
+    socketCon = () => {
+        let socket = this.state.socket;
+        console.log('setuzoku_front');
+        socket.emit('test');
+    }
     render() {
         // TD・TR数に応じてテーブル作成
         let d = this.state.TD_NUM;
@@ -710,14 +728,24 @@ class ViewChat extends Component {
             <div id="main">
                 <div dangerouslySetInnerHTML={{ __html: MAIN_TABLE }} />
                 <EventListener target="window" onResize={this.calculateTable} />
-                <div className="container">
-                    <div>
-                        <select name="p_lang_color" className="p_lang_color">
-                            {list}
-                        </select>
-                        <button id="sendButton" onClick={() => this.sendTrivia()}>send</button>
-                        <textarea className="chat_area_tag" />
-                    </div>
+                <div className="send-area">
+                    <form className="container" onSubmit={this.sendTrivia}>
+                        <div className="send-left-col">
+                            <div className="sel-area">
+                                <select name="p_lang_color" className="p_lang_color sel-list">
+                                    {list}
+                                </select>
+                                <span className="p-sel-highlight"></span>
+                                <span className="p-sel-selectbar"></span>
+                                <div className="send-btn-area">
+                                    <input type="submit" id="send-btn" className="btn-basic btn-02"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="send-right-col">
+                            <textarea maxLength="150" cols="80" rows="2" placeholder="プログラムに関する豆知識を入力してください。"　required className="chat-area-tag" />
+                        </div>
+                    </form>
                 </div>
                 <span className='temp' hidden></span>
                 <div className="post-area">
