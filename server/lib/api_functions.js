@@ -1,6 +1,6 @@
 /*=================================================================================
  APIに関する関数集
-/*=================================================================================
+=================================================================================*/
 /**
  * @description 重複無しランダム配列
  * @param {Int} maxnum | 生成する配列の数字列の個数
@@ -11,7 +11,7 @@ exports.getRandomArr = (maxnum) => {
     var randoms = [];
     // 最小値と最大値
     var min = 0, max = maxnum-1;
-    
+
     // 重複チェックしながら乱数作成
     for(i = min; i <= max; i++){
         while(true){
@@ -23,7 +23,6 @@ exports.getRandomArr = (maxnum) => {
         }
     }
     return randoms;
-    
     /**
      * @description 指定された範囲内で乱数を返す
      * @param {Int} min |　最小値
@@ -34,3 +33,27 @@ exports.getRandomArr = (maxnum) => {
     return Math.floor( Math.random() * (max - min + 1)) + min;
     }
 }
+/**
+ * @description お問い合わせメール送信
+ *
+ * @returns
+ */
+exports.sendMail = (con, from) => {
+    
+    var mailOptions = {
+        from: from,
+        to: 'gamaring5@gmail.com',
+        subject: '{test}',
+        text: '{testhonbun}'
+      };
+      con.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+          return 'false';
+        } else {
+          console.log('Email sent: ' + info.response);
+          return 'ok';
+        }
+      });
+}
+
