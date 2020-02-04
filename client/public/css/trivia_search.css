@@ -281,7 +281,6 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     margin:10px;
 
 }
-
 /* 投稿内容エリア */
 .trivia-view {
     width:100%;
@@ -334,7 +333,6 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     font-size:12px;
     font-weight: bold;
 }
-
 /* ページング */
 .page_n_inner {
     width:98%;
@@ -342,7 +340,6 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     margin: 10px auto;
     text-align: center;
 }
-
 .page-list-area {
     display: inline-block;
 }
@@ -366,7 +363,6 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     opacity: .8;
     cursor: default;
 }
-
 .send-trivia-area {
     width:90%;
     max-width:1010px;
@@ -395,7 +391,6 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     vertical-align: top;
     line-height: 50px;
     color: #eee;
-
 }
 .post-area {
     position: absolute;
@@ -431,7 +426,6 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 .send-plang-area {
     width: 100%;
     height:30px;
-    /* border: solid 1px black; */
 }
 .trivia-txt-area{
     width: 100%;
@@ -501,49 +495,4 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     cursor: pointer;
     text-align: center;
     color: #888;
-}
-
-.btn-basic {
-    outline: none;
-    position: relative;
-    z-index: 0;
-    font-size: 14px;
-    letter-spacing: 1.2px;
-    background: none;
-    border-radius: 3px;
-    box-sizing: border-box;
-    cursor: pointer;
-    font-weight: 500;
-    outline: none;
-    padding: 8px 16px;
-    color: #fff;
-    border: none;
-    transition: all .2s ease-in-out;
-}
-.btn-disable {
-    background-color:#bfbfbf;
-    opacity:.5;
-    pointer-events: none;
-}
-.btn-basic:hover {
-    box-shadow:0 0 5px #999;
-    transition: all .2s ease-in-out;
-    opacity: .9;
-}
-.btn-02 {
-    background-color: #018bb3;
-}
-@keyframes ins_move{
-    0%   { transform: translateX(130%);
-           opacity: 0;
-         }
-    50% { transform: translateX(0%);
-           opacity: 1;
-         }
-    90% { transform: translateX(0%);
-           opacity: 1;
-         }
-    100% { transform: translateX(0%);
-           opacity: 0;
-         }
 }

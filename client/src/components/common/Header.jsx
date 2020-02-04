@@ -56,7 +56,7 @@ class Header extends React.Component {
                         <li onClick={this.routerAction} data-num='/chat_view'>チャット</li>
                         <li onClick={this.routerAction} data-num='/search'>投稿一覧</li>
                         <li>GitHub</li>
-                        <li>お問い合わせ</li>
+                        <li onClick={this.routerAction} data-num='/contact'>お問い合わせ</li>
                     </ul>
                 </nav>
             </header>
