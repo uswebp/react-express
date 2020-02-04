@@ -39,7 +39,7 @@ exports.getRandomArr = (maxnum) => {
  * @returns
  */
 exports.sendMail = (con, from) => {
-    
+  return con;
     var mailOptions = {
         from: from,
         to: 'gamaring5@gmail.com',

@@ -17,7 +17,7 @@ const TOP_VIEW_TOTAL_NUMBER = 10;
 // 送信元メールアドレス
 const FROMT_MAIL_ADRESS = 'usweb111@gmail.com';
 // 送信元メールアカウントパスワード
-const FROMT_MAIL_ADRESS_PASS = 'u.syu.2525';
+const FROMT_MAIL_ADRESS_PASS = '';
 // 送信メールポート
 const SMTP_MAIL_PORT = 465;
 // メールホスト
