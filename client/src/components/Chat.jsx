@@ -29,7 +29,7 @@ class Chat extends Component {
             this.setSocketID(socketid);
         });
         // 豆知識送信時
-        socket.on("emit_from_server_trvie", (data) => {
+        socket.on("emit_from_server_trivia", (data) => {
             // socket.idをセット
             this.setSocketID(data.socket_id);
             // 送信データの描画

@@ -13,3 +13,117 @@ body{
 /*===================================================================================
 ボタン
 ===================================================================================*/
+.btn-basic {
+    outline: none;
+    position: relative;
+    z-index: 0;
+    font-size: 14px;
+    letter-spacing: 1.2px;
+    background: none;
+    border-radius: 3px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-weight: 500;
+    outline: none;
+    padding: 8px 16px;
+    color: #fff;
+    border: none;
+    transition: all .2s ease-in-out;
+}
+.btn-disable {
+    background-color:#bfbfbf;
+    opacity:.5;
+    pointer-events: none;
+}
+.btn-02 {
+    background-color: #018bb3;
+}
+.btn-02:hover {
+    box-shadow:0 0 5px #999;
+    transition: all .2s ease-in-out;
+    opacity: .9;
+}
+/*===================================================================================
+プログラミング言語カラー
+===================================================================================*/
+/* HTML */
+.p_e34f26 {
+    color: #e34f26;
+}
+/* CSS */
+.p_4166ec {
+    color: #4166ec;
+}
+/* JavaScript */
+.p_f1e05a {
+    color: #f1e05a;
+}
+/* Python */
+.p_3572A5 {
+    color: #3572A5;
+}
+/* PHP */
+.p_4F5D95 {
+    color: #4F5D95;
+}
+/* Ruby */
+.p_CC342D {
+    color: #CC342D;
+}
+/* Java */
+.p_ef9a50 {
+    color: #ef9a50;
+}
+/* Perl */
+.p_0298c3 {
+    color: #0298c3;
+}
+/* C */
+.p_555555 {
+    color: #555555;
+}
+/* C++ */
+.p_f34b7d {
+    color: #f34b7d;
+}
+/* C# */
+.p_178600 {
+    color: #178600;
+}
+/* Swift */
+.p_fb6745 {
+    color: #fb6745;
+}
+/* Objective-c */
+.p_438eff {
+    color: #438eff;
+}
+/* BASIC */
+.p_333333 {
+    color: #333333;
+}
+/* ShellScript */
+.p_89e052 {
+    color: #89e052;
+}
+/* VBScript */
+.p_00552e {
+    color: #00552e;
+}
+/* Kotlin */
+.p_EA4DFA {
+    color: #EA4DFA;
+}
+/* VisualBasic */
+.p_945db7 {
+    color: #945db7;
+}
+/* MySQL */
+.p_4479a1 {
+    color: #4479a1;
+}
+/* Lua */
+.p_000080 {
+    color: #000080;
+}
+

@@ -1,7 +1,16 @@
 # Coding Rule
 
 > ## CSS
-
+```
+- 備考
+・クラス名/ID名はハイフン(-)で連結【例：header-area】
+・cssプロパティの複数指定がある場合は別ファイル参照【例：border,transition等】
+・CSSファイルは下記に該当するように作成する
+    ∟ 共通使用 ⇒ common.css
+    ∟ input関連 ⇒ form.css
+    ∟ button関連 ⇒ button.css
+    ∟ animation関連 ⇒ animation.css
+```
 ```css
 .id {
     font-size: 12px;
@@ -9,9 +18,15 @@
     background-color: rgba(10, 10, 10, 0.5);
 }
 ```
-
 > ## JavaScript
-
+```
+- 備考
+・変数名・定数名は「スネークケース」【例:admin_id, MAX_WIDTH】
+・配列の変数には「ary, 〇〇s」を使用
+・関数名は「キャメルケース」【例:getRandum】
+・共通して使用する定数は別ファイルで指定し、ファイルを読み込んで使用
+・関数はアロー関数を使用
+```
 - ### 代入
 ```javascript
 let a = 10;
@@ -43,7 +58,6 @@ if (i === true) console.log("ok");
 ```
 
 - ### 三項演算子
-  
 ```javascript
 let i = (i > 5) ? 'OK' : 'NG';
 ```
@@ -56,7 +70,7 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
-- ### function  
+- ### function
 ```javascript
 function testInsert() {
     console.log('insert!');
@@ -90,7 +104,6 @@ switch (a) {
 ```
 
 - ### try
-  
 ```javascript
 try {
 
@@ -118,7 +131,7 @@ function testInsert(a, b) {
 ```
 
 - ### class
-  
+
 ```javascript
 class User extends Person {
     constructor(name, age) {
