@@ -37,19 +37,39 @@ class Header extends React.Component {
      * @returns ×
      */
     routerAction = (url) => {
-        let link_path = url.currentTarget.getAttribute('data-num');
+        let window_w = window.innerWidth;
+        // スマホのみハンバーガーメニューを操作
+        if (window_w < 800) {
+            let header_nav = document.querySelector('header nav');
+            let mob_hide_box = document.querySelector('.mob-hide-box');
+            header_nav.style.transform = 'translate(-250px)';
+            mob_hide_box.style.display = 'none';
+        }
         // 遷移
+        let link_path = url.currentTarget.getAttribute('data-num');
         history.push(link_path);
     }
-    // ページ遷移時ソケット情報削除
-    socketDct = () => {
-        let socket = this.state.socket;
-        socket.emit('amputation_socket');
+    openMenu = () => {
+        let header_nav = document.querySelector('header nav');
+        let mob_hide_box = document.querySelector('.mob-hide-box');
+        header_nav.style.transform = 'translate(0)';
+        mob_hide_box.style.display = 'block';
+    }
+    closeMenu = () => {
+        let header_nav = document.querySelector('header nav');
+        let mob_hide_box = document.querySelector('.mob-hide-box');
+        header_nav.style.transform = 'translate(-250px)';
+        mob_hide_box.style.display = 'none';
     }
 
     render() {
         return (
             <header>
+                <div className="mob-humb-menu" onClick={this.openMenu}>
+                    <div className="mob-humb-inner">
+                        <span className="humb-line"></span>
+                    </div>
+                </div>
                 <h1 onClick={this.routerAction} data-num='/'>COODIG</h1>
                 <nav>
                     <ul>
@@ -59,6 +79,7 @@ class Header extends React.Component {
                         <li onClick={this.routerAction} data-num='/contact'>お問い合わせ</li>
                     </ul>
                 </nav>
+                <div className='mob-hide-box' onClick={this.closeMenu}></div>
             </header>
         );
     }

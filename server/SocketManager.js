@@ -23,20 +23,21 @@ module.exports = function(socket) {
         socket.disconnect();
     });
     // 任意にsocket接続
-    socket.on('test', () => {
-        console.log('setuzoku');
+    socket.on('connection_socket', () => {
         socket.connect();
     });
-    // 即レスポンス返すだけ
-    socket.on('send_sign', () => {
-        socket.emit('received_sign');
-        socket.broadcast.emit('received_sign');
+    // 豆知識投稿を検知し、豆知識タグが表示中か判定
+    socket.on('trivia_send_sign', () => {
+        socket.emit('trivia_sending');
+        socket.broadcast.emit('trivia_sending');
     });
     // 豆知識投稿時
     socket.on('send_trivia', (data) => {
+        // 豆知識情報をデコード
         data.artcle = decodeURIComponent(data.article);
+        // 豆知識登録
         const INS_TRIVIA = dbQuery.insTrivia(data.p_lang_id, data.artcle);
-        const GET_P_COLOR = dbQuery.getSPcolor(data.p_lang_id);
+        // 登録した豆知識を取得するSQL文発行
         const GET_TRIVIA = dbQuery.getTrivia(1);
         // 豆知識投稿
         dbConf.connection.query(INS_TRIVIA, (err) => {
@@ -59,18 +60,5 @@ module.exports = function(socket) {
                 socket.broadcast.emit('emit_from_server_trivia', data);
             }
         });
-        // dbConf.connection.query(GET_P_COLOR, (err, results) => {
-        //     if(err) {
-        //         return res.send(err)
-        //     } else {
-        //         // 言語情報登録
-        //         data.p_lang_name = results[0].p_lang_name;
-        //         data.p_lang_color = results[0].p_lang_color_code;
-        //         data.socket_id = socket.id;
-        //         // 送信
-        //         socket.emit('emit_from_server_trivia', data);
-        //         socket.broadcast.emit('emit_from_server_trivia', data);
-        //     }
-        // });
     });
 }

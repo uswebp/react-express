@@ -368,7 +368,7 @@ methods
      * @returns ×
      */
     insTrivia = (s_trivia_txt, s_plang_id) => {
-        fetch(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT + '/ind_trivia/article/' + s_trivia_txt + '/id/' + s_plang_id)
+        fetch(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT + '/ins_trivia/article/' + s_trivia_txt + '/id/' + s_plang_id)
             .then(response => response.json())
             .then((data) => {
                 // 登録判定
@@ -742,7 +742,6 @@ methods
     selectPcolor = () => ({p_lang_id, p_lang_name }) => <option value={p_lang_id} key={p_lang_id}>{p_lang_name}</option>
 
     render() {
-        console.log(this.state);
         //===================================================
         // state情報取得
         //===================================================
