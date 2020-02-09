@@ -7,55 +7,6 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
-/*↓トップページ使用のため不要*/
-.chat_area {
-    width: 350px;
-    margin: 40px auto 30px auto;
-    color: #078f74;
-}
-.chat_area h2 {
-    border-left: solid .5em #09d3ac;
-    text-indent: 1em;
-    box-sizing: border-box;
-    line-height: 30px;
-}
-#chat {
-    width: 98%;
-    margin: 10px auto;
-}
-.container {
-    width: 350px;
-    margin: 30px auto;
-}
-.msg {
-    margin-top: 15px;
-    text-indent: 1.5em;
-    font-size: 14px;
-    position: relative;
-    font-weight: bold;
-    animation-name: tagview;
-    animation-duration: 2s;
-}
-.msg::before {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 0;
-    height: 0;
-    margin-top: -5px;
-    border-top: 5px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-left: 6px solid #078f74;
-}
-.article_btn {
-    cursor: pointer;
-    padding: 2px 50px;
-    margin-top: 10px;
-}
-/*↑トップページ使用のため不要*/
 
 /* タグ表示エリア【チャットページ】*/
 .trvia-table {
@@ -102,8 +53,8 @@ code {
     -webkit-font-smoothing: antialiased;
 }
 .chat-modal {
-    width: 700px;
-    height: 230px;
+    width: 80%;
+    height: 300px;
     background-color: #efefef;
     position: fixed;
     top: 50%;
@@ -148,25 +99,25 @@ code {
 }
 /* 投稿エリア【チャットページ】 */
 .send-area {
-    width: 90%;
-    height: 90px;
+    width: 100%;
     border-bottom: .3px solid #eee;
     border-top: 1px solid rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    padding-bottom:20px;
 }
 form.container {
-    width: 800px;
+    width: 100%;
     margin: 0 auto;
 }
 .send-left-col {
-    width: 160px;
-    height: 90px;
+    width: 50%;
+    height: 40px;
     float: left;
     box-sizing: border-box;
-    padding-left: 5px;
+    padding-left: 10px;
 }
 .sel-area {
-    width: 18%;
+    width: 50%;
     min-width: 150px;
     max-width: 160px;
     height: 40px;
@@ -186,7 +137,6 @@ form.container {
     font-size: 12px;
     border-radius: 0;
     border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 .sel-area select:focus {
     outline: none;
@@ -210,7 +160,7 @@ form.container {
     content: '';
     height: 2px;
     width: 0;
-    bottom: 1px;
+    bottom: -2px;
     position: absolute;
     background: #018bb3;
     transition: 0.2s ease all;
@@ -233,9 +183,13 @@ form.container {
     opacity: 0.5;
 }
 .send-right-col {
-    width: 640px;
-    height: 80px;
-    float: left;
+    width: 100%;
+    height: auto;
+    clear: both;
+    border-top:1px solid rgba(0, 0, 0, 0.3);
+    border-bottom:1px solid rgba(0, 0, 0, 0.3);
+    margin-bottom:10px;
+    position: relative;
 }
 .send-right-col textarea {
     width: 100%;
@@ -253,20 +207,63 @@ form.container {
 .send-right-col textarea {
     scrollbar-width: none;
 }
+.t-txt-selectbar {
+    display: block;
+    width: 100%;
+    position: relative;
+}
+.t-txt-selectbar::before,
+.t-txt-selectbar::after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 0;
+    position: absolute;
+    background: #018bb3;
+    transition: 0.2s ease all;
+}
+.t-txt-selectbar::before {
+    left: 50%;
+}
+.t-txt-selectbar::after {
+    right: 50%;
+}
+.send-right-col textarea:focus~.t-txt-selectbar:before,
+.send-right-col textarea:focus~.t-txt-selectbar:after {
+    width: 50%;
+}
+.p-sel-highlight {
+    position: absolute;
+    top: 25%;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
 .send-right-col textarea:focus {
-    border-left: 2px solid #018bb3;
+    /* border-top: 1px solid #018bb3; */
     outline: none;
 }
 .send-right-col textarea::placeholder {
     font-size: 12px;
     color:#8d8d8d;
 }
-.send-btn-area #send-btn {
+.send-btn-area-pc {
+    display:none;
+    width: 100px;
+    float: right;
+}
+.send-btn-area-mob {
+    width:100%;
+    padding:0 10px;
+    box-sizing: border-box;
+    text-align: center;
+}
+.send-btn-area-mob #send-btn {
     width: 100px;
     padding: 5px 10px;
     margin-top: 10px;
     box-sizing: border-box;
-    float: left;
 }
 #send-btn .send-icon {
     font-size: 15px;

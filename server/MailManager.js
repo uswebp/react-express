@@ -14,5 +14,6 @@ let transporter = nodemailer.createTransport({
       user: df.FROMT_MAIL_ADRESS,
       pass: df.FROMT_MAIL_ADRESS_PASS
     }
-  });// DB設定情報出力
-module.exports =  {transporter:transporter}
+  });
+// メール設定情報出力
+module.exports = {transporter:transporter}

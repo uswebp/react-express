@@ -63,10 +63,13 @@ class ViewChat extends Component {
             this.setAnimation(data.trivia_id, data.p_lang_name, decodeURIComponent(data.article), tag_size, data.p_lang_color);
         });
 
-        socket.on('received_sign', () => {
-            let send_button = document.getElementById('send-btn');
-            send_button.classList.add('btn-disable');
-            send_button.disabled = true;
+        socket.on('trivia_sending', () => {
+            let send_button_pc = document.querySelector('.send-btn-area-pc .send-btn');
+            let send_button_mob = document.querySelector('.send-btn-area-mob .send-btn');
+            send_button_pc.classList.add('btn-disable');
+            send_button_mob.classList.add('btn-disable');
+            send_button_pc.disabled = true;
+            send_button_mob.disabled = true;
         });
 
         // Fetch・DOM操作
@@ -121,6 +124,14 @@ class ViewChat extends Component {
         let send_flag = true;
         let trivia_tag = this.setTagStyles(document.querySelector('.tag-id-' + trivia_id), tag_size);
 
+            let trivia_txt = document.querySelector('.chat-area-tag');
+            let send_button_pc = document.querySelector('.send-btn-area-pc .send-btn');
+            let send_button_mob = document.querySelector('.send-btn-area-mob .send-btn');
+            send_button_pc.disabled = false;
+            send_button_mob.disabled = false;
+            trivia_txt.value = "";
+            send_button_pc.classList.remove('btn-disable');
+            send_button_mob.classList.remove('btn-disable');
 
         trivia_tag = this.setMoveAnimation(trivia_tag, animation_kind, send_flag);
 
@@ -607,7 +618,7 @@ class ViewChat extends Component {
 
         let socket = this.state.socket;
 
-        socket.emit('send_sign');
+        socket.emit('trivia_send_sign');
 
         let trivia_txt = document.querySelector('.chat-area-tag').value;
         let p_lang_ids = document.querySelector('.p_lang_color');
@@ -664,15 +675,21 @@ class ViewChat extends Component {
                                 </select>
                                 <span className="p-sel-highlight"></span>
                                 <span className="p-sel-selectbar"></span>
-                                <div className="send-btn-area">
-                                    <input type="submit" id="send-btn" className="btn-basic btn-02" />
+                                <div className="send-btn-area-pc">
+                                    <input type="submit" id="send-btn" className="send-btn btn-basic btn-02"/>
                                 </div>
                             </div>
                         </div>
                         <div className="send-right-col">
-                            <textarea maxLength="150" cols="80" rows="2" placeholder="プログラムに関する豆知識を入力してください。" required className="chat-area-tag" />
+                            <textarea maxLength="150" cols="80" rows="2" placeholder="プログラムに関する豆知識を入力してください。"　required className="chat-area-tag" />
+                            <span className="t-txt-highlight"></span>
+                            <span className="t-txt-selectbar"></span>
+                        </div>
+                        <div className="send-btn-area-mob">
+                            <input type="submit" id="send-btn" className="send-btn btn-basic btn-02"/>
                         </div>
                     </form>
+
                 </div>
                 <span className='temp' hidden></span>
                 <div className="post-area">

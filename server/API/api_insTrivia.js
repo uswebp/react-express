@@ -7,13 +7,12 @@ const df = require('../config/define');
 //======================================================================
 exports.getAPI = function (req,res) {
     let article = req.params.article;
+    let p_lang_id = req.params.id;
     article = article.replace(/\'/g, "\\'");
     article = article.replace(/\\/g, "\\\\");
 
-    let p_lang_id = req.params.id;
-    const INS_TRIVIA = dbQuery.insTrivia(p_lang_id, article);
-    console.log(INS_TRIVIA);
-    dbConf.connection.query(INS_TRIVIA, (err) => {
+    const INS_TRIVIA_Q = dbQuery.insTrivia(p_lang_id, article);
+    dbConf.connection.query(INS_TRIVIA_Q, (err) => {
         if(err) {
             return res.send(err)
         } else {

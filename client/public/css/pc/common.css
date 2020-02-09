@@ -43,4 +43,7 @@ header ul li a{
     color: black;
     text-decoration: none;
 }
+.mob-humb-menu {
+    display: none;
+}
 
