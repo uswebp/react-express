@@ -3,7 +3,7 @@ module.exports = {
     'connection': {
         'host': 'localhost',
         'user': 'root',
-        'password': 'Usweb0812@',
+        'password': 'Kawakami@5219',
         'database': 'coodig_test',
         timezone: 'jst'
     }
