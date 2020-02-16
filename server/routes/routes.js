@@ -38,5 +38,7 @@ module.exports = function(app) {
     app.use('/ins_trivia/article/:article/id/:id',require('../API/api_insTrivia').getAPI);
     //メール送信用API
     app.use('/send_mail/',require('../API/api_sendMail.js').getAPI);
+    //トップページ用のタグ取得
+    app.use('/recently_lang/',require('../API/api_getRecentlyLang.js').getAPI);
 }
 

@@ -20,6 +20,7 @@ module.exports = function(socket) {
     });
     // 任意にsocket切断
     socket.on('amputation_socket', () => {
+        console.log('dct');
         socket.disconnect();
     });
     // 任意にsocket接続

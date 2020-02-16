@@ -42,6 +42,9 @@ class TriviaSearch extends React.Component {
     }
 
     componentDidMount() {
+        // Socket切断
+        this.socketDct();
+
         // 検索言語・検索ワード・表示件数・ページ数取得・並び替え
         let c_p_lang = this.state.CURRENT_P_LANG;
         let c_word = this.state.CURRENT_WORD;
@@ -740,6 +743,12 @@ methods
      * @returns ×
      */
     selectPcolor = () => ({p_lang_id, p_lang_name }) => <option value={p_lang_id} key={p_lang_id}>{p_lang_name}</option>
+    // ページ遷移時ソケット情報削除
+    socketDct = () => {
+        let socket = this.state.socket;
+        socket.emit('amputation_socket');
+    }
+
 
     render() {
         //===================================================

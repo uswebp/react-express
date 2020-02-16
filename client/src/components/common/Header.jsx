@@ -3,7 +3,8 @@
 =======================================================================*/
 import React from 'react';
 import history from '../../lib/history';
-
+import df from '../../config/define';
+import socketIOClient from "socket.io-client";
 /*=======================================================================
  class
 =======================================================================*/
@@ -16,6 +17,7 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            socket: socketIOClient(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT),
         };
     }
 /*=======================================================================
@@ -45,6 +47,8 @@ class Header extends React.Component {
             header_nav.style.transform = 'translate(-250px)';
             mob_hide_box.style.display = 'none';
         }
+        // Socket切断
+        this.socketDct();
         // 遷移
         let link_path = url.currentTarget.getAttribute('data-num');
         history.push(link_path);
@@ -61,7 +65,11 @@ class Header extends React.Component {
         header_nav.style.transform = 'translate(-250px)';
         mob_hide_box.style.display = 'none';
     }
-
+    // ページ遷移時ソケット情報削除
+    socketDct = () => {
+        let socket = this.state.socket;
+        socket.emit('amputation_socket');
+    }
     render() {
         return (
             <header>
