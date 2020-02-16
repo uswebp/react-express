@@ -16,6 +16,7 @@ import Cell from '../components/Cell.jsx';
 import ViewChat from '../components/ViewChat.jsx';
 import TriviaSearch from '../components/TriviaSearch.jsx';
 import Contact from '../components/Contact.jsx';
+import Top from '../components/Top.jsx';
 /*=======================================================================
  class
 =======================================================================*/
@@ -32,7 +33,8 @@ class Routes extends Component {
                 <Router history={history}>
                     <div>
                         <Route path="/" component={Header} />
-                        <Route path="/" exact component={Chat} />
+                        <Route path="/" exact component={Top} />
+                        {/* <Route path="/" exact component={Chat} /> */}
                         <Route path="/article" exact component={Article} />
                         <Route path="/linktest" exact component={LinkTest} />
                         <Route path="/soket_bug" exact component={SocketBug} />

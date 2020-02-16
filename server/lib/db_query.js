@@ -48,9 +48,11 @@ exports.getSPcolor = (p_lang_id) => {
  * @returns {String} sql | 豆知識取得SQL文
  */
 exports.getRecentlyLang = (limit_num) => {
-    let sql =  'SELECT p_lang_id FROM ';
-        sql += 'trivia_table GROUP BY p_lang_id ';
-        sql += 'ORDER BY MAX(ins_dt) DESC LIMIT ' + limit_num;
+    let sql =  'SELECT TR.p_lang_id,PM.p_lang_name,PM.p_lang_color_code FROM ';
+        sql += 'trivia_table AS TR LEFT JOIN p_lang_mst AS PM ';
+        sql += 'ON TR.p_lang_id = PM.p_lang_id ';
+        sql += 'GROUP BY TR.p_lang_id ';
+        sql += 'ORDER BY MAX(TR.ins_dt) DESC LIMIT ' + limit_num;
 
     return sql;
 }

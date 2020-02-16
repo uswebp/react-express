@@ -1,9 +1,28 @@
 import React from 'react';
 import history from '../lib/history';
+import df from '../config/define';
+import socketIOClient from "socket.io-client";
 
 class Contact extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            socket: socketIOClient(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT),
+            TRIVIA: [],
+        }
+    }
+
+    componentDidMount() {
+        // Socket切断
+        this.socketDct();
+    }
     changePage = () => {
         history.push('/');
+    }
+    // ページ遷移時ソケット情報削除
+    socketDct = () => {
+        let socket = this.state.socket;
+        socket.emit('amputation_socket');
     }
 
     render() {
