@@ -4,6 +4,9 @@
 import React from 'react';
 import df from '../config/define';
 import socketIOClient from "socket.io-client";
+import history from '../lib/history';
+
+
 /*=======================================================================
  class
 =======================================================================*/
@@ -32,9 +35,9 @@ class TriviaSearch extends React.Component {
             SEND_PLANG: 1,
         };
     }
-/*=======================================================================
- life cycle
-=======================================================================*/
+    /*=======================================================================
+     life cycle
+    =======================================================================*/
     UNSAFE_componentWillMount() {
         // 初期設定
         // ソケット切断
@@ -63,9 +66,9 @@ class TriviaSearch extends React.Component {
         // プログラミング言語情報取得
         this.getPcolor();
     }
-/*=======================================================================
-methods
-=======================================================================*/
+    /*=======================================================================
+    methods
+    =======================================================================*/
     /**
      * @description ページ遷移時ソケット情報削除
      * @param ×
@@ -121,7 +124,7 @@ methods
      */
     changeSearchWord = (e) => {
         // テキストボックスの値をセット
-        this.setState({CURRENT_WORD: e.target.value});
+        this.setState({ CURRENT_WORD: e.target.value });
     }
 
     /**
@@ -197,12 +200,12 @@ methods
             nav_p_color = '#' + this.state.P_LANG_COLOR[nav_p_lang_num].p_lang_color_code;
             hit_area_color = '#' + this.state.P_LANG_COLOR[nav_p_lang_num].p_lang_color_code;
             // 検索された現在のプログラミング言語を送信用言語にセット
-            this.setState({SEND_PLANG: search_p_lang});
+            this.setState({ SEND_PLANG: search_p_lang });
             // ラベル名変更
             send_plang_name.innerText = nav_p_lang;
         } else {
             // 「全て」を選択時、「HTML」を送信用言語にセット
-            this.setState({SEND_PLANG: 1});
+            this.setState({ SEND_PLANG: 1 });
         }
         // セレクトエリアのラベルを変更
         select_nav_name.innerText = nav_p_lang;
@@ -215,7 +218,7 @@ methods
         // 検索条件の豆知識数取得
         this.getTriviaCount(search_word, search_p_lang);
         // 検索された現在のプログラミング言語セット
-        this.setState({CURRENT_P_LANG: search_p_lang});
+        this.setState({ CURRENT_P_LANG: search_p_lang });
         // ページセット ⇒ 1ページ目からスタート
         this.setPage(c_page);
         // 検索プログラミング言語セット
@@ -290,7 +293,7 @@ methods
         if (status === 'next') {
             // 「次へ」
             c_page += 1;
-        } else if(status === 'prev'){
+        } else if (status === 'prev') {
             // 「前へ」
             c_page -= 1
         }
@@ -324,8 +327,8 @@ methods
         fetch(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT + '/p_lang_color')
             .then(response => response.json())
             .then((data) => {
-            // プログラミング言語情報セット
-            this.setPcolor(data);
+                // プログラミング言語情報セット
+                this.setPcolor(data);
             })
             .catch(err => console.error(err))
     }
@@ -358,8 +361,8 @@ methods
         fetch(df.FULL_LOCAL_URL + ':' + df.SERVER_PORT + '/count_trivia/word/' + search_word + '/id/' + p_lang_id)
             .then(response => response.json())
             .then((data) => {
-            // 総件数セット
-            this.setCount(data.count[0].cnt);
+                // 総件数セット
+                this.setCount(data.count[0].cnt);
             })
             .catch(err => console.error(err))
     }
@@ -375,7 +378,7 @@ methods
             .then(response => response.json())
             .then((data) => {
                 // 登録判定
-                if(data.res) {
+                if (data.res) {
                     // 投稿成功時
                     this.insCheck('ok');
                 } else {
@@ -592,7 +595,7 @@ methods
         // 登録日・日付整形 [yyyy/mm/dd]
         let ins_day = ins_dt_shap.replace(/[0-9]{2}:[0-9]{2}:[0-9]{2}/g, '');
         // 今日・日付整形 [yyyy/mm/dd hh:ii:ss]
-        let sum_today =  year + '/' + month + '/' + day + ' ' + hour + ':' + min + ':' + sec;
+        let sum_today = year + '/' + month + '/' + day + ' ' + hour + ':' + min + ':' + sec;
         // 今日・日付整形 [yyyy/mm/dd]
         let today = year + '/' + month + '/' + day;
 
@@ -712,7 +715,7 @@ methods
         let ins_move = ins_check_area.querySelector('.ins-move');
         ins_move.style.color = font_color;
         // 完了メッセージ表示後
-        ins_check_area.addEventListener('animationend',function(){
+        ins_check_area.addEventListener('animationend', function () {
             // 完了メッセージ削除
             while (ins_check_area.firstChild) {
                 ins_check_area.removeChild(ins_check_area.firstChild);
@@ -732,7 +735,7 @@ methods
     renderTrivia = () => ({ trivia_id, article, p_lang_color_code, p_lang_name, ins_t }) =>
         <article className={`trivia-area`} key={trivia_id} >
             <div className="p-lang-name" style={{ borderColor: '#' + p_lang_color_code }}>{p_lang_name}</div>
-            <div className="t-article" style={{whiteSpace: 'pre-line'}}>{article}</div>
+            <div className="t-article" style={{ whiteSpace: 'pre-line' }}>{article}</div>
             <div className="t-ins-dt">{this.dateCnv(ins_t)}</div>
         </article>
 
@@ -742,7 +745,44 @@ methods
      * @param {String} p_lang_name | プログラム言語名
      * @returns ×
      */
-    selectPcolor = () => ({p_lang_id, p_lang_name }) => <option value={p_lang_id} key={p_lang_id}>{p_lang_name}</option>
+    selectPcolor = () => ({ p_lang_id, p_lang_name }) => <option value={p_lang_id} key={p_lang_id}>{p_lang_name}</option>
+    // ページ遷移時ソケット情報削除
+    socketDct = () => {
+        let socket = this.state.socket;
+        socket.emit('amputation_socket');
+    }
+    /**
+ * @description ルーティング
+ * @param url | 遷移先のパス
+ * @returns ×
+ */
+    routerAction = (url) => {
+        let window_w = window.innerWidth;
+        // スマホのみハンバーガーメニューを操作
+        if (window_w < 800) {
+            let header_nav = document.querySelector('header nav');
+            let mob_hide_box = document.querySelector('.mob-hide-box');
+            header_nav.style.transform = 'translate(-250px)';
+            mob_hide_box.style.display = 'none';
+        }
+        // Socket切断
+        this.socketDct();
+        // 遷移
+        let link_path = url.currentTarget.getAttribute('data-num');
+        history.push(link_path);
+    }
+    openMenu = () => {
+        let header_nav = document.querySelector('header nav');
+        let mob_hide_box = document.querySelector('.mob-hide-box');
+        header_nav.style.transform = 'translate(0)';
+        mob_hide_box.style.display = 'block';
+    }
+    closeMenu = () => {
+        let header_nav = document.querySelector('header nav');
+        let mob_hide_box = document.querySelector('.mob-hide-box');
+        header_nav.style.transform = 'translate(-250px)';
+        mob_hide_box.style.display = 'none';
+    }
     // ページ遷移時ソケット情報削除
     socketDct = () => {
         let socket = this.state.socket;
@@ -755,9 +795,9 @@ methods
         // state情報取得
         //===================================================
         // 豆知識
-        const {TRIVIA} = this.state;
+        const { TRIVIA } = this.state;
         // プログラム言語
-        const {P_LANG_COLOR} = this.state;
+        const { P_LANG_COLOR } = this.state;
         // ページ番号
         let c_page = this.state.CURRENT_PAGE;
         // 表示件数
@@ -788,7 +828,7 @@ methods
             // 配列用カウント番号
             let page_count = 1;
             // ページリストのループ開始番号初期化
-            let page_list_view = c_page ;
+            let page_list_view = c_page;
             // 1ページ目の時以外
             if (c_page !== 1) {
                 // [1]を表示
@@ -808,12 +848,12 @@ methods
                     page_list_arr[page_count] = <span data-num={i} className={`page_list page_${i} now_page`} key={i}>{i}</span>;
                 } else {
                     // 1ページ目以降
-                    page_list_arr[page_count] = <span　onClick={this.changePage} data-num={i} className={`page_list page_${i}`} key={i}>{i}</span>;
+                    page_list_arr[page_count] = <span onClick={this.changePage} data-num={i} className={`page_list page_${i}`} key={i}>{i}</span>;
                 }
                 page_count++;
             }
             // 2ページ以降 [1] の右隣に [...] を表示
-            if (c_page > 2 ) {
+            if (c_page > 2) {
                 page_list_arr['dott1'] = <span className={`page_list page_dott1`}>...</span>
             }
             // 現ページが最大ページまで5ページ以上空いている時、最大ページ数の左隣に [...] を表示
@@ -824,7 +864,7 @@ methods
             if (c_page === maxpage) {
                 page_list_arr['max'] = <span data-num={maxpage} className={`page_list page_${maxpage} now_page`}>{maxpage}</span>
             } else {
-                page_list_arr['max'] = <span　onClick={this.changePage} data-num={maxpage} className={`page_list page_${maxpage}`}>{maxpage}</span>
+                page_list_arr['max'] = <span onClick={this.changePage} data-num={maxpage} className={`page_list page_${maxpage}`}>{maxpage}</span>
             }
         } else {
             // 最大ページ数が5以下の時
@@ -834,21 +874,21 @@ methods
                     page_list_arr[i] = <span data-num={i} className={`page_list page_${i} now_page`} key={i}>{i}</span>;
                 } else {
                     // 1ページ目以降
-                    page_list_arr[i] = <span　onClick={this.changePage} data-num={i} className={`page_list page_${i}`} key={i}>{i}</span>;
+                    page_list_arr[i] = <span onClick={this.changePage} data-num={i} className={`page_list page_${i}`} key={i}>{i}</span>;
                 }
             }
         }
         // 1ページ以降の時 [前へ] ボタン表示
         if (c_page > 1) {
-            prev_page = <span　onClick={this.changePage} data-num='prev' className="page-flow prev-page">
-                            <i className="material-icons r_arrow">
-                                keyboard_arrow_left
+            prev_page = <span onClick={this.changePage} data-num='prev' className="page-flow prev-page">
+                <i className="material-icons r_arrow">
+                    keyboard_arrow_left
                             </i>
-                        </span>;
+            </span>;
         }
         // 最大ページ以外の時 [次へ] ボタン表示
         if (c_page !== maxpage) {
-            next_page = <span　onClick={this.changePage} data-num='next' className="page-flow next-page">
+            next_page = <span onClick={this.changePage} data-num='next' className="page-flow next-page">
                 <i className="material-icons r_arrow">
                     keyboard_arrow_right
                 </i>
@@ -864,21 +904,40 @@ methods
             start = 0;
             end = 0;
         }
+
         //===================================================
 
         return (
-            <div className="trivia-content" lang='en'>
-                <form onSubmit={this.TriviaSearch} name="trivia_search" method="post" className="trivia-search">
+            <div>
+                <header>
+                    <div className="mob-humb-menu" onClick={this.openMenu}>
+                        <div className="mob-humb-inner">
+                            <span className="humb-line"></span>
+                        </div>
+                    </div>
+                    <h1 onClick={this.routerAction} data-num='/'>COODIG</h1>
+                    <nav>
+                        <ul>
+                            <li onClick={this.routerAction} data-num='/chat_view'>チャット</li>
+                            <li onClick={this.routerAction} data-num='/search'>投稿一覧</li>
+                            <li>GitHub</li>
+                            <li onClick={this.routerAction} data-num='/contact'>お問い合わせ</li>
+                        </ul>
+                    </nav>
+                    <div className='mob-hide-box' onClick={this.closeMenu}></div>
+                </header>
+                <div className="trivia-content" lang='en'>
+                    <form onSubmit={this.TriviaSearch} name="trivia_search" method="post" className="trivia-search">
                         <div className="input-search-area">
                             <div className="input-search-area-sub">
                                 <div className="select-nav">
                                     <div className="nav-search-plang" data-value="search-alias=aps">
                                         <span className="nav-search-label">全て</span>
                                     </div>
-                                        <select name="p_lang_select" className="p-lang-select" value={this.state.CURRENT_P_LANG} onChange={this.changePLang}>
-                                            <option value="all">全て</option>
-                                            {P_LANG_COLOR.map(this.selectPcolor())}
-                                        </select>
+                                    <select name="p_lang_select" className="p-lang-select" value={this.state.CURRENT_P_LANG} onChange={this.changePLang}>
+                                        <option value="all">全て</option>
+                                        {P_LANG_COLOR.map(this.selectPcolor())}
+                                    </select>
                                 </div>
                                 <div className="search-t-txt">
                                     <input type="search" name="t_search" className="t-search" placeholder="Search" value={this.state.CURRENT_WORD} onChange={this.changeSearchWord} />
@@ -892,72 +951,72 @@ methods
                                 </div>
                             </div>
                         </div>
-                </form>
-                <div className="trivia-view">
-                    <div className="search-result">
-                        <div className="limit-select-box">
-                        <div className="nav-search-list" data-value="search-alias=aps">
+                    </form>
+                    <div className="trivia-view">
+                        <div className="search-result">
+                            <div className="limit-select-box">
+                                <div className="nav-search-list" data-value="search-alias=aps">
                                     <span className="nav-search-list-label">20件</span>
+                                </div>
+                                <select name="limit_select" className="limit-select" value={this.state.CURRENT_LIMIT} onChange={this.changeLimit}>
+                                    <option value="10">10件</option>
+                                    <option value="20">20件</option>
+                                    <option value="50">50件</option>
+                                    <option value="100">100件</option>
+                                </select>
                             </div>
-                            <select name="limit_select" className="limit-select" value={this.state.CURRENT_LIMIT} onChange={this.changeLimit}>
-                                <option value="10">10件</option>
-                                <option value="20">20件</option>
-                                <option value="50">50件</option>
-                                <option value="100">100件</option>
-                            </select>
-                        </div>
-                        <div className="order-select-box">
-                        <div className="nav-search-order" data-value="search-alias=aps">
+                            <div className="order-select-box">
+                                <div className="nav-search-order" data-value="search-alias=aps">
                                     <span className="nav-search-order-label">新しい順</span>
+                                </div>
+                                <select name="order_select" className="order-select" value={this.state.CURRENT_ORDER} onChange={this.changeOrder}>
+                                    {/* <option value="default">並び替え</option> */}
+                                    <option value="date_asc">古い順</option>
+                                    <option value="date_desc">新しい順</option>
+                                    {/* <option value="order_fav">お気に入り数</option> */}
+                                </select>
                             </div>
-                            <select name="order_select" className="order-select" value={this.state.CURRENT_ORDER} onChange={this.changeOrder}>
-                                {/* <option value="default">並び替え</option> */}
-                                <option value="date_asc">古い順</option>
-                                <option value="date_desc">新しい順</option>
-                                {/* <option value="order_fav">お気に入り数</option> */}
-                            </select>
+
+                            <div className="hit-count">全 {count} 件</div>
+                            <div className="start-end-count"> {maxpage}ページ中{c_page}ページ / {start}件 ～ {end}件 </div>
                         </div>
 
-                        <div className="hit-count">全 {count} 件</div>
-                        <div className="start-end-count"> {maxpage}ページ中{c_page}ページ / {start}件 ～ {end}件 </div>
-                    </div>
-
-                    <div className="p-lang-box">
-                        {TRIVIA.map(this.renderTrivia())}
-                        <div className="page_n">
-                            <div className="page_n_inner">
-                                {prev_page}
-                                {page_list_arr['first']}
-                                {page_list_arr['dott1']}
-                                {page_list_arr}
-                                {page_list_arr['dott2']}
-                                {page_list_arr['max']}
-                                {next_page}
+                        <div className="p-lang-box">
+                            {TRIVIA.map(this.renderTrivia())}
+                            <div className="page_n">
+                                <div className="page_n_inner">
+                                    {prev_page}
+                                    {page_list_arr['first']}
+                                    {page_list_arr['dott1']}
+                                    {page_list_arr}
+                                    {page_list_arr['dott2']}
+                                    {page_list_arr['max']}
+                                    {next_page}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="send-trivia-area">
-                        <div className="send-trivia-icon">
-                            <i className="material-icons send-icon" onClick={this.opneModal}>
-                                post_add
+                        <div className="send-trivia-area">
+                            <div className="send-trivia-icon">
+                                <i className="material-icons send-icon" onClick={this.opneModal}>
+                                    post_add
                             </i>
+                            </div>
                         </div>
-                    </div>
                     </div>
                     <div className="post-area">
                         <div className="post-area-inner">
                             <form name="trivia-send-form" className="trivia-send-form" onSubmit={this.sendTrivia}>
                                 <div className="trivia-send-form-inner">
-                                        <div className="send-plang-area">
-                                            <div className="send-plang-box">
-                                                <div className="nav-send-plang" data-value="search-alias=aps">
-                                                    <span className="nav-send-label">HTML</span>
-                                                </div>
-                                                <select name="send-plang" className="send-plang" value={this.state.SEND_PLANG} onChange={this.changeSendPLang}>
-                                                    {P_LANG_COLOR.map(this.selectPcolor())}
-                                                </select>
+                                    <div className="send-plang-area">
+                                        <div className="send-plang-box">
+                                            <div className="nav-send-plang" data-value="search-alias=aps">
+                                                <span className="nav-send-label">HTML</span>
                                             </div>
+                                            <select name="send-plang" className="send-plang" value={this.state.SEND_PLANG} onChange={this.changeSendPLang}>
+                                                {P_LANG_COLOR.map(this.selectPcolor())}
+                                            </select>
                                         </div>
+                                    </div>
                                     <div className="trivia-txt-area">
                                         <textarea maxLength={df.MAX_SEND_TXT_LENGTH} required placeholder="プログラミングに関する豆知識を入力してください" value={this.state.SEND_TRIVIA_TXT} onChange={this.changeSendWord}></textarea>
                                     </div>
@@ -980,6 +1039,7 @@ methods
                     </div>
                     <div className='hide-box' onClick={this.closeModal}></div>
                 </div>
+            </div>
         );
     }
 };

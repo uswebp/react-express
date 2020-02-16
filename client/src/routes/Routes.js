@@ -32,7 +32,7 @@ class Routes extends Component {
             <div>
                 <Router history={history}>
                     <div>
-                        <Route path="/" component={Header} />
+                        {/* <Route path="/" component={Header} /> */}
                         <Route path="/" exact component={Top} />
                         {/* <Route path="/" exact component={Chat} /> */}
                         <Route path="/article" exact component={Article} />

@@ -3,6 +3,7 @@ import history from '../lib/history';
 import df from '../config/define';
 import socketIOClient from "socket.io-client";
 
+
 class Top extends React.Component {
     constructor() {
         super();
@@ -16,11 +17,16 @@ class Top extends React.Component {
         // Socket切断
         this.socketDct();
     }
+    /**
+     * @description ルーティング
+     * @param url | 遷移先のパス
+     * @returns ×
+     */
     routerAction = (url) => {
-        let link_path = url.currentTarget.getAttribute('data-num');
         // Socket切断
         this.socketDct();
         // 遷移
+        let link_path = url.currentTarget.getAttribute('data-num');
         history.push(link_path);
     }
     // ページ遷移時ソケット情報削除
@@ -49,7 +55,7 @@ class Top extends React.Component {
         let p_lang_list = [];
         let p_lang_class = ['first-tag top-view-tag', 'secound-tag top-view-tag', 'third-tag top-view-tag', 'force-tag top-view-tag'];
         for (let i in p_lang_detail) {
-            p_lang_list.push(<div key={p_lang_detail[i].p_lang_id} className={p_lang_class[i]} style={{background:'#' + p_lang_detail[i].p_lang_color_code}} value={p_lang_detail[i].p_lang_id}><span className="top-p-lang">{p_lang_detail[i].p_lang_name}</span></div>);
+            p_lang_list.push(<div key={p_lang_detail[i].p_lang_id} className={p_lang_class[i]} style={{ background: '#' + p_lang_detail[i].p_lang_color_code }} value={p_lang_detail[i].p_lang_id}><span className="top-p-lang">{p_lang_detail[i].p_lang_name}</span></div>);
         }
 
         return (
