@@ -1,7 +1,6 @@
 {
   "name": "react-test",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node ./server/server.js",
@@ -26,5 +25,17 @@
     "react-app-polyfill": "^1.0.4",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0"
-  }
+  },
+  "directories": {
+    "doc": "doc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uswebp/react-express.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uswebp/react-express/issues"
+  },
+  "homepage": "https://github.com/uswebp/react-express#readme",
+  "description": ""
 }
