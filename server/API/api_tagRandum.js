@@ -4,8 +4,8 @@
 const apiFunc = require('../lib/api_functions');
 //======================================================================
 exports.getAPI = function (req,res) {
-    let tag_num = req.params.num;
-    let results = apiFunc.getRandomArr(tag_num);
+    let max = req.params.num;
+    let results = apiFunc.getRandomArr(max);
     return res.json({
         randum:results
     })

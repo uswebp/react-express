@@ -321,6 +321,7 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
     color:#333;
     box-sizing: border-box;
     font-family: sans-serif;
+    overflow-wrap: break-word;
 }
 /* 投稿日 */
 .t-ins-dt {
