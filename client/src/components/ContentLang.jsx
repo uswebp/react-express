@@ -5,22 +5,30 @@ class ContentLang extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            langId: "",
-            test: "",
+            LANG_NAME: '',
+            TRIVIA_ID: '',
+            COLOR_CODE: '',
+            ARTICLE: '',
         };
     }
 
     UNSAFE_componentWillMount() {
-        this.setState({ langId: this.props.propsLangId })
+        this.setState({ LANG_NAME: this.props.lang_name });
+        this.setState({ TRIVIA_ID: this.props.trivia_id });
+        this.setState({ COLOR_CODE: this.props.color_code });
+        this.setState({ ARTICLE: this.props.article });
     }
 
     render() {
-        // console.log(this.state.langId)
         return (
             <div>
-                <p>{this.state.langId}</p>
+                <div>
+                <h2>{this.state.LANG_NAME}</h2>
+                <div>{this.state.ARTICLE}</div>
+                </div>
             </div>
         )
     }
 }
+
 export default ContentLang

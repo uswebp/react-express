@@ -46,5 +46,7 @@ module.exports = function(app) {
     app.use('/count_trivia_chk/word/:word/id/:id',require('../API/api_getTriviaCountChk').getAPI);
     //豆知識登録用API
     app.use('/ind_trivia/article/:article/id/:id',require('../API/api_insTrivia').getAPI);
+    //メール送信用API
+    app.use('/send_mail/',require('../API/api_sendMail.js').getAPI);
 }
 
