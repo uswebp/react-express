@@ -13,7 +13,7 @@ dbConf.connection.connect(err => {
 module.exports = function(app) {
     // CORSを許可
     app.use((req, res, next) => {
-        res.header('Access-Control-Allow-Origin', 'http://192.168.33.11:3000');
+        res.header('Access-Control-Allow-Origin', 'http://192.168.33.10:3000');
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
         next();

@@ -1,9 +1,9 @@
 // ドメイン
 const APP_DOMAIN = 'coodig.com'
 // ローカルIPアドレス
-const LOCAL_IP = '192.168.33.11';
+const LOCAL_IP = '192.168.33.10';
 // URL(IP)
-const FULL_LOCAL_URL = 'http://192.168.33.11';
+const FULL_LOCAL_URL = 'http://192.168.33.10';
 // URL(ドメイン)
 const FULL_URL = 'http://coodig.com';
 // URL(ドメインwww有り)
